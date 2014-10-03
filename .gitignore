@@ -1,0 +1,18 @@
+*.class
+ 
+# Package Files #
+*.jar
+*.war
+*.ear
+*.db
+
+# Eclipse Stuff #
+
+.metadata\
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings\
+.loadpath
