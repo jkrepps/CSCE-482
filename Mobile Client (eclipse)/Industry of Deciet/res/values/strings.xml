@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Industry of Deceit</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="userText">Enter Text </string>
+    <string name="menu_settings">Settings</string>
+    <string name="username">Lances</string>
+    <string name="password">hihi</string>
+    <string name="IP">54.68.68.208 </string>
+    <string name="Port">4446 </string>
+    <string name="button_main_menu">Connect</string>
+    <string name="Centered"></string>
+
+</resources>
