@@ -1,11 +1,18 @@
+
+import java.util.concurrent.TimeUnit;
 import java.net.*;
 import java.io.*;
+
 
 public class Server {
 static int NUMPLAYERS = 12;
 static int NUMITEMS = 10;
 static Player[] players = new Player[NUMPLAYERS]; // array of all the players who can/have connected for this game.
 static Item[] item = new Item[NUMITEMS]; // array of all the items in the game
+static Weather weather = new Weather();
+
+
+
 	
 	
 	public static void initialize() //read in all the items from the items file so they will be stored and ready before anyone connects
@@ -13,6 +20,7 @@ static Item[] item = new Item[NUMITEMS]; // array of all the items in the game
 		for(int i = 0; i < item.length; i++) {
 			item[i] = new Item(i,"items/items.txt");
 		}
+		new Thread(new WeatherThread()).start();
 	}
     public static void main(String[] args) throws IOException { // main function to set up connections
         
@@ -133,6 +141,15 @@ static Item[] item = new Item[NUMITEMS]; // array of all the items in the game
 			for(int i = 0; i < NUMITEMS; i++)
 					outputLine += "\n" + item[i].getName() + " \t\t" + item[i].getPrice() + " \t\t" + item[i].getSize();
 		}
+		else if(tokens[0].equals("weather"))	 //itemlist = show a list of all items
+		{
+			outputLine = weather.GetWeather();
+		}
+		else if(tokens[0].equals("sweather"))	 //itemlist = show a list of all items
+		{
+			weather.SetWeather();
+			outputLine = "changed weather";
+		}
 		else									//otherwise simply repeat the input command.
 		outputLine = "Copy: " + input;
 		return outputLine;
@@ -166,5 +183,30 @@ static Item[] item = new Item[NUMITEMS]; // array of all the items in the game
 				}
 		return "Incorrect log in";
 	}
+	
+	
+	/*WEATHER THREAD*/
+	public static class WeatherThread implements Runnable {  // client thread, each client goes through this process individually and simultaneously. 
+
+
+
+        public WeatherThread() {// accept client socket connection.
+        }
+
+        @Override
+        public void run() {	//start thread
+			while(true)
+			{
+				weather.SetWeather();
+				System.out.println("new weather is : " + weather.GetWeather());
+				try
+				{
+				TimeUnit.MINUTES.sleep(30);
+				} catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+			}
+        }
+    }
 	
 }
