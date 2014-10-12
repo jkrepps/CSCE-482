@@ -10,6 +10,6 @@ import java.util.Date;
 
 public interface DaoFactory {
 	
-	public boolean initialize() throws Exception;
+	//public  boolean initialize() throws Exception;
 
 }

@@ -6,25 +6,20 @@ import java.sql.Statement;
 
 public class DaoFactoryImpl implements DaoFactory {
 	
-	private Connection connect = null;
+	private static Connection connect = null;
 	private Statement statement = null;
 	
-	private String loadConnectionString () {
-		// load String from environment variables and return
-		// Connection String contains confidential data
-		return new String();
-	}
-	
-	public boolean initialize() throws Exception {
+	public static boolean initialize(String url, String username, String pass) throws Exception {
 		try {
+			String jdbcUrl = "jdbc:mysql://" + url + "?user=" + username + "&password=" + pass;
 			// Loading MySQL driver
 			Class.forName("com.mysql.jdbc.Driver");
 			// Setting up connection with the DB
-			connect = DriverManager.getConnection(loadConnectionString());
+			connect = DriverManager.getConnection(jdbcUrl);
 			return true;
 		}
 		catch (Exception e) {
-			System.err.println(e.getMessage());
+			System.err.println("Connection to database failed with error message: " + e.getMessage());
 			throw e;
 		}
 	}
