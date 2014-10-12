@@ -141,8 +141,13 @@ static Weather weather = new Weather();
 		String[] tokens = input.split(delims); // parse the input command into tokens and process keywords
 		if(tokens[0].equals("name"))   			  //name = Login
 		{
-			
-			outputLine = Login(tokens[1],tokens[2],p);
+			try {
+				Login.UserLogin(tokens[1], tokens[2]);
+			} catch (ServerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// outputLine = Login(tokens[1],tokens[2],p);
 		}
 		else if(tokens[0].equals("playerlist"))   //playerlist = show all current players
 		{

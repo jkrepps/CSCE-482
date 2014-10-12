@@ -7,7 +7,7 @@ public class Login {
 	
 	private static PasswordService encryptor = null;
 	
-	public static boolean LogIn (String username, String password) throws ServerException {
+	public static boolean UserLogin (String username, String password) throws ServerException {
 		try {
 			encryptor = new PasswordService();
 			String postHashPassword = encryptor.encrypt(password);
