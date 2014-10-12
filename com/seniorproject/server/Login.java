@@ -1,7 +1,7 @@
 package com.seniorproject.server;
 
 import com.seniorproject.dao.DaoException;
-import com.seniorproject.dao.UserDao;
+import com.seniorproject.user.UserDao;
 
 public class Login {
 	
@@ -18,6 +18,7 @@ public class Login {
 			}
 			else {
 				UserDao.RegisterUser(username, postHashPassword);
+				System.out.println("Registered user: " + username);
 				return true;
 				// TODO: Log results
 			}

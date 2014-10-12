@@ -24,12 +24,9 @@ public class DaoObject {
 			throw e;
 		}
 	}
+
 	
-	public Connection getConnection () {
-		return connection;
-	}
-	
-	public static ResultSet ExecuteSelect(String statement) throws DaoException {
+	public static ResultSet executeSelect(String statement) throws DaoException {
 		ResultSet resultSet = null;
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -41,12 +38,31 @@ public class DaoObject {
 		return resultSet;
 	}
 	
-	public static int ExecuteUpdate (String statement ) throws DaoException {
+	public static int executeUpdate (String statement ) throws DaoException {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(statement);
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			throw new DaoException("Executing update failed with: "+e.getMessage());
+			throw new DaoException("Executing update failed with: " + e.getMessage());
 		}
 	}
+	
+	public static int executeDelete (String statement ) throws DaoException {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(statement);
+			return preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("Executing delete failed with: " + e.getMessage());
+		}
+	}
+	
+	public void close() throws DaoException {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			throw new DaoException ("Closing database connection failed with: " + e.getMessage());
+		}
+		
+	}
+	
 }

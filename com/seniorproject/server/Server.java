@@ -5,6 +5,7 @@ import java.net.*;
 import java.io.*;
 
 import com.seniorproject.dao.DaoFactoryImpl;
+import com.seniorproject.dao.DaoObject;
 import com.seniorproject.game.Player;
 import com.seniorproject.game.Weather;
 import com.seniorproject.item.Item;
@@ -61,7 +62,7 @@ static Weather weather = new Weather();
 		
 		// Initialize database connections
 		try {
-			DaoFactoryImpl.initialize(args[1], args[2], args[3]);
+			DaoObject.initialize(args[1], args[2], args[3]);
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 

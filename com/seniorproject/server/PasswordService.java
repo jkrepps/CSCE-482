@@ -14,7 +14,7 @@ public class PasswordService {
 		MessageDigest md = null;
 		
 		try {
-			md = MessageDigest.getInstance("SHA2");
+			md = MessageDigest.getInstance("SHA");
 		}
 		catch (NoSuchAlgorithmException e) {
 			throw new ServerException("Encryption of password failed with: "+e.getMessage());  
