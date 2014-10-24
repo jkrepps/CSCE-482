@@ -4,11 +4,15 @@ import java.util.concurrent.TimeUnit;
 import java.net.*;
 import java.io.*;
 
+import com.seniorproject.dao.DaoException;
 import com.seniorproject.dao.DaoFactoryImpl;
 import com.seniorproject.dao.DaoObject;
+import com.seniorproject.dao.ResourceDao;
+import com.seniorproject.dao.PlayerDao;
 import com.seniorproject.game.Player;
 import com.seniorproject.game.Weather;
 import com.seniorproject.item.Item;
+import com.seniorproject.resource.*;
 
 
 public class Server {
@@ -58,6 +62,8 @@ static Weather weather = new Weather();
             System.exit(1);
         }
 		
+
+        
 		initialize(); // initialize Items
 		
 		// Initialize database connections
@@ -66,6 +72,13 @@ static Weather weather = new Weather();
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
+		
+		try {
+			PlayerDao.removeWorker("Test Insert",new Worker("Engineer", 54, 0.8, (float) 62.0));
+		} catch (DaoException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
         int portNumber = Integer.parseInt(args[0]);
 
@@ -107,18 +120,18 @@ static Weather weather = new Weather();
 															/*Note: when the client connects, it sends a message with credentials for the server to evaluate.
 															When the server first creates the connection, it already has a message waiting for it and Processes it.
 															This process is the login process and is directed to the Login() function*/
-				outputLine = Process(in.readLine(), p);		// evaluate waiting message - Login()
+				outputLine = processRequest(in.readLine(), p);		// evaluate waiting message - Login()
 				out.println(outputLine);					// respond/initiate chat
 				
 				while(outputLine.equals("Incorrect log in")) //if the output line was an incorrect login message, the client will be asked to resend credentials, therefore the 
 				{											 //login process is repeated until a correct login is used. 
-				outputLine = Process(in.readLine(), p);												
+				outputLine = processRequest(in.readLine(), p);												
 				out.println(outputLine);					 //respond
 				}
 				
 				
 				while ((inputLine = in.readLine()) != null) { // now that a connection is established, client and server take turns talking back and forth
-					outputLine = Process(inputLine, p); 	// the Server's response depends on how it Process() an input.
+					outputLine = processRequest(inputLine, p); 	// the Server's response depends on how it Process() an input.
 					System.out.println(inputLine);			// display the Clients initial statement for records
 					out.println(outputLine);				//send the Server's response to the client
 					if (inputLine.equals("Bye.")|| outputLine.equals("Copy: Bye.")||outputLine.equals("Incorrect log in")) //if you type "Bye." its like logging out. 
@@ -134,8 +147,14 @@ static Weather weather = new Weather();
         }
     }
 	
+	/**
+	 * Handles all the input through the listening socket and responds with the appropriate action
+	 * @param input
+	 * @param p
+	 * @return
+	 */
 	
-	public static String Process (String input, Player p) //Process an input from a player p
+	public static String processRequest (String input, Player p) //Process an input from a player p
 	{
 		String outputLine = "";
 		String delims = "[ ]+";
@@ -143,7 +162,11 @@ static Weather weather = new Weather();
 		if(tokens[0].equals("name"))   			  //name = Login
 		{
 			try {
-				Login.UserLogin(tokens[1], tokens[2]);
+				if (Login.UserLogin(tokens[1], tokens[2])) {
+					outputLine = "Successfully logged in: " + tokens[1];
+				}
+				else
+					outputLine = "Incorrect log in";
 			} catch (ServerException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -1,7 +1,7 @@
 package com.seniorproject.server;
 
 import com.seniorproject.dao.DaoException;
-import com.seniorproject.user.UserDao;
+import com.seniorproject.dao.UserDao;
 
 public class Login {
 	
@@ -20,9 +20,7 @@ public class Login {
 				UserDao.RegisterUser(username, postHashPassword);
 				System.out.println("Registered user: " + username);
 				return true;
-				// TODO: Log results
-			}
-			
+			}			
 		}
 		catch (DaoException e) {
 			throw new ServerException("LogIn failed with message: "+e.getMessage());

@@ -3,13 +3,17 @@ package com.seniorproject.resource;
 
 public class Resource {
 
-	private Integer cost;
-	private ResourceType resourceType;
+	protected String name;
+	private Float cost;
+	protected String resourceType;
 	private ResourceClassification resourceClassification;
 	
-	public Integer getCost() { return cost; }
+	public Resource() { cost = null; resourceClassification = null;}
+
+
+	public float getCost() { return cost; }
 	
-	public ResourceType getType() { return resourceType; }
+	public String getType() { return resourceType; }
 	
 	public ResourceClassification getClassificaiton() { return resourceClassification; }
 	
