@@ -22,7 +22,7 @@ public class PlayerDao extends DaoObject {
 				returnList.add(temp);
 			}
 		} catch (Exception e) {
-			throw new DaoException("Call to get worker failed with:" + e.getMessage());
+			throw new DaoException("Call to get Worker failed with:" + e.getMessage());
 		}
 		
 		return returnList;
@@ -61,7 +61,7 @@ public class PlayerDao extends DaoObject {
 		try {
 			return executeUpdate(updateQuery);
 		} catch (Exception e) {
-			throw new DaoException("Adding Worker has failed with: " + e.getMessage());
+			throw new DaoException("Updating Worker has failed with: " + e.getMessage());
 		}
 	}
 	
@@ -128,7 +128,7 @@ public class PlayerDao extends DaoObject {
 		try {
 			return executeUpdate(updateQuery);
 		} catch (Exception e) {
-			throw new DaoException("Adding Asset has failed with: " + e.getMessage());
+			throw new DaoException("Updating Asset has failed with: " + e.getMessage());
 		}
 	}
 	
@@ -154,62 +154,64 @@ public class PlayerDao extends DaoObject {
 			ResultSet resultSet = executeSelect(selectQuery);
 			
 			while (resultSet.next()) {
-				Infra temp = new Infra(resultSet.getString(1), resultSet.getInt(2), resultSet.getDouble(4), resultSet.getFloat(5));
+				Infra temp = new Infra(resultSet.getString(1), resultSet.getInt(2), resultSet.getFloat(4), resultSet.getFloat(5), resultSet.getDouble(6));
 				returnList.add(temp);
 			}
 		} catch (Exception e) {
-			throw new DaoException("Call to get worker failed with:" + e.getMessage());
+			throw new DaoException("Call to get Infra failed with:" + e.getMessage());
 		}
 		
 		return returnList;
 		
 	}
 	
-	public static int addWorker(String playername, Worker worker) throws DaoException {
-		String name = worker.getName();
-		int quantity = worker.getQuantity();
-		Double efficiency = worker.getEfficiency();
-		Float wages = worker.getWages();
+	public static int addInfra(String playername, Infra infra) throws DaoException {
+		String name = infra.getName();
+		int quantity = infra.getQuantity();
+		Double efficiency = infra.getEfficiency();
+		Float costPrice = infra.getCost();
+		Float size = infra.getSize();
 	
 		
-		String insertQuery = "INSERT INTO Worker VALUES('" + name	+ "', " + Integer.toString(quantity) + ", '" + playername
-				+ "', " + Double.toString(efficiency) + ", " + Float.toString(wages) + ");";
+		String insertQuery = "INSERT INTO Infra VALUES('" + name	+ "', " + Integer.toString(quantity) + ", '" + playername
+				+ "', " + Float.toString(costPrice) + ", " + Float.toString(size) + ", "  + Double.toString(efficiency) + ");";
 		
 		try {
 			return executeUpdate(insertQuery);
 		} catch (Exception e) {
-			throw new DaoException("Adding Worker has failed with: " + e.getMessage());
+			throw new DaoException("Adding Infra has failed with: " + e.getMessage());
 		}
 	}
 	
-	public static int updateWorker(String playername, Worker oldWorker, Worker newWorker) throws DaoException {
-		String oldName = oldWorker.getName();
+	public static int updateInfra(String playername, Infra oldInfra, Infra newInfra) throws DaoException {
+		String oldName = oldInfra.getName();
 		
-		String newName = newWorker.getName();
-		int quantity = newWorker.getQuantity();
-		Double efficiency = newWorker.getEfficiency();
-		Float wages = newWorker.getWages();
+		String newName = newInfra.getName();
+		int quantity = newInfra.getQuantity();
+		Double efficiency = newInfra.getEfficiency();
+		Float costPrice = newInfra.getCost();
+		Float size = newInfra.getSize();
 		
-		String updateQuery = "UPDATE Worker SET name='" + newName + "', quantity=" + Integer.toString(quantity) + ", player='"
-				+ playername + "', efficiency=" + Double.toString(efficiency) + ", wages=" + Float.toString(wages) 
+		String updateQuery = "UPDATE Infra SET name='" + newName + "', quantity=" + Integer.toString(quantity) + ", player='"
+				+ playername + "', efficiency=" + Double.toString(efficiency) + ", cost_price=" + Float.toString(costPrice) +", size=" + Float.toString(size)
 				+ " WHERE name='" + oldName + "' AND player='" + playername + "';"; 
 		
 		try {
 			return executeUpdate(updateQuery);
 		} catch (Exception e) {
-			throw new DaoException("Adding Worker has failed with: " + e.getMessage());
+			throw new DaoException("Updating Infra has failed with: " + e.getMessage());
 		}
 	}
 	
-	public static int removeWorker(String playername, Worker worker) throws DaoException {
-		String name = worker.getName();
+	public static int removeInfra(String playername, Infra infra) throws DaoException {
+		String name = infra.getName();
 		
-		String deleteQuery = "DELETE FROM Worker WHERE player='" + playername + "' AND name='" + name + "';";
+		String deleteQuery = "DELETE FROM Infra WHERE player='" + playername + "' AND name='" + name + "';";
 		
 		try {
 			return executeDelete(deleteQuery);
 		} catch (Exception e) {
-			throw new DaoException ("Removing Worker failed with: " + e.getMessage()); 
+			throw new DaoException ("Removing Infra failed with: " + e.getMessage()); 
 		}
 		
 	}
