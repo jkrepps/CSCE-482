@@ -21,13 +21,16 @@ public class Player
 
     Random rand = new Random();
 
+    //right now not closing the file - needs to be closed!!!!
 
+    try {
+   		File logFile = new File("logfile.txt"); //not sure if this is the best place to define this! Also, need to be sure file actually exists, if not, do logFile.createNewFile()
+    	FileWriter fw = new FileWriter(logFile.getAbsoluteFile());
+   		BufferedWriter bw = new BufferedWriter(fw);
+	} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+	} 
 
-    File logFile = new File("logfile.txt"); //not sure if this is the best place to define this! Also, need to be sure file actually exists, if not, do logFile.createNewFile()
-    FileWriter fw = new FileWriter(logFile.getAbsoluteFile());
-    BufferedWriter bw = new BufferedWriter(fw);
-
-	
     public Player(Float gold, String playerName, String password) { // initialization function
 		
 		land = 0;
@@ -62,8 +65,11 @@ public class Player
 			}
 
 		//add to inventory database
+		try {
 		dao.executeUpdate("INSERT INTO ResourceList VALUES (\"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\");");	
-			
+		} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+		} 
 	}
 
 	public void removeResource(Resource resource) 
@@ -77,9 +83,12 @@ public class Player
 			}
 
 		//remove from inventory database (may need to make this more specific)
+		try {
 		dao.executeDelete("DELETE FROM Inventory WHERE resourceName = " + resource.getResourceName());
+		} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+		} 
 	}
-
 
     public Resource[] getInventory()
     { 
@@ -99,7 +108,7 @@ public class Player
 	// buy resource, then figure out which kind of resource, then what to do based on 
 	// could just take in the string of a 
 
-    public int[] buyResource(Resource resource) //for right now returns int, in future could be different
+    public void buyResource(Resource resource) //for right now returns int, in future could be different
 	{
 		//subtract gold (price of resource)
 		gold = gold - resource.getResourceCost();
@@ -108,12 +117,15 @@ public class Player
 		this.addResource(resource);
 		
 		//publish to activity log
-		bw.write(this.getPlayerName() + " purchased " + resource.getResourceName());
-		bw.close();
+		try {
+			bw.write(this.getPlayerName() + " purchased " + resource.getResourceName());
+		} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+		} 
 	}
 
 	//are we doing this?
-	public int[] sellResource(Resource resource)
+	public void sellResource(Resource resource)
 	{
 		//add gold (profit from resource, for right now is just the price of resource)
 		//figure out how to make market work
@@ -125,7 +137,11 @@ public class Player
 		//publish to activity log
 		//not logging name of player purchasing because it will say they purchased it
 		//should we specify whether purchasing secondhand?
-		bw.write(this.getPlayerName() + " sold " + resource.getResourceName());
+		try {
+			bw.write(this.getPlayerName() + " sold " + resource.getResourceName());
+		} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+		} 
 	}
 	
 }
