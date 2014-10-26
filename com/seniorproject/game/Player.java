@@ -73,7 +73,7 @@ public class Player
 
 		//add to inventory database
 		try {
-			dao.executeUpdate("INSERT INTO ResourceList VALUES (\"" + resourceID + "\", \"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\");");	
+			dao.executeUpdate("INSERT INTO Player VALUES (\"" + resourceID + "\", \"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\");");	
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
@@ -94,7 +94,7 @@ public class Player
 
 		//remove from inventory database (may need to make this more specific)
 		try {
-			dao.executeDelete("DELETE FROM Inventory WHERE resourceName = " + resource.getResourceName());
+			dao.executeDelete("DELETE FROM Player WHERE resourceName = " + resource.getResourceName());
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
