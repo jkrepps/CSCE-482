@@ -1,10 +1,13 @@
 package com.seniorproject.game;
 
 import com.seniorproject.dao.DaoObject;
+import com.seniorproject.resource.Resource;
+
 import java.util.Random;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
+
 
 public class Player
 {
