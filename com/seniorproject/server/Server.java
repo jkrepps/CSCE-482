@@ -18,9 +18,9 @@ import com.seniorproject.resource.*;
 public class Server {
 static int NUMPLAYERS = 12;
 static int NUMITEMS = 10;
-static Player[] players = new Player[NUMPLAYERS]; // array of all the players who can/have connected for this game.
+static Player[] players = new Player[NUMPLAYERS]; // array of all the players who can/have connected for this game
 static Weather weather = new Weather();
-
+static float startingGold = 100.0;
 
 	public static void initialize() //read in all the items from the items file so they will be stored and ready before anyone connects
 	{
@@ -103,7 +103,7 @@ static Weather weather = new Weather();
 					new InputStreamReader(socket.getInputStream())); 	// input stream
 				
 				
-				Player p = new Player((Float)0.0, "noname", "nopass"); // create a new player Object that will have credentials determined later
+				Player p = new Player(startingGold, "noname", "nopass"); // create a new player Object that will have credentials determined later
 			
 			
 				String inputLine, outputLine;
@@ -213,7 +213,7 @@ static Weather weather = new Weather();
 						}
 					else if(players[i] == null)				//IMPORTANT: if the server reaches an empty player slot, then the current username must not be in use and new credentials are created.
 						{
-						p = players[i] = new Player((Float)100.0, username, password);   //100 = starting money (just for now) 
+						p = players[i] = new Player(startingGold, username, password);   //100 = starting money (just for now) 
 						String output = "Successfully connected to the server, welcome "+ p.getPlayerName();
 						System.out.println(p.getPlayerName() + "joined.");
 						return output;
