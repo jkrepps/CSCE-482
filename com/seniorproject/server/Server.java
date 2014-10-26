@@ -7,6 +7,7 @@ import java.io.*;
 import com.seniorproject.dao.DaoException;
 import com.seniorproject.dao.DaoFactoryImpl;
 import com.seniorproject.dao.DaoObject;
+import com.seniorproject.dao.MarketDao;
 import com.seniorproject.dao.ResourceDao;
 import com.seniorproject.dao.PlayerDao;
 import com.seniorproject.game.Player;
@@ -73,12 +74,6 @@ static Weather weather = new Weather();
 			System.err.println(e1.getMessage());
 		} 
 		
-		try {
-			PlayerDao.removeWorker("Test Insert",new Worker("Engineer", 54, 0.8, (float) 62.0));
-		} catch (DaoException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
         int portNumber = Integer.parseInt(args[0]);
 

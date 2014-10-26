@@ -12,7 +12,7 @@ public class MarketDao extends DaoObject {
 		String resourceName = resource.getName();
 		String resourceType = resource.getType();
 		
-		String insertQuery = "INSERT INTO Market VALUES('" + resourceName + "', '" + resourceType + "', '"
+		String insertQuery = "INSERT INTO Market(resource_name, resource_type, seller, quantity, price_per_unit) VALUES('" + resourceName + "', '" + resourceType + "', '"
 				+ seller + "', " + Integer.toString(quantity) + ", " + Float.toString(pricePerUnit) + ");";
 		
 		try {
@@ -23,6 +23,7 @@ public class MarketDao extends DaoObject {
 		
  	}
 	
+	// List of all resources on the market
 	public static List<Resource> getMarketResources() throws DaoException {
 		String selectQuery = "SELECT * FROM Market;";
 		List<Resource> returnList = new ArrayList<Resource>();
@@ -31,7 +32,7 @@ public class MarketDao extends DaoObject {
 			ResultSet resultSet = executeSelect(selectQuery);
 			
 			while(resultSet.next()) {
-				Resource temp = new Resource(resultSet.getString(1), resultSet.getString(2), resultSet.getFloat(5));
+				Resource temp = new Resource(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(6));
 				returnList.add(temp);
 			}
 		} catch (Exception e) {
@@ -42,8 +43,16 @@ public class MarketDao extends DaoObject {
 	}
 	
 	
-	// TODO
-	public static int buyResource(String buyer, Resource resource, int quantity) {
-		return 0;
+	// Buying resource (subtracting values from market) by resource_id as returned by getMarketResources()
+	public static int buyResource(String buyer, int resourceId, int buyingQuantity) throws DaoException {
+		
+		String updateQuery = "UPDATE Market SET quantity = quantity-"+Integer.toString(buyingQuantity)
+				+ " WHERE resource_id = " + Integer.toString(resourceId) + ";"; 
+		
+		try {
+			return executeUpdate(updateQuery);
+		} catch (Exception e) {
+			throw new DaoException("Buying Resources has failed with: " + e.getMessage());
+		} 
 	}
 }
