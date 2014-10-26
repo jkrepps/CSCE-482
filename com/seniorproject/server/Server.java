@@ -202,6 +202,10 @@ private static ResourceDao resourceDao = new ResourceDao();
 			//1 = resource name, 2 = resource class, 3 = resource cost
 			p.buyResource(tokens[1], tokens[2], Float.parseFloat(tokens[3]));
 		}
+		else if (tokens[0].equals("show gold"))
+		{
+			p.getGold();
+		}
 		else if(tokens[0].equals("weather"))	 
 		{
 			outputLine = weather.GetWeather();
