@@ -105,7 +105,7 @@ private static ResourceDao resourceDao = new ResourceDao();
 					new InputStreamReader(socket.getInputStream())); 	// input stream
 				
 				
-				Player p = new Player(startingGold, "noname", "nopass"); // create a new player Object that will have credentials determined later
+				Player p = new Player(0, startingGold, "noname", "nopass"); // create a new player Object that will have credentials determined later
 			
 			
 				String inputLine, outputLine;
@@ -236,7 +236,7 @@ private static ResourceDao resourceDao = new ResourceDao();
 						}
 					else if(players[i] == null)				//IMPORTANT: if the server reaches an empty player slot, then the current username must not be in use and new credentials are created.
 						{
-						p = players[i] = new Player(startingGold, username, password);   //100 = starting money (just for now) 
+						p = players[i] = new Player(i,startingGold, username, password);   //100 = starting money (just for now) 
 						String output = "Successfully connected to the server, welcome "+ p.getPlayerName();
 						System.out.println(p.getPlayerName() + "joined.");
 						return output;

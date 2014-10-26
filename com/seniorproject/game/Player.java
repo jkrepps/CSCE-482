@@ -31,12 +31,9 @@ public class Player
     FileWriter fw;
     BufferedWriter bw;
 
-    public Player(Float gold, String playerName, String password) { // initialization function
-		static int pId = 0;
-		pId ++;
-		playerId = pId;
-
+    public Player(int playerId, Float gold, String playerName, String password) { // initialization function
 		land = 0;
+		this.playerId = playerId;
         this.gold = gold;
 		this.playerName = playerName;
 		this.password = password;
