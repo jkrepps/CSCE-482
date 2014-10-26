@@ -20,7 +20,7 @@ static int NUMPLAYERS = 12;
 static int NUMITEMS = 10;
 static Player[] players = new Player[NUMPLAYERS]; // array of all the players who can/have connected for this game
 static Weather weather = new Weather();
-static float startingGold = 100.0;
+static float startingGold = 100.0f;
 
 	public static void initialize() //read in all the items from the items file so they will be stored and ready before anyone connects
 	{
