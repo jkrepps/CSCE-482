@@ -7,6 +7,8 @@ import java.util.Random;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
+import java.net.*;
+import java.io.*;
 
 
 public class Player
@@ -22,11 +24,14 @@ public class Player
     Random rand = new Random();
 
     //right now not closing the file - needs to be closed!!!!
+    File logFile;
+    FileWriter fw;
+    BufferedWriter bw;
 
     try {
-   		File logFile = new File("logfile.txt"); //not sure if this is the best place to define this! Also, need to be sure file actually exists, if not, do logFile.createNewFile()
-    	FileWriter fw = new FileWriter(logFile.getAbsoluteFile());
-   		BufferedWriter bw = new BufferedWriter(fw);
+   		logFile = new File("logfile.txt"); //not sure if this is the best place to define this! Also, need to be sure file actually exists, if not, do logFile.createNewFile()
+    	fw = new FileWriter(logFile.getAbsoluteFile());
+   		bw = new BufferedWriter(fw);
 	} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 	} 
@@ -66,7 +71,7 @@ public class Player
 
 		//add to inventory database
 		try {
-		dao.executeUpdate("INSERT INTO ResourceList VALUES (\"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\");");	
+			dao.executeUpdate("INSERT INTO ResourceList VALUES (\"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\");");	
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
@@ -84,7 +89,7 @@ public class Player
 
 		//remove from inventory database (may need to make this more specific)
 		try {
-		dao.executeDelete("DELETE FROM Inventory WHERE resourceName = " + resource.getResourceName());
+			dao.executeDelete("DELETE FROM Inventory WHERE resourceName = " + resource.getResourceName());
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
