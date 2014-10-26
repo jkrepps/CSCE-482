@@ -103,7 +103,7 @@ static Weather weather = new Weather();
 					new InputStreamReader(socket.getInputStream())); 	// input stream
 				
 				
-				Player p = new Player(0, "noname", "nopass"); // create a new player Object that will have credentials determined later
+				Player p = new Player(0.0, "noname", "nopass"); // create a new player Object that will have credentials determined later
 			
 			
 				String inputLine, outputLine;
@@ -213,7 +213,7 @@ static Weather weather = new Weather();
 						}
 					else if(players[i] == null)				//IMPORTANT: if the server reaches an empty player slot, then the current username must not be in use and new credentials are created.
 						{
-						p = players[i] = new Player(100, username, password);   //100 = starting money (just for now) 
+						p = players[i] = new Player(100.0, username, password);   //100 = starting money (just for now) 
 						String output = "Successfully connected to the server, welcome "+ p.getName();
 						System.out.println(p.getName() + "joined.");
 						return output;

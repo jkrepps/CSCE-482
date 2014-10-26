@@ -12,7 +12,7 @@ public class MarketDao extends DaoObject {
 		String resourceName = resource.getResourceName();
 		String resourceClass = resource.getResourceClass();
 		
-		String insertQuery = "INSERT INTO Market(resource_name, resource_type, seller, quantity, price_per_unit) VALUES('" + resourceName + "', '" + resourceType + "', '"
+		String insertQuery = "INSERT INTO Market(resource_name, resource_type, seller, quantity, price_per_unit) VALUES('" + resourceName + "', '" + resourceClass + "', '"
 				+ seller + "', " + Integer.toString(quantity) + ", " + Float.toString(pricePerUnit) + ");";
 		
 		try {
