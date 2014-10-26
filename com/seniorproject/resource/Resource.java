@@ -13,9 +13,9 @@ import java.net.URL;
 
 public class Resource {
 
-	private int resourceCost;
+	private float resourceCost;
 	private ResourceType resourceType;
-	private ResourceClass resourceClass;
+	private String resourceClass;
 	private String resourceName;
 	private int resourceId;
 	private int resourceIcon;
@@ -32,19 +32,26 @@ public class Resource {
 		System.out.println("MADE Resources!");					// testing purposes, let me know items were created
 	}
 
-
-	public Resource (int resourceId, String resourceName, String resourceClass, Float resourcePrice){
+	//this is used in MarketDao, problem - should resourceClass be of type ResourceClass
+	public Resource (int resourceId, String resourceName, String resourceClass, Float resourceCost){
 		this.resourceId = resourceId;
 		this.resourceName = resourceName;
 		this.resourceClass = resourceClass;
-		this.resourcePrice = resourcePrice;
+		this.resourceCost = resourceCost;
+	}
+
+	//this is used in ResourceDao
+	public Resource (String resourceName, String resourceClass, Float resourceCost) {
+		this.resourceName = resourceName;
+		this.resourceClass = resourceClass;
+		this.resourceCost = resourceCost;
 	}
 	
-	public int getResourceCost() { return resourceCost; }
+	public float getResourceCost() { return resourceCost; }
 	
 	public ResourceType getResourceType() { return resourceType; }
 	
-	public ResourceClass getResourceClass() { return resourceClass; }
+	public String getResourceClass() { return resourceClass; }
 
 	public String getResourceName() { return resourceName; }
 

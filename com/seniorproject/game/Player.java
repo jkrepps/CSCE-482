@@ -77,7 +77,7 @@ public class Player
 			}
 
 		//remove from inventory database (may need to make this more specific)
-		dao.executeDelete("DELETE FROM Inventory WHERE resourceName = " + resource.getResourceName);
+		dao.executeDelete("DELETE FROM Inventory WHERE resourceName = " + resource.getResourceName());
 	}
 
 
@@ -105,10 +105,10 @@ public class Player
 		gold = gold-resource.getResourceCost();
 
 		//add to inventory (add to database!)
-		inventory.addResource(resource);
+		this.addResource(resource);
 		
 		//publish to activity log
-		bw.write(this.getName() + " purchased " + resource.getName());
+		bw.write(this.getResourceName() + " purchased " + resource.getResourceName());
 		bw.close();
 	}
 
@@ -120,7 +120,7 @@ public class Player
 		gold = gold + resource.getResourceCost();
 
 		//remove from inventory (remove from database!)
-		inventory.removeResource(resource);
+		this.removeResource(resource);
 
 		//publish to activity log
 		//not logging name of player purchasing because it will say they purchased it
