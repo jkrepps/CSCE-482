@@ -17,6 +17,7 @@ public class Player
 	
     private Float gold;		//private variables
     private String playerName;
+    private int playerId;
 	private String password;
 	private int land;
     private DaoObject dao;
@@ -31,7 +32,10 @@ public class Player
     BufferedWriter bw;
 
     public Player(Float gold, String playerName, String password) { // initialization function
-		
+		static int pId = 0;
+		pId ++;
+		playerId = pId;
+
 		land = 0;
         this.gold = gold;
 		this.playerName = playerName;
@@ -73,7 +77,7 @@ public class Player
 
 		//add to inventory database
 		try {
-			dao.executeUpdate("INSERT INTO Player VALUES (\"" + resourceID + "\", \"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\");");	
+			dao.executeUpdate("INSERT INTO PlayerResource VALUES (\"" + playerId + "\", \"" + resourceID + "\", \"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\");");	
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
@@ -94,7 +98,7 @@ public class Player
 
 		//remove from inventory database (may need to make this more specific)
 		try {
-			dao.executeDelete("DELETE FROM Player WHERE resourceName = " + resource.getResourceName());
+			dao.executeDelete("DELETE FROM PlayerResource WHERE resourceName = " + resource.getResourceName() + " AND playerId = " + this.playerId + "\");");
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
@@ -118,6 +122,8 @@ public class Player
 	// buy resource, then figure out which kind of resource, then what to do based on 
 	// could just take in the string of a 
 
+	//need to add a playerId
+
     public void buyResource(String resourceName, String resourceClass, Float resourceCost) //for right now returns int, in future could be different
 	{
 		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
@@ -136,6 +142,8 @@ public class Player
 	}
 
 	//are we doing this?
+	//need to add a playerId table
+
 	public void sellResource(String resourceName, String resourceClass, Float resourceCost)
 	{
 		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
