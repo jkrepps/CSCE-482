@@ -113,8 +113,9 @@ public class Player
 	// buy resource, then figure out which kind of resource, then what to do based on 
 	// could just take in the string of a 
 
-    public void buyResource(Resource resource) //for right now returns int, in future could be different
+    public void buyResource(String resourceName, String resourceClass, Float resourceCost) //for right now returns int, in future could be different
 	{
+		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
 		//subtract gold (price of resource)
 		gold = gold - resource.getResourceCost();
 
@@ -130,8 +131,9 @@ public class Player
 	}
 
 	//are we doing this?
-	public void sellResource(Resource resource)
+	public void sellResource(String resourceName, String resourceClass, Float resourceCost)
 	{
+		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
 		//add gold (profit from resource, for right now is just the price of resource)
 		//figure out how to make market work
 		gold = gold + resource.getResourceCost();
