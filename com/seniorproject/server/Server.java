@@ -12,7 +12,6 @@ import com.seniorproject.dao.ResourceDao;
 import com.seniorproject.dao.PlayerDao;
 import com.seniorproject.game.Player;
 import com.seniorproject.game.Weather;
-import com.seniorproject.item.Item;
 import com.seniorproject.resource.*;
 
 
@@ -20,15 +19,11 @@ public class Server {
 static int NUMPLAYERS = 12;
 static int NUMITEMS = 10;
 static Player[] players = new Player[NUMPLAYERS]; // array of all the players who can/have connected for this game.
-static Item[] item = new Item[NUMITEMS]; // array of all the items in the game
 static Weather weather = new Weather();
 
 
 	public static void initialize() //read in all the items from the items file so they will be stored and ready before anyone connects
 	{
-		for(int i = 0; i < item.length; i++) {
-			item[i] = new Item(i,"items/items.txt");
-		}
 		new Thread(new WeatherThread()).start();
 	}
 	
@@ -182,7 +177,7 @@ static Weather weather = new Weather();
 			outputLine += Integer.toString(NUMITEMS+1);
 			outputLine += "\n NAME		PRICE		SIZE";
 			for(int i = 0; i < NUMITEMS; i++)
-					outputLine += "\n" + item[i].getName() + " \t\t" + item[i].getPrice() + " \t\t" + item[i].getSize();
+					outputLine += "did stuff";
 		}
 		else if(tokens[0].equals("weather"))	 
 		{
