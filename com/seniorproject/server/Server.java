@@ -21,6 +21,8 @@ static int NUMITEMS = 10;
 static Player[] players = new Player[NUMPLAYERS]; // array of all the players who can/have connected for this game
 static Weather weather = new Weather();
 static float startingGold = 100.0f;
+static int playerid = 0;
+
 
 private static ResourceDao resourceDao = new ResourceDao();
 
@@ -154,8 +156,15 @@ private static ResourceDao resourceDao = new ResourceDao();
 		if(tokens[0].equals("name"))   			  //name = Login
 		{
 			try {
-				if (Login.UserLogin(tokens[1], tokens[2])) {
-					outputLine = "Successfully logged in: " + tokens[1];
+				String returnMessage = Login.UserLogin(tokens[1], tokens[2]);
+				if (returnMessage = "Relog") {
+					outputLine = "Successfully relogged: " + tokens[1];
+
+				}
+				else if (returnMessage = "NewUser"){
+					outputLine = "Welcome new user: " + tokens[1];
+					p.setId(playerid);
+					playerid ++;
 				}
 				else
 					outputLine = "Incorrect log in";
@@ -240,7 +249,7 @@ private static ResourceDao resourceDao = new ResourceDao();
 						}
 					else if(players[i] == null)				//IMPORTANT: if the server reaches an empty player slot, then the current username must not be in use and new credentials are created.
 						{
-						p = players[i] = new Player(i,startingGold, username, password);   //100 = starting money (just for now) 
+						p = players[i] = new Player(i, startingGold, username, password);   //100 = starting money (just for now) 
 						String output = "Successfully connected to the server, welcome "+ p.getPlayerName();
 						System.out.println(p.getPlayerName() + "joined.");
 						return output;

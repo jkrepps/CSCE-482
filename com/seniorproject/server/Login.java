@@ -7,20 +7,21 @@ public class Login {
 	
 	private static PasswordService encryptor = null;
 	
-	public static boolean UserLogin (String username, String password) throws ServerException {
+	public static String UserLogin (String username, String password) throws ServerException {
 		try {
 			encryptor = new PasswordService();
 			String postHashPassword = encryptor.encrypt(password);
 			
 			if (UserDao.CheckPassword(username, postHashPassword)) {
 				System.out.println("Successfully Logged In");
-				return true;
+				return "Relog";
 			}
 			else {
 				UserDao.RegisterUser(username, postHashPassword);
 				System.out.println("Registered user: " + username);
-				return true;
-			}			
+				return "NewUser";
+			}
+			//add a last case for incorrect credentials			
 		}
 		catch (DaoException e) {
 			throw new ServerException("LogIn failed with message: "+e.getMessage());

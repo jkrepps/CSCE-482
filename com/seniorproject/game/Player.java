@@ -61,6 +61,8 @@ public class Player
     public void recieve(Float d) { gold += d; }
     public void pay(Float d) { gold -= d; }
 
+    public void setId(int id) {playerId = id; }
+
     public void addResource(Resource resource)
 	{ 
 		//add to inventory array
