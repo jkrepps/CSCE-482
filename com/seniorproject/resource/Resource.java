@@ -64,8 +64,7 @@ public class Resource {
     }
 
 	/*Pretty complicated parsing function, shouldnt have much use when we move data storage to a more appropriate medium, this shouldn't cause a problem and I can explain if needed.*/
-	public String[][] readFileToArray(String fileName, String delimiter)
-	2{
+	public String[][] readFileToArray(String fileName, String delimiter) {
 		String dataStr = "";
 		
 		String[] lineArray;
