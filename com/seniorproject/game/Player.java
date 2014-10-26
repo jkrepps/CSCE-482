@@ -28,20 +28,20 @@ public class Player
     FileWriter fw;
     BufferedWriter bw;
 
-    try {
-   		logFile = new File("logfile.txt"); //not sure if this is the best place to define this! Also, need to be sure file actually exists, if not, do logFile.createNewFile()
-    	fw = new FileWriter(logFile.getAbsoluteFile());
-   		bw = new BufferedWriter(fw);
-	} catch (Exception e1) {
-			System.err.println(e1.getMessage());
-	} 
-
     public Player(Float gold, String playerName, String password) { // initialization function
 		
 		land = 0;
         this.gold = gold;
 		this.playerName = playerName;
 		this.password = password;
+
+		try {
+   			logFile = new File("logfile.txt"); //not sure if this is the best place to define this! Also, need to be sure file actually exists, if not, do logFile.createNewFile()
+    		fw = new FileWriter(logFile.getAbsoluteFile());
+   			bw = new BufferedWriter(fw);
+		} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+		} 
     }
     
     Resource[] inventory= new Resource[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
