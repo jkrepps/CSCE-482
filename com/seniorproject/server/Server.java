@@ -22,7 +22,7 @@ static Player[] players = new Player[NUMPLAYERS]; // array of all the players wh
 static Weather weather = new Weather();
 static float startingGold = 100.0f;
 
-private ResourceDao resourceDao = new ResourceDao;
+private static ResourceDao resourceDao = new ResourceDao();
 
 	public static void initialize() //read in all the items from the items file so they will be stored and ready before anyone connects
 	{
@@ -177,9 +177,15 @@ private ResourceDao resourceDao = new ResourceDao;
 		else if(tokens[0].equals("itemlist"))	 //itemlist = show a list of all items
 		{
 			outputLine += Integer.toString(NUMITEMS+1);
-			outputLine += "\n NAME		PRICE		SIZE";
-			for(int i = 0; i < NUMITEMS; i++)
-					outputLine += resourceDao.getResourceList().get(i).getResourceName();
+			int numberItems = resourceDao.getResourceList().sizeOf();
+			outputLine += "\n NAME		PRICE		SIZE\n";
+			for(int i = 0; i < numberItems; i++) {
+					try {
+						outputLine += resourceDao.getResourceList().get(i).getResourceName() + "\n";
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+			}
 		}
 		else if (tokens[0].equals("buy"))
 		{
