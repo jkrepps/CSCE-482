@@ -24,7 +24,7 @@ public class Player
 
 
     File logFile = new File("logfile.txt"); //not sure if this is the best place to define this! Also, need to be sure file actually exists, if not, do logFile.createNewFile()
-    FileWriter fw = new FileWriter(file.getAbsoluteFile());
+    FileWriter fw = new FileWriter(logFile.getAbsoluteFile());
     BufferedWriter bw = new BufferedWriter(fw);
 
 	
@@ -36,7 +36,7 @@ public class Player
 		password = p;
     }
     
-    Resource[] inventory= new int[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
+    Resource[] inventory= new Resource[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
     
 												/*The following are all standard object info retrieval functions.*/
     public int getGold() { return gold; }
@@ -54,7 +54,7 @@ public class Player
 	{ 
 		//add to inventory array
 		for (int i=0;i<inventory.length;i++)
-			if (inventory[i]==0)
+			if (inventory[i]==NULL)
 			{
 				inventory[i]=resource;	
 				System.out.println("new purchase");
@@ -62,7 +62,7 @@ public class Player
 			}
 
 		//add to inventory database
-		dao.executeUpdate("INSERT INTO ResourceList VALUES (\"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\" );";	
+		dao.executeUpdate("INSERT INTO ResourceList VALUES (\"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\");");	
 			
 	}
 
@@ -71,7 +71,7 @@ public class Player
 		for (int i=0;i<inventory.length;i++)
 			if (inventory[i]==resource)
 			{
-				inventory[i]=0;	
+				inventory[i]=NULL;	
 				System.out.println("inventory slot removed");
 				break;
 			}
@@ -108,7 +108,7 @@ public class Player
 		inventory.addResource(resource);
 		
 		//publish to activity log
-		bw.write(player.getName() + " purchased " + resource.getName());
+		bw.write(this.getName() + " purchased " + resource.getName());
 		bw.close();
 	}
 
@@ -125,7 +125,7 @@ public class Player
 		//publish to activity log
 		//not logging name of player purchasing because it will say they purchased it
 		//should we specify whether purchasing secondhand?
-		bw.write(player.getName() + " sold " + resource.getResourceName());
+		bw.write(this.getName() + " sold " + resource.getResourceName());
 	}
 	
 }

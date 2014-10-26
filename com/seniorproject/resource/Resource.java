@@ -1,5 +1,7 @@
 package com.seniorproject.resource;
 
+import com.seniorproject.resource.ResourceClass;
+
 import java.util.Random;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -16,7 +18,7 @@ public class Resource {
 	private ResourceClass resourceClass;
 	private String resourceName;
 	private int resourceId;
-	private int resourceIcon;kl;
+	private int resourceIcon;
 
 	Random rand = new Random();
 
@@ -29,8 +31,16 @@ public class Resource {
 		
 		System.out.println("MADE Resources!");					// testing purposes, let me know items were created
 	}
+
+
+	public Resource (int resourceId, String resourceName, String resourceClass, Float resourcePrice){
+		this.resourceId = resourceId;
+		this.resourceName = resourceName;
+		this.resourceClass = resourceClass;
+		this.resourcePrice = resourcePrice;
+	}
 	
-	public int getResourceCost() { return cost; }
+	public int getResourceCost() { return resourceCost; }
 	
 	public ResourceType getResourceType() { return resourceType; }
 	
@@ -44,9 +54,9 @@ public class Resource {
 
 	public void setStats(String[] s) {
     	
-    	price = Integer.parseInt(s[1].trim());
-    	name = s[2].trim();
-    	size = Integer.parseInt(s[3].trim());
+    	resourceCost = Integer.parseInt(s[1].trim());
+    	resourceName = s[2].trim();
+    	//size = Integer.parseInt(s[3].trim());
     	//icon = Integer.parseInt(s[4].trim());
     	//type = Integer.parseInt(s[4].trim());
     	//price = Integer.parseInt(s[5].trim());

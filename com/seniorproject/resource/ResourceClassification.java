@@ -1,5 +1,5 @@
 package com.seniorproject.resource;
 
-public enum ResourceClassification {
+public enum ResourceClass{
 	TEXTILE, COMMUNICATIONS, TRANSPORT, STEEL
 }
