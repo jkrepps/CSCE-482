@@ -1,0 +1,7 @@
+.background {
+	-fx-background-image: url("./Images/BackgroundCreate.jpg");
+	-fx-background-size: stretch;
+}
+.buttons {
+	-fx-background-radius: 30;
+}

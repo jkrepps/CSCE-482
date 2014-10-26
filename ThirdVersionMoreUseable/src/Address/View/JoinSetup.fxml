@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@joinGame.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Address.View.JoinController">
+   <center>
+      <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="399.0" BorderPane.alignment="CENTER">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+        </content>
+      </ScrollPane>
+   </center>
+   <top>
+      <Text fill="#f2ecec" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Game" BorderPane.alignment="BOTTOM_CENTER">
+         <font>
+            <Font name="Matura MT Script Capitals" size="39.0" />
+         </font>
+      </Text>
+   </top>
+   <right>
+      <Button fx:id="join" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Join Game" BorderPane.alignment="CENTER_LEFT" />
+   </right>
+   <left>
+      <Button fx:id="back" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Back" BorderPane.alignment="CENTER_RIGHT" />
+   </left>
+</BorderPane>

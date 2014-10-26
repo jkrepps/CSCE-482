@@ -1,0 +1,11 @@
+.background {
+	-fx-background-image: url("./Images/GameBackground.jpg");
+	-fx-background-size: stretch;
+}
+.scrolls .viewport {
+	-fx-background-color: blue;
+}
+
+.tField {
+	-fx-background-color: blue;
+}
