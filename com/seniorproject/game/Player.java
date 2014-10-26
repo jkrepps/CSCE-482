@@ -21,6 +21,8 @@ public class Player
 	private int land;
     private DaoObject dao;
 
+    private int resourceID = 0;
+
     Random rand = new Random();
 
     //right now not closing the file - needs to be closed!!!!
@@ -71,10 +73,13 @@ public class Player
 
 		//add to inventory database
 		try {
-			dao.executeUpdate("INSERT INTO ResourceList VALUES (\"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\");");	
+			dao.executeUpdate("INSERT INTO ResourceList VALUES (\"" + resourceID + "\", \"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\");");	
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
+
+		//automatically generate
+		resourceID ++;
 	}
 
 	public void removeResource(Resource resource) 

@@ -176,8 +176,13 @@ private static ResourceDao resourceDao = new ResourceDao();
 		}
 		else if(tokens[0].equals("itemlist"))	 //itemlist = show a list of all items
 		{
-			outputLine += Integer.toString(NUMITEMS+1);
-			int numberItems = resourceDao.getResourceList().sizeOf();
+			int numberItems = 0;
+			try {
+				numberItems = resourceDao.getResourceList().size();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			outputLine += Integer.toString(numberItems+1);
 			outputLine += "\n NAME		PRICE		SIZE\n";
 			for(int i = 0; i < numberItems; i++) {
 					try {
