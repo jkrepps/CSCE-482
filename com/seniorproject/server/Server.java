@@ -157,11 +157,11 @@ private static ResourceDao resourceDao = new ResourceDao();
 		{
 			try {
 				String returnMessage = Login.UserLogin(tokens[1], tokens[2]);
-				if (returnMessage = "Relog") {
+				if (returnMessage == "Relog") {
 					outputLine = "Successfully relogged: " + tokens[1];
 
 				}
-				else if (returnMessage = "NewUser"){
+				else if (returnMessage == "NewUser"){
 					outputLine = "Welcome new user: " + tokens[1];
 					p.setId(playerid);
 					playerid ++;
@@ -192,10 +192,10 @@ private static ResourceDao resourceDao = new ResourceDao();
 				e.printStackTrace();
 			}
 			outputLine += Integer.toString(numberItems+1);
-			outputLine += "\n NAME		PRICE		SIZE\n";
+			outputLine += "\n NAME		PRICE		SIZE";
 			for(int i = 0; i < numberItems; i++) {
 					try {
-						outputLine += resourceDao.getResourceList().get(i).getResourceName() + "\n";
+						outputLine += "\n" + resourceDao.getResourceList().get(i).getResourceName();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
