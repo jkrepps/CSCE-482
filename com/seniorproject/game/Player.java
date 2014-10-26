@@ -13,7 +13,7 @@ public class Player
 {
 	private static int NUMITEMS = 500; // for now, no idea what this number will be realistically
 	
-    private int gold;		//private variables
+    private Float gold;		//private variables
     private String name;
 	private String password;
 	private int land;
@@ -28,7 +28,7 @@ public class Player
     BufferedWriter bw = new BufferedWriter(fw);
 
 	
-    public Player(int g, String playerName, String p) { // initialization function
+    public Player(Float g, String playerName, String p) { // initialization function
 		
 		land = 0;
         gold = g;
@@ -39,16 +39,16 @@ public class Player
     Resource[] inventory= new Resource[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
     
 												/*The following are all standard object info retrieval functions.*/
-    public int getGold() { return gold; }
-	public int getLand() { return gold; }
+    public Float getGold() { return gold; }
+	public int getLand() { return land; }
     public String getName() { return name; }
 	public String getPass() { return password; }
     
 	public void setLand(int l) { land = l; }
 	public void buyLand(int l) { land += l; }
 	public void useLand(int l) { land -= l; }
-    public void recieve(int d) { gold += d; }
-    public void pay(int d) { gold -= d; }
+    public void recieve(Float d) { gold += d; }
+    public void pay(Float d) { gold -= d; }
 
     public void addResource(Resource resource)
 	{ 
@@ -102,13 +102,13 @@ public class Player
     public int[] buyResource(Resource resource) //for right now returns int, in future could be different
 	{
 		//subtract gold (price of resource)
-		gold = gold-resource.getResourceCost();
+		gold = gold - resource.getResourceCost();
 
 		//add to inventory (add to database!)
 		this.addResource(resource);
 		
 		//publish to activity log
-		bw.write(this.getResourceName() + " purchased " + resource.getResourceName());
+		bw.write(resource.getResourceName() + " purchased " + resource.getResourceName());
 		bw.close();
 	}
 
@@ -125,7 +125,7 @@ public class Player
 		//publish to activity log
 		//not logging name of player purchasing because it will say they purchased it
 		//should we specify whether purchasing secondhand?
-		bw.write(this.getName() + " sold " + resource.getResourceName());
+		bw.write(resource.getName() + " sold " + resource.getResourceName());
 	}
 	
 }
