@@ -205,7 +205,7 @@ private static ResourceDao resourceDao = new ResourceDao();
 		{
 			//1 = resource name, 2 = resource class, 3 = resource cost 
 			if(p.buyResource(tokens[1], tokens[2], Float.parseFloat(tokens[3])))
-				outputLine += "purchased "+ token[1];
+				outputLine += "purchased "+ tokens[1];
 			else
 				outputLine += "not enough money";
 			
@@ -215,7 +215,7 @@ private static ResourceDao resourceDao = new ResourceDao();
 		{
 			//1 = resource name, 2 = resource class, 3 = resource cost
 			if(p.sellResource(tokens[1], tokens[2], Float.parseFloat(tokens[3])))
-				outputLine += "sold " + token[1];
+				outputLine += "sold " + tokens[1];
 			else
 				outputLine += "how can selling be real if our items aren't?";
 			
