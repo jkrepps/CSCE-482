@@ -123,11 +123,13 @@ public class Player
 
 	//need to add a playerId
 
-    public void buyResource(String resourceName, String resourceClass, Float resourceCost) //for right now returns int, in future could be different
+    public boolean buyResource(String resourceName, String resourceClass, Float resourceCost) //for right now returns int, in future could be different
 	{
 		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
 		//subtract gold (price of resource)
-		gold = gold - resource.getResourceCost();
+		if(gold - resource.getResourceCost() > 0)
+			gold = gold - resource.getResourceCost();
+		else return false; // if you dont have enough money then dont do anything else
 
 		//add to inventory (add to database!)
 		this.addResource(resource);
@@ -138,12 +140,13 @@ public class Player
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
+		return true;
 	}
 
 	//are we doing this?
 	//need to add a playerId table
 
-	public void sellResource(String resourceName, String resourceClass, Float resourceCost)
+	public boolean sellResource(String resourceName, String resourceClass, Float resourceCost)
 	{
 		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
 		//add gold (profit from resource, for right now is just the price of resource)
@@ -161,6 +164,7 @@ public class Player
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
+		return true;
 	}
 	
 }

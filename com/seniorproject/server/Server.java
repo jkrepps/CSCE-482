@@ -204,16 +204,25 @@ private static ResourceDao resourceDao = new ResourceDao();
 		else if (tokens[0].equals("buy"))
 		{
 			//1 = resource name, 2 = resource class, 3 = resource cost 
-			p.buyResource(tokens[1], tokens[2], Float.parseFloat(tokens[3]));
+			if(p.buyResource(tokens[1], tokens[2], Float.parseFloat(tokens[3])));
+			outputLine += "purchased "+ token[1];
+			else
+			outputLine += "not enough money";
+			
+			
 		}
 		else if (tokens[0].equals("sell"))
 		{
 			//1 = resource name, 2 = resource class, 3 = resource cost
-			p.sellResource(tokens[1], tokens[2], Float.parseFloat(tokens[3]));
+			if(p.sellResource(tokens[1], tokens[2], Float.parseFloat(tokens[3])));
+				outputLine += "sold " + token[1];
+			else
+				outputLine += "how can selling be real if our items aren't?";
+			
 		}
-		else if (tokens[0].equals("show gold"))
+		else if (tokens[0].equals("gold"))
 		{
-			p.getGold();
+			outputLine += p.getGold();
 		}
 		else if(tokens[0].equals("weather"))	 
 		{
@@ -271,8 +280,10 @@ private static ResourceDao resourceDao = new ResourceDao();
         public void run() {	//start thread
 			while(true)
 			{
+				weather.SetDaytime();
 				weather.SetWeather();
 				System.out.println("new weather is : " + weather.GetWeather());
+				System.out.println("new daytime is : " + weather.GetDaytime());
 				try
 				{
 				TimeUnit.MINUTES.sleep(30);
