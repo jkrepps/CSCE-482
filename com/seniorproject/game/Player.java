@@ -97,7 +97,7 @@ public class Player
 
 		//remove from inventory database (may need to make this more specific)
 		try {
-			dao.executeDelete("DELETE FROM PlayerResource WHERE resourceName = " + resource.getResourceName() + "\" AND playerId = " + this.playerId + ";");
+			dao.executeDelete("DELETE FROM PlayerResource WHERE resourceName = \"" + resource.getResourceName() + "\" AND playerId = " + this.playerId + ";");
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
