@@ -12,16 +12,25 @@ public class Login {
 			encryptor = new PasswordService();
 			String postHashPassword = encryptor.encrypt(password);
 			
-			if (UserDao.CheckPassword(username, postHashPassword)) {
-				System.out.println("Successfully Logged In");
-				return "Relog";
+			boolean userExists = UserDao.CheckUser(username);
+			
+			
+			if ( userExists) {
+				if (UserDao.CheckPassword(username, postHashPassword)) {
+					System.out.println("Successfully Logged In");
+					return "Relog";
+				}
+				
+				else {
+					return "Incorrect log in";
+				}
 			}
+			
 			else {
 				UserDao.RegisterUser(username, postHashPassword);
 				System.out.println("Registered user: " + username);
 				return "NewUser";
-			}
-			//add a last case for incorrect credentials			
+			}		
 		}
 		catch (DaoException e) {
 			throw new ServerException("LogIn failed with message: "+e.getMessage());

@@ -40,8 +40,6 @@ public class Player
 
 		try {
    			logFile = new File("logfile.txt"); //not sure if this is the best place to define this! Also, need to be sure file actually exists, if not, do logFile.createNewFile()
-    		fw = new FileWriter(logFile.getAbsoluteFile());
-   			bw = new BufferedWriter(fw);
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
@@ -136,7 +134,10 @@ public class Player
 		
 		//publish to activity log
 		try {
+			fw = new FileWriter(logFile.getAbsoluteFile());
+   			bw = new BufferedWriter(fw);
 			bw.write(this.getPlayerName() + " purchased " + resource.getResourceName());
+			bw.close();
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
@@ -160,7 +161,10 @@ public class Player
 		//not logging name of player purchasing because it will say they purchased it
 		//should we specify whether purchasing secondhand?
 		try {
+			fw = new FileWriter(logFile.getAbsoluteFile());
+   			bw = new BufferedWriter(fw);
 			bw.write(this.getPlayerName() + " sold " + resource.getResourceName());
+			bw.close();
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
