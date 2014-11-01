@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@OpeningStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Address.View.OpeningController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="background-opening" stylesheets="@Opening.css">
+         <top>
+            <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Industry of Deceit!" BorderPane.alignment="BOTTOM_CENTER">
+               <font>
+                  <Font name="Matura MT Script Capitals" size="48.0" />
+               </font>
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.6904761904761905" focusAngle="180.0" focusDistance="0.023255813953488413" radius="0.27906976744186046">
+                     <stops>
+                        <Stop color="BLACK" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </RadialGradient>
+               </fill>
+               <effect>
+                  <InnerShadow blurType="GAUSSIAN" choke="0.52" color="#f20404" height="62.51" radius="15.1275" width="0.0">
+                     <input>
+                        <DropShadow blurType="GAUSSIAN" color="#140101" height="56.58" radius="26.307499999999997" spread="0.75" width="50.65" />
+                     </input>
+                  </InnerShadow>
+               </effect>
+            </Text>
+         </top>
+         <center>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="createGame" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Create Game" textFill="#e4dbdb">
+                     <font>
+                        <Font name="Matura MT Script Capitals" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="joinGame" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Join Game" textFill="#ebe8e8">
+                     <font>
+                        <Font name="Matura MT Script Capitals" size="12.0" />
+                     </font>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" height="31.35" offsetX="10.0" offsetY="5.0" radius="16.2925" width="35.82" />
+                     </effect>
+                  </Button>
+                  <Button fx:id="howToPlay" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="How To Play" textFill="#f5f0f0">
+                     <font>
+                        <Font name="Matura MT Script Capitals" size="12.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="26.87" offsetX="10.0" offsetY="5.0" radius="15.184999999999999" width="35.87" />
+                     </effect>
+                  </Button>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>

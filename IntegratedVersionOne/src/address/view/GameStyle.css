@@ -1,0 +1,49 @@
+.background {
+	-fx-background-image: url("./Images/GameBackground.jpg");
+	-fx-background-size: stretch;
+}
+
+.tField {
+	-fx-background-color: white;
+}
+
+.chatWindow {
+	-fx-background-color: rgba(53,89,119,8.4);
+}
+
+.chatWindow .scroll-pane {
+	-fx-background-color: transparent;	
+}
+
+.chatWindow .scroll-pane .viewport {
+	-fx-background-color: transparent;
+}
+.tFieldHUD {
+	-fx-background-color: transparent;
+}
+
+.goldPane {
+	-fx-background-image: url("./Images/Gold.jpg");
+	-fx-background-size: stretch;
+}
+
+.buttons {
+	-fx-background-color: darkblue;
+	-fx-background-radius: 30;
+	-fx-text-fill: azure;
+}
+
+.panes {
+	-fx-background-color: black;
+	-fx-background-radius: 20;
+}
+
+.scrollPanes {
+	-fx-background-color: black;
+	-fx-background-radius: 20;
+}
+
+.scrollPanes .viewport {
+	-fx-background-color: black;
+	-fx-background-radius: 30;
+}
