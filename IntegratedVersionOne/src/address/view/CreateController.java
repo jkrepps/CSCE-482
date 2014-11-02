@@ -7,16 +7,15 @@ import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import address.MainApplication;
 
-public class CreateController {
+public class CreateController implements ControlledScreen {
 	/*------------------------------------*/
 	/*			DATA MEMBERS			  */
 	/*------------------------------------*/
-	
+	ScreensController myController;
 	@FXML
 	private Button submit;
 	@FXML
@@ -26,8 +25,6 @@ public class CreateController {
 	java.net.URL buttonSound2 = getClass().getResource("./Sounds/buttonSound.mp3");
 	private AudioClip buttonDrag = new AudioClip(buttonSound.toString());
 	private AudioClip buttonClick = new AudioClip(buttonSound2.toString());
-	private MainApplication mainApp = new MainApplication();
-	public BorderPane parentPane = new BorderPane();
 
 	/*------------------------------------*/
 	/*			CONSTRUCTORS			  */
@@ -60,9 +57,9 @@ public class CreateController {
 		// On mouse click of submit then takes user to the waiting screen
 		submit.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				mainApp.setWaiting();
 				buttonClick.setVolume(.7);
 				buttonClick.play();
+				myController.setScreen(MainApplication.WAITING_SCREEN);
 			}
 		});
 		
@@ -87,7 +84,7 @@ public class CreateController {
 			public void handle(MouseEvent t) {
 				buttonClick.setVolume(.7);
 				buttonClick.play();
-				mainApp.setOpening();
+				myController.setScreen(MainApplication.OPENING_SCREEN);
 			}
 		});
 	}
@@ -98,12 +95,7 @@ public class CreateController {
 	/*------------------------------------*/
 	/*			HELPER FUNCTIONS		  */
 	/*------------------------------------*/
-	
-	public void setMain(MainApplication m) {
-		this.mainApp = m;
-	}
-	
-	public void setParent(BorderPane p) {
-		this.parentPane = p;
+	public void setParentScreen(ScreensController screenPage) {
+		myController = screenPage;
 	}
 }

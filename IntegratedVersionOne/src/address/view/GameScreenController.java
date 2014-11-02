@@ -17,14 +17,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import address.MainApplication;
 
-public class GameScreenController {
+public class GameScreenController implements ControlledScreen {
 	/*------------------------------------*/
 	/*			DATA MEMBERS			  */
 	/*------------------------------------*/
-	public MainApplication mainApp;
-	public BorderPane parentPane;
 	public Calendar time;
 	public SimpleDateFormat format;
+	private ScreensController myController;
 	
 	@FXML
 	private TextField chat;
@@ -175,16 +174,12 @@ public class GameScreenController {
 			}
 		});
 	}
-	
 	@FXML public void handle() {}
+	
 	/*------------------------------------*/
 	/*			HELPER FUNCTIONS		  */
 	/*------------------------------------*/
-	public void setMain(MainApplication  m) {
-		mainApp = m;
-	}
-	
-	public void setParent(BorderPane b) {
-		parentPane = b;
+	public void setParentScreen(ScreensController screenPage) {
+		myController = screenPage;	
 	}
 }

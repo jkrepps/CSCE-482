@@ -6,12 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import address.MainApplication;
 
-public class JoinController {
+public class JoinController implements ControlledScreen {
 	/*-------------------------------------------*/
 	/*			DATA MEMBERS					 */
 	/*-------------------------------------------*/
@@ -19,14 +18,11 @@ public class JoinController {
 	java.net.URL buttonSound2 = getClass().getResource("./Sounds/buttonSound.mp3");
 	private AudioClip buttonDrag = new AudioClip(buttonSound.toString());
 	private AudioClip buttonClick = new AudioClip(buttonSound2.toString());
-	
+	private ScreensController myController;
 	@FXML
 	private Button join;
 	@FXML
 	private Button back;
-	
-	public MainApplication mainApp = new MainApplication();
-	public BorderPane parentPane = new BorderPane();
 	
 	/*-------------------------------------------*/
 	/*		CONSTRUCTORS						 */
@@ -57,9 +53,9 @@ public class JoinController {
 		// When mouse clicked go to waiting screen
 		join.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				mainApp.setWaiting();
 				buttonClick.setVolume(.7);
 				buttonClick.play();
+				myController.setScreen(MainApplication.WAITING_SCREEN);
 			}
 		});
 		
@@ -84,7 +80,7 @@ public class JoinController {
 			public void handle(MouseEvent t) {
 				buttonClick.setVolume(.7);
 				buttonClick.play();
-				mainApp.setOpening();
+				myController.setScreen(MainApplication.OPENING_SCREEN);
 			}
 		});
 	}
@@ -95,11 +91,7 @@ public class JoinController {
 	/*-----------------------------------------------*/
 	/*			HELPER FUNCTIONS					 */
 	/*-----------------------------------------------*/
-	public void setMain(MainApplication m) {
-		mainApp = m;
-	}
-	
-	public void setPane(BorderPane p) {
-		parentPane = p;
+	public void setParentScreen(ScreensController screenPage) {
+		myController = screenPage;
 	}
 }

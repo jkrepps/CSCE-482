@@ -7,12 +7,11 @@ import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import address.MainApplication;
 
-public class OpeningController {
+public class OpeningController implements ControlledScreen {
 	/*------------------------------------------*/
 	/*			DATA MEMBERS					*/
 	/*------------------------------------------*/
@@ -21,6 +20,7 @@ public class OpeningController {
 	java.net.URL buttonSound2 = getClass().getResource("./Sounds/buttonSound.mp3");
 	private AudioClip buttonDrag = new AudioClip(buttonSound.toString());
 	private AudioClip buttonClick = new AudioClip(buttonSound2.toString());
+	private ScreensController myController;
 	
 	@FXML
 	private Button createGame;
@@ -28,9 +28,6 @@ public class OpeningController {
 	private Button joinGame;
 	@FXML
 	private Button howToPlay;
-	
-	private MainApplication mainApp = new MainApplication();
-	StackPane parentPane = new StackPane();
 	
 	/*------------------------------------------*/
 	/*			CONSTRUCTORS					*/
@@ -63,9 +60,9 @@ public class OpeningController {
 		// if button is clicked play the click sound and change to create screen
 		createGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				mainApp.setCreate();
 				buttonClick.setVolume(.4);
 				buttonClick.play();
+				myController.setScreen(MainApplication.CREATE_SCREEN);
 			}
 		});
 		
@@ -88,9 +85,9 @@ public class OpeningController {
 		// when clicked play click sound and go to join game screen
 		joinGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				mainApp.setJoin();
 				buttonClick.setVolume(.4);
 				buttonClick.play();
+				myController.setScreen(MainApplication.JOIN_SCREEN);
 			}
 		});
 		
@@ -115,6 +112,7 @@ public class OpeningController {
 			public void handle(MouseEvent t) {
 				buttonClick.setVolume(.4);
 				buttonClick.play();
+				myController.setScreen(MainApplication.HOWTO_SCREEN);
 			}
 		});
 	}
@@ -124,12 +122,7 @@ public class OpeningController {
 	/*---------------------------------------------*/
 	/*			HELPER FUNCTIONS				   */
 	/*---------------------------------------------*/
-	
-	public void setMain(MainApplication m) {
-		this.mainApp = m;
-	}
-	
-	public void setPane(StackPane p) {
-		parentPane = p;
+	public void setParentScreen(ScreensController screenPage) {
+		myController = screenPage;
 	}
 }
