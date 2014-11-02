@@ -2,26 +2,25 @@ package com.seniorproject.resource;
 
 public class Infra extends Resource {
 
-	private String infraName;
-	private int infraQuantity;
-	private float infraSize;	
-	private double infraEfficiency;
-	private float infraPrice;
+	private String name;
+	private int quantity;
+	private float size;	
+	private double efficiency;
 	
-	public Infra(String infraName, int infraQuantity, Float infraPrice, Float infraSize, Double infraEfficiency) {
+	public Infra(String name, int quantity, Float costPrice, Float size, Double efficiency) {
 		super();
-		this.infraName = infraName;
-		this.infraQuantity = infraQuantity;
-		this.infraPrice = infraPrice;
-		this.infraSize = infraSize;
-		this.infraEfficiency = infraEfficiency;
+		this.name = name;
+		this.quantity = quantity;
+		this.cost = costPrice;
+		this.size = size;
+		this.efficiency = efficiency;
 		resourceType = "INFRA";
 	}
 	
-	public String getInfraName() { return infraName; }
-	public int getInfraQuantity() { return infraQuantity; }
-	public Float getInfraPrice() { return infraPrice; }
-	public Double getInfraEfficiency() { return infraEfficiency;}
-	public Float getInfraSize() { return infraSize; }
+	public String getName() { return name; }
+	public int getQuantity() { return quantity; }
+	public Float getCostPrice() { return cost; }
+	public Double getEfficiency() { return efficiency;}
+	public Float getSize() { return size; }
 	
 }

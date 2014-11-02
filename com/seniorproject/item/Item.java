@@ -1,6 +1,4 @@
-package com.seniorproject.resource;
-
-import com.seniorproject.resource.ResourceClass;
+package com.seniorproject.item;
 
 import java.util.Random;
 import java.util.*;
@@ -10,66 +8,57 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-
-public class Resource {
-
-	private float resourceCost;
-	private ResourceType resourceType;
-	private String resourceClass;
-	private String resourceName;
-	private int resourceId;
-	private int resourceIcon;
-
-	Random rand = new Random();
-
-	public Resource(int resourceId, String fileName) {
-    	this.resourceId=resourceId;
+public class Item
+{
+    private int itemid;
+    private int price;
+	private int type;
+	private int size;
+    private String name;
+	private int icon;
+    
+	Random rand = new Random(); 
+    
+    public Item(int itemid, String fileName) {
+    	this.itemid=itemid;
 		String[][] data = readFileToArray(fileName, "\t");  /*This is just a really long and silly parsing function I have used in the past, 
 																it has many applications so I like using it*/
 		
-		setStats(data[resourceId]);								// give each item the stats stored in the items file.
+		setStats(data[itemid]);								// give each item the stats stored in the items file.
 		
-		System.out.println("MADE Resources!");					// testing purposes, let me know items were created
+		System.out.println("MADE items!");					// testing purposes, let me know items were created
 	}
-
-	//this is used in MarketDao, problem - should resourceClass be of type ResourceClass
-	public Resource (int resourceId, String resourceName, String resourceClass, Float resourceCost){
-		this.resourceId = resourceId;
-		this.resourceName = resourceName;
-		this.resourceClass = resourceClass;
-		this.resourceCost = resourceCost;
-	}
-
-	//this is used in ResourceDao
-	public Resource (String resourceName, String resourceClass, Float resourceCost) {
-		this.resourceName = resourceName;
-		this.resourceClass = resourceClass;
-		this.resourceCost = resourceCost;
+												/*Standard object manipulation functions*/
+	public int getItemID() {
+		return itemid;
 	}
 	
-	public float getResourceCost() { return resourceCost; }
-	
-	public ResourceType getResourceType() { return resourceType; }
-	
-	public String getResourceClass() { return resourceClass; }
+	public int getType() {
+		return type;
+	}
+	public int getSize() {
+		return size;
+	}
+	public int getPrice() {
+		return price;
+	}
 
-	public String getResourceName() { return resourceName; }
-
-	public int getResouceId() { return resourceId; }
-
-	public int getResourceIcon() { return resourceIcon; }
-
-	public void setStats(String[] s) {
+    public void setStats(String[] s) {
     	
-    	resourceCost = Integer.parseInt(s[1].trim());
-    	resourceName = s[2].trim();
-    	//size = Integer.parseInt(s[3].trim());
+    	price = Integer.parseInt(s[1].trim());
+    	name = s[2].trim();
+    	size = Integer.parseInt(s[3].trim());
     	//icon = Integer.parseInt(s[4].trim());
     	//type = Integer.parseInt(s[4].trim());
     	//price = Integer.parseInt(s[5].trim());
     	//onetimeuse = Integer.parseInt(s[6].trim());
     }
 
+    
+    public String getName() { return name; }
+	
+	
+	
 	/*Pretty complicated parsing function, shouldnt have much use when we move data storage to a more appropriate medium, this shouldn't cause a problem and I can explain if needed.*/
 	public String[][] readFileToArray(String fileName, String delimiter) {
 		String dataStr = "";
@@ -146,7 +135,4 @@ public class Resource {
 		//System.out.println(Arrays.deepToString(linesClean));
 		return linesClean;
 	}
-	
 }
-
-

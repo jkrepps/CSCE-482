@@ -1,21 +1,19 @@
 package com.seniorproject.resource;
 
 public class Asset extends Resource{
-
-	privat String assetName;
-	private int assetQuantity;
-	private Float assetPrice;
+	private int quantity;
+	private Float costPrice;
 	
-	public Asset(String assetName, int assetQuantity, Float assetPrice) {
+	public Asset(String name, int quantity, Float costPrice) {
 		super();
-		this.assetName = assetName;
-		this.assetQuantity = assetQuantity;
-		this.assetPrice = assetPrice;
+		this.name = name;
+		this.quantity = quantity;
+		this.costPrice = costPrice;
 		resourceType = "ASSET";
 	}
 	
-	public String getAssetName() { return assetName; }
-	public int getAssetQuantity() { return assetQuantity; }
-	public Float getAssetPrice() { return assetPrice; }
+	public String getName() { return name; }
+	public int getQuantity() { return quantity; }
+	public Float getCostPrice() { return costPrice; }
 
 }
