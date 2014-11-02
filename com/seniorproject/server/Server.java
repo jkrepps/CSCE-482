@@ -192,10 +192,12 @@ private static ResourceDao resourceDao = new ResourceDao();
 				e.printStackTrace();
 			}
 			outputLine += Integer.toString(numberItems+1);
-			outputLine += "\nNAME                              PRICE         ";
+			String formatString = String.format("%-30s%-30s", "NAME", "COST");
+			outputLine += "\n" + formatString;
 			for(int i = 0; i < numberItems; i++) {
 					try {
-						outputLine += "\n" + resourceDao.getResourceList().get(i).getResourceName() + "            " + resourceDao.getResourceList.get(i).getResourceCost();
+						formatString = String.format("%-30s%-30.2f", resourceDao.getResourceList().get(i).getResourceName(), resourceDao.getResourceList().get(i).getResourceCost());
+						outputLine += "\n" + formatString;
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
