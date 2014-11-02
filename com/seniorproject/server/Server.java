@@ -192,10 +192,10 @@ private static ResourceDao resourceDao = new ResourceDao();
 				e.printStackTrace();
 			}
 			outputLine += Integer.toString(numberItems+1);
-			outputLine += "\n NAME		PRICE		SIZE";
+			outputLine += "\nNAME                              PRICE         ";
 			for(int i = 0; i < numberItems; i++) {
 					try {
-						outputLine += "\n" + resourceDao.getResourceList().get(i).getResourceName();
+						outputLine += "\n" + resourceDao.getResourceList().get(i).getResourceName() + "            " + resourceDao.getResourceList.get(i).getResourceCost();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
