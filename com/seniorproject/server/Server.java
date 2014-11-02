@@ -157,6 +157,7 @@ private static ResourceDao resourceDao = new ResourceDao();
 		{
 			try {
 				String returnMessage = Login.UserLogin(tokens[1], tokens[2]);
+				p.setPlayerName(tokens[1]);
 				if (returnMessage == "Relog") {
 					outputLine = "Successfully relogged: " + tokens[1];
 

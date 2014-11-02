@@ -45,6 +45,8 @@ public class Player
     public String getPlayerName() { return playerName; }
 	public String getPass() { return password; }
     
+    public void setPlayerName(String playerName) {this.playerName = playerName; }
+    public void setGold(Float gold) {this.gold = gold; }
 	public void setLand(int l) { land = l; }
 	public void buyLand(int l) { land += l; }
 	public void useLand(int l) { land -= l; }
