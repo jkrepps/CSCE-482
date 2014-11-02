@@ -32,7 +32,7 @@ static Player player;
                     new InputStreamReader(System.in));
         
             String userInput;
-			out.println("name "+player.getName() + " " + player.getPass());		// send the first message to the server with user's credentials
+			out.println("name\t"+player.getName() + "\t" + player.getPass());		// send the first message to the server with user's credentials
 			
 			String loginStatement = in.readLine();							//determine if login was successful 
 			System.out.println(loginStatement);
