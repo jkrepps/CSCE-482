@@ -26,6 +26,8 @@ public class GameScreenController implements ControlledScreen {
 	@FXML
 	private VBox inventionsList;
 	@FXML
+	private VBox technologiesList;
+	@FXML
 	private TextField chat;
 	@FXML
 	private TextArea chatWindow;
@@ -46,17 +48,13 @@ public class GameScreenController implements ControlledScreen {
 	@FXML
 	private Button inventions;
 	@FXML
-	private Button steelEngines;
-	@FXML
-	private Button textiles;
-	@FXML
-	private Button commEnt;
-	@FXML
-	private Button transInfra;
+	private Button technology;
 	@FXML
 	private Pane market;
 	@FXML
 	private ScrollPane inventionPane;
+	@FXML
+	private ScrollPane technologies;
 	
 	/*------------------------------------*/
 	/*			CONSTRUCTORS			  */
@@ -88,42 +86,16 @@ public class GameScreenController implements ControlledScreen {
 			}
 		});
 		
-		/*cotton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent t) {
-				market.setVisible(false);
-				time = time.getInstance();
-				activityLog.appendText("Player 2 bought cotton for $0.25.\t" + format.format(time.getTime()) + '\n');
-			}
-		});*/
-		
 		inventions.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
 				inventionPane.setVisible(true);
-				buttonCreation();
+				buttonCreationInvent();
 			}
 		});
-		
-		steelEngines.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		technology.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				
-			}
-		});
-		
-		textiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent t) {
-				
-			}
-		});
-		
-		commEnt.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent t) {
-				
-			}
-		});
-		
-		transInfra.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent t) {
-				
+				technologies.setVisible(true);
+				buttonCreationTech();
 			}
 		});
 	}
@@ -136,8 +108,35 @@ public class GameScreenController implements ControlledScreen {
 		myController = screenPage;	
 	}
 	
-	public void buttonCreation() {
-		Network.getInstance().SendMessage("itemlist");
+	// Dynamically acquires the buttons for the inventions available to the player
+	public void buttonCreationInvent() {
+		Network.getInstance().SendMessage("itemlist");							// send message to get the itemlist
+		String rstring = Network.getInstance().RecieveMessage();				// receive the message returned by the server
+		final int ROWS = Integer.parseInt(rstring);								// number of items or buttons created
+		for(int i=0; i<ROWS; ++i) {												// Acquire the buttons and create them
+			if(i != 0) {
+				Button b = new Button(Network.getInstance().RecieveMessage());
+				b.setId("buttons");
+				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent t) {
+						String name = getName(b.getText());
+						Network.getInstance().SendMessage("buy\t" + name + "\tAsset\t1");
+						Network.getInstance().RecieveMessage();
+						time = Calendar.getInstance();
+						activityLog.appendText("You bought a " + name + " at " + format.format(time.getTime()) + ".\n");
+					}
+				
+				});
+				inventionsList.getChildren().add(b);
+			}
+			else {
+				Network.getInstance().RecieveMessage();
+			}
+		}
+	}
+	
+	public void buttonCreationTech() {
+		Network.getInstance().SendMessage("");
 		String rstring = Network.getInstance().RecieveMessage();
 		final int ROWS = Integer.parseInt(rstring);
 		for(int i=0; i<ROWS; ++i) {
@@ -145,14 +144,13 @@ public class GameScreenController implements ControlledScreen {
 			b.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				public void handle(MouseEvent t) {
 					String name = getName(b.getText());
-					Network.getInstance().SendMessage("buy\t" + name + "\tAsset\t1");
+					Network.getInstance().SendMessage("");
 					Network.getInstance().RecieveMessage();
 				}
 			});
-			inventionsList.getChildren().add(b);
+			technologiesList.getChildren().add(b);
 		}
 	}
-	
 	private String getName(CharSequence c)
 	{
 		String t = "";
@@ -166,4 +164,5 @@ public class GameScreenController implements ControlledScreen {
 		
 		return t;
 	}
+	
 }

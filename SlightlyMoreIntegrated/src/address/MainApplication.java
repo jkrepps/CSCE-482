@@ -1,9 +1,13 @@
 package address;
+import java.io.IOException;
+
 import address.view.Network;
 import address.view.ScreensController;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.Group;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 public class MainApplication extends Application {
 	/*----------------------------------*/
@@ -28,7 +32,7 @@ public class MainApplication extends Application {
 	/*		HELPER FUNCTIONS			*/
 	/*----------------------------------*/
 
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws IOException {
 		ScreensController mainContainer = new ScreensController();
 		mainContainer.loadScreen(MainApplication.LOGIN_SCREEN, MainApplication.LOGIN_SCREEN_FXML);
 		mainContainer.loadScreen(MainApplication.OPENING_SCREEN, MainApplication.OPENING_SCREEN_FXML);
@@ -37,14 +41,15 @@ public class MainApplication extends Application {
 		mainContainer.loadScreen(MainApplication.HOWTO_SCREEN, MainApplication.HOWTO_SCREEN_FXML);
 		mainContainer.loadScreen(MainApplication.GAME_SCREEN, MainApplication.GAME_SCREEN_FXML);
 		mainContainer.loadScreen(MainApplication.WAITING_SCREEN, MainApplication.WAITING_SCREEN_FXML);
-		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("./view/LoginFXML.fxml"));
+		BorderPane test = (BorderPane) loader.load();
 		mainContainer.setScreen(MainApplication.LOGIN_SCREEN);
 		
 		Group root = new Group();
 		root.getChildren().addAll(mainContainer);
+		root.setAutoSizeChildren(true);
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
-		primaryStage.setFullScreen(true);
 		primaryStage.setTitle("Industry of Deceit");
 		primaryStage.show();
 	}

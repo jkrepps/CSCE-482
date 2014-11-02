@@ -47,3 +47,9 @@
 	-fx-background-color: black;
 	-fx-background-radius: 30;
 }
+
+#buttons {
+	-fx-background-color: darkblue;
+	-fx-text-fill: azure;
+	-fx-background-radius: 30;
+}
