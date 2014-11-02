@@ -41,9 +41,10 @@ public class Logger {
     	try {
     		BufferedReader br = new BufferedReader(new FileReader(logFile));
  			String line = null;
+
  			while ((line = br.readLine()) != null) 
  			{
-   				log += "\n" + line;
+   				log += line + "\n";
  			}
  			return log;
  		}
