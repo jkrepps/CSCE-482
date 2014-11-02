@@ -141,6 +141,7 @@ public class GameScreenController implements ControlledScreen {
 		final int ROWS = Integer.parseInt(rstring);
 		for(int i=0; i<ROWS; ++i) {
 			Button b = new Button(Network.getInstance().RecieveMessage());
+			b.setId("buttons");
 			b.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				public void handle(MouseEvent t) {
 					String name = getName(b.getText());
