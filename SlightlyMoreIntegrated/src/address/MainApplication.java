@@ -41,8 +41,7 @@ public class MainApplication extends Application {
 		mainContainer.loadScreen(MainApplication.HOWTO_SCREEN, MainApplication.HOWTO_SCREEN_FXML);
 		mainContainer.loadScreen(MainApplication.GAME_SCREEN, MainApplication.GAME_SCREEN_FXML);
 		mainContainer.loadScreen(MainApplication.WAITING_SCREEN, MainApplication.WAITING_SCREEN_FXML);
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("./view/LoginFXML.fxml"));
-		BorderPane test = (BorderPane) loader.load();
+
 		mainContainer.setScreen(MainApplication.LOGIN_SCREEN);
 		
 		Group root = new Group();
