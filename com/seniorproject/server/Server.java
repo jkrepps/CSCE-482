@@ -17,11 +17,12 @@ import com.seniorproject.logger.Logger;
 
 
 public class Server {
+
 static int NUMPLAYERS = 12;
 static int NUMITEMS = 10;
 static Player[] players = new Player[NUMPLAYERS]; // array of all the players who can/have connected for this game
 static Weather weather = new Weather();
-static float startingGold = 100.0f;
+static float startingMoney= 100.0f;
 static int playerid = 0;
 
 
@@ -109,7 +110,7 @@ private static Logger logger = new Logger();
 					new InputStreamReader(socket.getInputStream())); 	// input stream
 				
 				
-				Player p = new Player(0, startingGold, "noname", "nopass"); // create a new player Object that will have credentials determined later
+				Player p = new Player(0, startingMoney, "noname", "nopass"); // create a new player Object that will have credentials determined later
 			
 			
 				String inputLine, outputLine;
@@ -207,22 +208,20 @@ private static Logger logger = new Logger();
 		}
 		else if (tokens[0].equals("buy"))
 		{
-			//1 = resource name, 2 = resource class, 3 = resource cost 
+			//1 = resource name, 2 = resource class, 3 = resource price 
 			if(p.buyResource(tokens[1], tokens[2], Float.parseFloat(tokens[3])))
 				outputLine += "purchased "+ tokens[1];
 			else
 				outputLine += "not enough money";
-			
-			
 		}
+
 		else if (tokens[0].equals("sell"))
 		{
-			//1 = resource name, 2 = resource class, 3 = resource cost
+			//1 = resource name, 2 = resource class, 3 = resource price
 			if(p.sellResource(tokens[1], tokens[2], Float.parseFloat(tokens[3])))
 				outputLine += "sold " + tokens[1];
 			else
-				outputLine += "how can selling be real if our items aren't?";
-			
+				outputLine += "how can selling be real if our items aren't?";	
 		}
 
 		else if (tokens[0].equals("logfile"))
@@ -231,9 +230,9 @@ private static Logger logger = new Logger();
 			outputLine += logger.getNumberLines();
 			outputLine += logger.readFromLog();
 		}
-		else if (tokens[0].equals("gold"))
+		else if (tokens[0].equals("money"))
 		{
-			outputLine += p.getGold();
+			outputLine += p.getPlayerMoney();
 		}
 		else if(tokens[0].equals("weather"))	 
 		{
@@ -269,7 +268,7 @@ private static Logger logger = new Logger();
 						}
 					else if(players[i] == null)				//IMPORTANT: if the server reaches an empty player slot, then the current username must not be in use and new credentials are created.
 						{
-						p = players[i] = new Player(i, startingGold, username, password);   //100 = starting money (just for now) 
+						p = players[i] = new Player(i, startingMoney, username, password);   //100 = starting money (just for now) 
 						String output = "Successfully connected to the server, welcome "+ p.getPlayerName();
 						System.out.println(p.getPlayerName() + "joined.");
 						return output;

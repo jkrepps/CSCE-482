@@ -13,7 +13,7 @@ import java.net.URL;
 
 public class Resource {
 
-	private float resourceCost;
+	private float resourcePrice;
 	private ResourceType resourceType;
 	private String resourceClass;
 	private String resourceName;
@@ -33,21 +33,21 @@ public class Resource {
 	}
 
 	//this is used in MarketDao, problem - should resourceClass be of type ResourceClass
-	public Resource (int resourceId, String resourceName, String resourceClass, Float resourceCost){
+	public Resource (int resourceId, String resourceName, String resourceClass, Float resourcePrice){
 		this.resourceId = resourceId;
 		this.resourceName = resourceName;
 		this.resourceClass = resourceClass;
-		this.resourceCost = resourceCost;
+		this.resourcePrice = resourcePrice;
 	}
 
 	//this is used in ResourceDao
-	public Resource (String resourceName, String resourceClass, Float resourceCost) {
+	public Resource (String resourceName, String resourceClass, Float resourcePrice) {
 		this.resourceName = resourceName;
 		this.resourceClass = resourceClass;
-		this.resourceCost = resourceCost;
+		this.resourcePrice = resourcePrice;
 	}
 	
-	public float getResourceCost() { return resourceCost; }
+	public float getResourcePrice() { return resourcePrice; }
 	
 	public ResourceType getResourceType() { return resourceType; }
 	
@@ -61,7 +61,7 @@ public class Resource {
 
 	public void setStats(String[] s) {
     	
-    	resourceCost = Integer.parseInt(s[1].trim());
+    	resourcePrice = Integer.parseInt(s[1].trim());
     	resourceName = s[2].trim();
     	//size = Integer.parseInt(s[3].trim());
     	//icon = Integer.parseInt(s[4].trim());

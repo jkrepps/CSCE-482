@@ -3,23 +3,24 @@ package com.seniorproject.resource;
 
 public class Worker extends Resource {
 
+	private String workerName;
 	private String workerType;
-	private Float wages;
-	private Double efficiency;
-	private int quantity;
+	private Float workerWages;
+	private Double workerEfficiency;
+	private int workerQuantity;
 	
-	public Worker(String name, int quantity, Double efficiency, Float wages) {
+	public Worker(String workerName, int workerQuantity, Double workerEfficiency, Float workerWages) {
 		super();		
-		this.name = name;
-		this.quantity = quantity;
-		this.efficiency = efficiency;
-		this.wages = wages;		
+		this.workerName = workerName;
+		this.workerQuantity = workerQuantity;
+		this.workerEfficiency = workerEfficiency;
+		this.workerWages = workerWages;		
 		resourceType = "WORKER";		
 	}
 	
-	public String getName() { return name; }
-	public int getQuantity() { return quantity; }
-	public Float getWages() { return wages; }
-	public Double getEfficiency() { return efficiency; }
+	public String getWorkerName() { return workerName; }
+	public int getWorkerQuantity() { return workerQuantity; }
+	public Float getWorkerWages() { return workerWages; }
+	public Double getWorkerEfficiency() { return workerEfficiency; }
 
 }
