@@ -25,6 +25,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.remunerativeindustries.HudScreen">
+        </activity>
+        <activity
+            android:name="com.example.remunerativeindustries.TechScreen">
+        </activity>
+        <activity
+            android:name="com.example.remunerativeindustries.PlayerMarketScreen">
+        </activity>
+         <activity
+            android:name="com.example.remunerativeindustries.GameScreen">
+        </activity>
     </application>
 
 </manifest>

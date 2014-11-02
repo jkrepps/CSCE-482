@@ -29,6 +29,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,7 @@ public class Main_menu extends Activity {
 	private String pass;
 	private String serverIp;
 	private int PortNo;
-	
+	public  final static String SER_KEY = "com.example.remunerativeindustries.ser";
 
 	
 
@@ -95,58 +96,29 @@ public class Main_menu extends Activity {
 				PortNo = Integer.parseInt(Port.getText().toString());
 				
 				//send the login message to the server
-				 message = "name "+user + " " + pass;
+				message = "name" + "\t"+user + "\t" + pass;
 				 
 				 /*testing */
 				 //System.out.println(message);
+				 Network.getInstance().SetNetInfo(user, pass, serverIp, PortNo);
 				 
 				 
-				 /*try to connect to the Server*/
-				try {
-		            Socket echoSocket = new Socket(serverIp, PortNo);
-		            PrintWriter out =
-		                new PrintWriter(echoSocket.getOutputStream(), true);
-		            BufferedReader in =
-		                new BufferedReader(
-		                    new InputStreamReader(echoSocket.getInputStream()));
-		            BufferedReader stdIn =
-		                new BufferedReader(
-		                    new InputStreamReader(System.in));
-		        
-		            String userInput;
-					out.println(message);
-					
-					
-					
-					
-					
-					String loginStatement = in.readLine();
-					System.out.println(loginStatement);
-					
-					
-					if (!loginStatement.equals("Incorrect log in"))					// if login not successful, then keep trying until you get through.
-					{
-						System.out.println("YAY! I'm in!");
-					}
-					else
-					{
-						out.println("Bye.");//message for server to cut this thread
+				 String connect = Network.getInstance().StartConnection();
+				 
+				 if(!connect.equals("Incorrect log in"))
+				 {
+						Intent i;
+						i = new Intent(Main_menu.this,HudScreen.class);
 						
-						//close the i/o streams
-						out.close();
-						in.close();
-						         
-						//close the socket
-						echoSocket.close();
-					}
-					
-		        } catch (UnknownHostException e) {
-		            System.err.println("Don't know about host ");
-		            System.exit(1);
-		        } catch (IOException e) {
-		            System.err.println("Couldn't get I/O for the connection ");
-		            System.exit(1);
-		        }
+
+						System.out.println("loading...");
+				        startActivity(i);
+				 }
+				 else
+				 {
+					 System.out.println("Incorrect log in");
+					 Network.getInstance().CloseSocket();
+				 }
 				
 
 			}
