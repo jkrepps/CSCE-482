@@ -195,12 +195,10 @@ private static Logger logger = new Logger();
 				e.printStackTrace();
 			}
 			outputLine += Integer.toString(numberItems+1);
-			String formatString = String.format("%-30s%-30s", "NAME", "COST");
-			outputLine += "\n" + formatString;
+			outputLine += "\n" + "NAME" + "	" + "COST";
 			for(int i = 0; i < numberItems; i++) {
 					try {
-						formatString = String.format("%-30s%-30.2f", resourceDao.getResourceList().get(i).getResourceName(), resourceDao.getResourceList().get(i).getResourceCost());
-						outputLine += "\n" + formatString;
+						outputLine += "\n" + resourceDao.getResourceList().get(i).getResourceName() + "	" + resourceDao.getResourceList().get(i).getResourceCost();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
