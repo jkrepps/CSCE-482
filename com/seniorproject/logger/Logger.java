@@ -9,7 +9,7 @@ import java.io.*;
 
 public class Logger {
 
-	File logFile = new File("com/seniorproject/logFile.txt");
+	private File logFile = new File("com/seniorproject/logFile.txt");
 
     public void writeToLog(String string) {
 		try {
@@ -20,5 +20,36 @@ public class Logger {
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
+    }
+
+    public int getNumberLines(){
+    	try {
+    		LineNumberReader lnr = new LineNumberReader(new FileReader(logFile));
+			lnr.skip(Long.MAX_VALUE);
+			int temp = lnr.getLineNumber() + 1;
+			lnr.close();
+			return temp;
+			
+		} catch (Exception e){
+			System.err.println(e.getMessage());
+		}
+		return 0;
+    }
+
+    public String readFromLog() {
+    	String log = "";
+    	try {
+    		BufferedReader br = new BufferedReader(new FileReader(logFile));
+ 			String line = null;
+ 			while ((line = br.readLine()) != null) 
+ 			{
+   				log += "\n" + line;
+ 			}
+ 			return log;
+ 		}
+ 		catch (Exception e) {
+ 			System.err.println(e.getMessage());
+ 		}
+ 		return null;
     }
 }

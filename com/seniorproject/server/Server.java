@@ -13,6 +13,7 @@ import com.seniorproject.dao.PlayerDao;
 import com.seniorproject.game.Player;
 import com.seniorproject.game.Weather;
 import com.seniorproject.resource.*;
+import com.seniorproject.logger.Logger;
 
 
 public class Server {
@@ -25,6 +26,7 @@ static int playerid = 0;
 
 
 private static ResourceDao resourceDao = new ResourceDao();
+private static Logger logger = new Logger();
 
 	public static void initialize() //read in all the items from the items file so they will be stored and ready before anyone connects
 	{
@@ -222,6 +224,13 @@ private static ResourceDao resourceDao = new ResourceDao();
 			else
 				outputLine += "how can selling be real if our items aren't?";
 			
+		}
+
+		else if (tokens[0].equals("logfile"))
+		{
+
+			outputLine += logger.getNumberLines();
+			outputLine += logger.readFromLog();
 		}
 		else if (tokens[0].equals("gold"))
 		{
