@@ -2,6 +2,7 @@ package com.seniorproject.game;
 
 import com.seniorproject.dao.DaoObject;
 import com.seniorproject.resource.Resource;
+import com.seniorproject.logger.Logger;
 
 import java.util.Random;
 import java.io.File;
@@ -21,15 +22,12 @@ public class Player
 	private String password;
 	private int land;
     private DaoObject dao;
+    private String log;
+    private Logger logger = new Logger();
 
     private int resourceID = 0;
 
     Random rand = new Random();
-
-    //right now not closing the file - needs to be closed!!!!
-    File logFile;
-    FileWriter fw;
-    BufferedWriter bw;
 
     public Player(int playerId, Float gold, String playerName, String password) { // initialization function
 		land = 0;
@@ -37,12 +35,6 @@ public class Player
         this.gold = gold;
 		this.playerName = playerName;
 		this.password = password;
-
-		try {
-   			logFile = new File("logfile.txt"); //not sure if this is the best place to define this! Also, need to be sure file actually exists, if not, do logFile.createNewFile()
-		} catch (Exception e1) {
-			System.err.println(e1.getMessage());
-		} 
     }
     
     Resource[] inventory= new Resource[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
@@ -134,10 +126,8 @@ public class Player
 		
 		//publish to activity log
 		try {
-			fw = new FileWriter(logFile.getAbsoluteFile());
-   			bw = new BufferedWriter(fw);
-			bw.write(this.getPlayerName() + " purchased " + resource.getResourceName());
-			bw.close();
+			log = this.getPlayerName() + " purchased " + resource.getResourceName();
+			logger.writeToLog(log);
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
@@ -161,10 +151,8 @@ public class Player
 		//not logging name of player purchasing because it will say they purchased it
 		//should we specify whether purchasing secondhand?
 		try {
-			fw = new FileWriter(logFile.getAbsoluteFile());
-   			bw = new BufferedWriter(fw);
-			bw.write(this.getPlayerName() + " sold " + resource.getResourceName());
-			bw.close();
+			log = this.getPlayerName() + " sold " + resource.getResourceName();
+			logger.writeToLog(log);
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
