@@ -153,8 +153,9 @@ private static Logger logger = new Logger();
 	public static String processRequest (String input, Player p) //Process an input from a player p
 	{
 		String outputLine = "";
-		String delims = "[ ]+";
+		String delims = "\t";
 		String[] tokens = input.split(delims); // parse the input command into tokens and process keywords
+		System.out.println(tokens[0]);
 		if(tokens[0].equals("name"))   			  //name = Login
 		{
 			try {
