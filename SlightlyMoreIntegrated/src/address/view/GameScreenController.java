@@ -83,18 +83,24 @@ public class GameScreenController implements ControlledScreen {
 		marketPlace.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
 				market.setVisible(true);
+				inventionPane.setVisible(false);
+				technologies.setVisible(false);
 			}
 		});
 		
 		inventions.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
 				inventionPane.setVisible(true);
+				//market.setVisible(false);
+				technologies.setVisible(false);
 				buttonCreationInvent();
 			}
 		});
 		technology.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
 				technologies.setVisible(true);
+				//market.setVisible(false);
+				inventionPane.setVisible(false);
 				buttonCreationTech();
 			}
 		});

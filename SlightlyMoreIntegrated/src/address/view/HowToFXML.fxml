@@ -22,7 +22,7 @@
                   </Text>
                </children>
             </TextFlow>
-            <Button fx:id="back" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#goBack" prefWidth="300.0" styleClass="buttons" text="Back">
+            <Button fx:id="back" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#goBack" onMouseEntered="#mouseOver" onMouseExited="#mouseExit" prefWidth="300.0" styleClass="buttons" text="Back">
                <font>
                   <Font name="Matura MT Script Capitals" size="13.0" />
                </font></Button>
