@@ -58,7 +58,7 @@ public class Player
 
 		//add to inventory database
 		try {
-			dao.executeUpdate("INSERT INTO PlayerResource VALUES (\"" + playerId + "\", \"" + resourceID + "\", \"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourceCost() + "\");");	
+			dao.executeUpdate("INSERT INTO PlayerResource VALUES (\"" + playerId + "\", \"" + resourceID + "\", \"" + resource.getResourceName() + "\", \"" + resource.getResourceClass() + "\", \"" + resource.getResourcePrice() + "\");");	
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
@@ -103,8 +103,8 @@ public class Player
 	{
 		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
 		//subtract gold (price of resource)
-		if(playerMoney - resource.getResourceCost() >= 0)
-			playerMoney = playerMoney - resource.getResourceCost();
+		if(playerMoney - resource.getResourcePrice() >= 0)
+			playerMoney = playerMoney - resource.getResourcePrice();
 		else return false; // if you dont have enough money then dont do anything else
 
 		//add to inventory (add to database!)
@@ -128,7 +128,7 @@ public class Player
 		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
 		//add gold (profit from resource, for right now is just the price of resource)
 		//figure out how to make market work
-		playerMoney = playerMoney + resource.getResourceCost();
+		playerMoney = playerMoney + resource.getResourcePrice();
 
 		//remove from inventory (remove from database!)
 		this.removeResource(resource);
