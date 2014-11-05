@@ -16,44 +16,34 @@ public class Player
 {
 	private static int NUMITEMS = 500; // for now, no idea what this number will be realistically
 	
-    private Float gold;		//private variables
+    private Float playerMoney;		//private variables
     private String playerName;
     private int playerId;
 	private String password;
-	private int land;
     private DaoObject dao;
     private String log;
     private Logger logger = new Logger();
+	private int resourceID = 0;
 
-    private int resourceID = 0;
-
+ 	Resource[] inventory= new Resource[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
     Random rand = new Random();
 
-    public Player(int playerId, Float gold, String playerName, String password) { // initialization function
-		land = 0;
+    public Player(int playerId, Float playerMoney, String playerName, String password) { // initialization function
 		this.playerId = playerId;
-        this.gold = gold;
+        this.playerMoney = playerMoney;
 		this.playerName = playerName;
 		this.password = password;
     }
+   
     
-    Resource[] inventory= new Resource[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
-    
-												/*The following are all standard object info retrieval functions.*/
-    public Float getGold() { return gold; }
-	public int getLand() { return land; }
+	/* Getters and Setters */
+    public Float getPlayerMoney() { return playerMoney; }
     public String getPlayerName() { return playerName; }
 	public String getPass() { return password; }
     
     public void setPlayerName(String playerName) {this.playerName = playerName; }
-    public void setGold(Float gold) {this.gold = gold; }
-	public void setLand(int l) { land = l; }
-	public void buyLand(int l) { land += l; }
-	public void useLand(int l) { land -= l; }
-    public void recieve(Float d) { gold += d; }
-    public void pay(Float d) { gold -= d; }
-
-    public void setId(int id) {playerId = id; }
+    public void setPlayerMoney(Float playerMoney) {this.playerMoney = playerMoney; }
+	public void setPlayerId(int playerId) {this.playerId = playerId; }
 
     public void addResource(Resource resource)
 	{ 
@@ -107,20 +97,14 @@ public class Player
 		return false;	
     }
 
-
-    //buy resource?
-	// array of three types of resource
-	// buy resource, then figure out which kind of resource, then what to do based on 
-	// could just take in the string of a 
-
 	//need to add a playerId
 
     public boolean buyResource(String resourceName, String resourceClass, Float resourceCost) //for right now returns int, in future could be different
 	{
 		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
 		//subtract gold (price of resource)
-		if(gold - resource.getResourceCost() > 0)
-			gold = gold - resource.getResourceCost();
+		if(playerMoney - resource.getResourceCost() >= 0)
+			playerMoney = playerMoney - resource.getResourceCost();
 		else return false; // if you dont have enough money then dont do anything else
 
 		//add to inventory (add to database!)
@@ -144,7 +128,7 @@ public class Player
 		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
 		//add gold (profit from resource, for right now is just the price of resource)
 		//figure out how to make market work
-		gold = gold + resource.getResourceCost();
+		playerMoney = playerMoney + resource.getResourceCost();
 
 		//remove from inventory (remove from database!)
 		this.removeResource(resource);

@@ -21,7 +21,7 @@ static int NUMPLAYERS = 12;
 static int NUMITEMS = 10;
 static Player[] players = new Player[NUMPLAYERS]; // array of all the players who can/have connected for this game
 static Weather weather = new Weather();
-static float startingGold = 100.0f;
+static float startingPlayerMoney = 100.0f;
 static int playerid = 0;
 
 
@@ -109,7 +109,7 @@ private static Logger logger = new Logger();
 					new InputStreamReader(socket.getInputStream())); 	// input stream
 				
 				
-				Player p = new Player(0, startingGold, "noname", "nopass"); // create a new player Object that will have credentials determined later
+				Player p = new Player(0, startingPlayerMoney, "noname", "nopass"); // create a new player Object that will have credentials determined later
 			
 			
 				String inputLine, outputLine;
@@ -159,6 +159,7 @@ private static Logger logger = new Logger();
 		if(tokens[0].equals("name"))   			  //name = Login
 		{
 			try {
+				System.out.println(tokens[1]);
 				String returnMessage = Login.UserLogin(tokens[1], tokens[2]);
 				p.setPlayerName(tokens[1]);
 				if (returnMessage == "Relog") {
@@ -167,7 +168,7 @@ private static Logger logger = new Logger();
 				}
 				else if (returnMessage == "NewUser"){
 					outputLine = "Welcome new user: " + tokens[1];
-					p.setId(playerid);
+					p.setPlayerId(playerid);
 					playerid ++;
 				}
 				else
@@ -231,9 +232,9 @@ private static Logger logger = new Logger();
 			outputLine += logger.getNumberLines();
 			outputLine += logger.readFromLog();
 		}
-		else if (tokens[0].equals("gold"))
+		else if (tokens[0].equals("money"))
 		{
-			outputLine += p.getGold();
+			outputLine += p.getPlayerMoney();
 		}
 		else if(tokens[0].equals("weather"))	 
 		{
@@ -269,7 +270,7 @@ private static Logger logger = new Logger();
 						}
 					else if(players[i] == null)				//IMPORTANT: if the server reaches an empty player slot, then the current username must not be in use and new credentials are created.
 						{
-						p = players[i] = new Player(i, startingGold, username, password);   //100 = starting money (just for now) 
+						p = players[i] = new Player(i, startingPlayerMoney, username, password);   //100 = starting money (just for now) 
 						String output = "Successfully connected to the server, welcome "+ p.getPlayerName();
 						System.out.println(p.getPlayerName() + "joined.");
 						return output;
