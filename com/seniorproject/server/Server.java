@@ -200,7 +200,7 @@ private static Logger logger = new Logger();
 			outputLine += "\n" + "NAME" + "	" + "COST";
 			for(int i = 0; i < numberItems; i++) {
 					try {
-						outputLine += "\n" + resourceDao.getResourceList().get(i).getResourceName() + "	" + resourceDao.getResourceList().get(i).getResourcePrice();
+						outputLine += "\n" + resourceDao.getResourceList().get(i).getResourceName() + "/t" + resourceDao.getResourceList().get(i).getResourcePrice();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
