@@ -1,6 +1,7 @@
 package com.seniorproject.game;
 
 import com.seniorproject.dao.DaoObject;
+import com.seniorproject.dao.PlayerDao;
 import com.seniorproject.resource.Resource;
 import com.seniorproject.logger.Logger;
 
