@@ -54,6 +54,11 @@
    <left>
       <VBox alignment="CENTER" minHeight="-Infinity" prefHeight="300.0" prefWidth="150.0" spacing="20.0" BorderPane.alignment="TOP_CENTER">
          <children>
+            <ScrollPane fx:id="market" prefHeight="200.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
+               <content>
+                  <VBox fx:id="marketList" prefHeight="200.0" prefWidth="100.0" />
+               </content>
+            </ScrollPane>
             <ScrollPane fx:id="technologies" prefHeight="200.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
                <content>
                   <VBox fx:id="technologiesList" prefHeight="200.0" prefWidth="100.0" />
@@ -62,6 +67,16 @@
             <ScrollPane fx:id="inventionPane" hbarPolicy="ALWAYS" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="175.0" styleClass="scrollPanes" vbarPolicy="ALWAYS" visible="false">
                <content>
                   <VBox fx:id="inventionsList" alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="5.0" />
+               </content>
+            </ScrollPane>
+            <ScrollPane fx:id="inventoryPane" prefHeight="200.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
+               <content>
+                  <VBox fx:id="inventoryList" prefHeight="200.0" prefWidth="100.0" />
+               </content>
+            </ScrollPane>
+            <ScrollPane fx:id="playerMarketPane" prefHeight="200.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
+               <content>
+                  <VBox fx:id="playerMarketList" prefHeight="200.0" prefWidth="100.0" />
                </content>
             </ScrollPane>
          </children>
@@ -80,7 +95,17 @@
                   <Font name="Algerian" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="marketPlace" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#handle" prefHeight="30.0" prefWidth="150.0" styleClass="buttons" text="Market" textAlignment="CENTER" textFill="#fcf8f8">
+            <Button fx:id="marketPlace" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#handle" prefHeight="30.0" prefWidth="150.0" styleClass="buttons" text="World Market" textAlignment="CENTER" textFill="#fcf8f8">
+               <font>
+                  <Font name="Algerian" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="inventory" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseEntered="#handle" prefHeight="30.0" prefWidth="150.0" styleClass="buttons" text="Inventory">
+               <font>
+                  <Font name="Algerian" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="playerMarket" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#handle" prefHeight="30.0" prefWidth="150.0" styleClass="buttons" text="Player Market">
                <font>
                   <Font name="Algerian" size="15.0" />
                </font>

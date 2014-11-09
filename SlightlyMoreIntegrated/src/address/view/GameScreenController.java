@@ -2,7 +2,6 @@ package address.view;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.layout.VBox;
 
@@ -27,6 +25,12 @@ public class GameScreenController implements ControlledScreen {
 	private VBox inventionsList;
 	@FXML
 	private VBox technologiesList;
+	@FXML
+	private VBox inventoryList;
+	@FXML
+	private VBox marketList;
+	@FXML
+	private VBox playerMarketList;
 	@FXML
 	private TextField chat;
 	@FXML
@@ -50,7 +54,15 @@ public class GameScreenController implements ControlledScreen {
 	@FXML
 	private Button technology;
 	@FXML
-	private Pane market;
+	private Button inventory;
+	@FXML
+	private Button playerMarket;
+	@FXML
+	private ScrollPane playerMarketPane;
+	@FXML
+	private ScrollPane inventoryPane;
+	@FXML
+	private ScrollPane market;
 	@FXML
 	private ScrollPane inventionPane;
 	@FXML
@@ -82,26 +94,53 @@ public class GameScreenController implements ControlledScreen {
 		
 		marketPlace.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				//market.setVisible(true);
+				market.setVisible(true);
 				inventionPane.setVisible(false);
 				technologies.setVisible(false);
+				inventoryPane.setVisible(false);
+				playerMarketPane.setVisible(false);
+				buttonCreationMarket();
 			}
 		});
 		
 		inventions.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
 				inventionPane.setVisible(true);
-				//market.setVisible(false);
+				market.setVisible(false);
 				technologies.setVisible(false);
+				inventoryPane.setVisible(false);
+				playerMarketPane.setVisible(false);
 				buttonCreationInvent();
 			}
 		});
 		technology.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
 				technologies.setVisible(true);
-				//market.setVisible(false);
+				market.setVisible(false);
 				inventionPane.setVisible(false);
+				inventoryPane.setVisible(false);
+				playerMarketPane.setVisible(false);
 				buttonCreationTech();
+			}
+		});
+		inventory.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent t) {
+				technologies.setVisible(false);
+				market.setVisible(false);
+				inventionPane.setVisible(false);
+				inventoryPane.setVisible(true);
+				playerMarketPane.setVisible(false);
+				buttonCreationInv();
+			}
+		});
+		playerMarket.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent t) {
+				technologies.setVisible(false);
+				market.setVisible(false);
+				inventionPane.setVisible(false);
+				inventoryPane.setVisible(false);
+				playerMarketPane.setVisible(true);
+				buttonCreationPlayerMarket();
 			}
 		});
 	}
@@ -110,6 +149,8 @@ public class GameScreenController implements ControlledScreen {
 	/*------------------------------------*/
 	/*			HELPER FUNCTIONS		  */
 	/*------------------------------------*/
+	
+	// Sets the parent screen
 	public void setParentScreen(ScreensController screenPage) {
 		myController = screenPage;	
 	}
@@ -146,6 +187,7 @@ public class GameScreenController implements ControlledScreen {
 		}
 	}
 	
+	// Dynamically acquires the buttons for the technology able to the researched
 	public void buttonCreationTech() {
 		Network.getInstance().SendMessage("techlist");
 		String rstring = Network.getInstance().RecieveMessage();
@@ -176,6 +218,7 @@ public class GameScreenController implements ControlledScreen {
 		}
 	}
 	
+	// Dynamically acquires the buttons for the world market items
 	public void buttonCreationMarket() {
 		Network.getInstance().SendMessage("marketlist");
 		String rstring = Network.getInstance().RecieveMessage();
@@ -198,7 +241,7 @@ public class GameScreenController implements ControlledScreen {
 						}
 					}
 				});
-				market.getChildren().add(b);
+				marketList.getChildren().add(b);
 			}
 			else {
 				Network.getInstance().RecieveMessage();
@@ -206,6 +249,60 @@ public class GameScreenController implements ControlledScreen {
 		}
 	}
 	
+	// Dynamically acquires the buttons for the player's inventory list
+	public void buttonCreationInv() {
+		Network.getInstance().SendMessage("inventorylist");
+		String rstring = Network.getInstance().RecieveMessage();
+		final int ROWS = Integer.parseInt(rstring);
+		for(int i=0; i<ROWS; ++i) {
+			if(i != 0) {
+				Button b = new Button(Network.getInstance().RecieveMessage());
+				b.setId("buttons");
+				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent t) {
+						// Add Handle for sell and use inventory items here
+					}
+				});
+				inventoryList.getChildren().add(b);
+			}
+			else {
+				Network.getInstance().RecieveMessage();
+			}
+		}
+	}
+	
+	// Dynamically acquires the buttons for the player market items
+	public void buttonCreationPlayerMarket() {
+		Network.getInstance().SendMessage("playermarketlist");
+		String rstring = Network.getInstance().RecieveMessage();
+		final int ROWS = Integer.parseInt(rstring);
+		for(int i=0; i<ROWS; ++i) {
+			if(i != 0) {
+				Button b = new Button(Network.getInstance().RecieveMessage());
+				b.setId("buttons");
+				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent t) {
+						String name = getName(b.getText());
+						Network.getInstance().SendMessage("buy\t" + name + "\tMarket\t1");
+						Network.getInstance().RecieveMessage();
+						time = Calendar.getInstance();
+						Network.getInstance().SendMessage("logfile");
+						String log = Network.getInstance().RecieveMessage();
+						final int LOG_ROWS = Integer.parseInt(log);
+						for(int i=0; i<LOG_ROWS; ++i) {
+							activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
+						}
+					}
+				});
+				playerMarketList.getChildren().add(b);
+			}
+			else {
+				Network.getInstance().RecieveMessage();
+			}
+		}
+	}
+	
+	// Gets the name of the character sequence for a given item
 	private String getName(CharSequence c) {
 		String t = "";
 		for(int i = 0; i < c.length(); i++) {
