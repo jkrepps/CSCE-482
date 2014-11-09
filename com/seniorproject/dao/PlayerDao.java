@@ -10,7 +10,7 @@ import com.seniorproject.resource.*;
 public class PlayerDao extends DaoObject {
 	
 	// Money	
-	public static int setMoney(String playername, float money) throws DaoException {
+	public static int setPlayerMoney(String playername, float money) throws DaoException {
 		String updateQuery = "UPDATE Player SET money=" + money + " WHERE name='" + playername +"';";
 		int retval = -1;
 		
@@ -24,7 +24,7 @@ public class PlayerDao extends DaoObject {
 		
 	}
 	
-	public static float getMoney(String playername) throws DaoException {
+	public static float getPlayerMoney(String playername) throws DaoException {
 		String selectQuery = "SELECT money FROM Player where name='" + playername +"';";
 		float money = -1;
 		

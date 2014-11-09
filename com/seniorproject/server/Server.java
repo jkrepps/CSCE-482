@@ -110,7 +110,7 @@ private static Logger logger = new Logger();
 					new InputStreamReader(socket.getInputStream())); 	// input stream
 				
 				
-				Player p = new Player(0, startingPlayerMoney, "noname", "nopass"); // create a new player Object that will have credentials determined later
+				Player p = new Player(0, startingPlayerMoney, "noname"); // create a new player Object that will have credentials determined later
 			
 			
 				String inputLine, outputLine;
@@ -165,11 +165,12 @@ private static Logger logger = new Logger();
 				p.setPlayerName(tokens[1]);
 				if (returnMessage == "Relog") {
 					outputLine = "Successfully relogged: " + tokens[1];
-
+					p.setPlayerMoney(PlayerDao.getPlayerMoney(tokens[1]));
 				}
 				else if (returnMessage == "NewUser"){
 					outputLine = "Welcome new user: " + tokens[1];
 					p.setPlayerId(playerid);
+					PlayerDao.setPlayerMoney(100.0f);
 					playerid ++;
 				}
 				else

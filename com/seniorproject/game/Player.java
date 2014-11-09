@@ -28,11 +28,11 @@ public class Player
  	Resource[] inventory= new Resource[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
     Random rand = new Random();
 
-    public Player(int playerId, Float playerMoney, String playerName, String password) { // initialization function
+    public Player(int playerId, Float playerMoney, String playerName/*, String password*/) { // initialization function
 		this.playerId = playerId;
         this.playerMoney = playerMoney;
 		this.playerName = playerName;
-		this.password = password;
+		//this.password = password;
     }
    
     
