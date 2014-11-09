@@ -5,7 +5,7 @@ public class Client {
 
 static String name = "";
 static String password = "";
-static Player player;
+//static Player player;
     public static void main(String[] args) throws IOException {
         
         if (args.length != 2) {		//if the client runs without proper input arguments
@@ -32,7 +32,7 @@ static Player player;
                     new InputStreamReader(System.in));
         
             String userInput;
-			out.println("name\t"+player.getName() + "\t" + player.getPass());		// send the first message to the server with user's credentials
+			out.println("name\t"+name + "\t" + password);		// send the first message to the server with user's credentials
 			
 			String loginStatement = in.readLine();							//determine if login was successful 
 			System.out.println(loginStatement);
@@ -42,7 +42,7 @@ static Player player;
 			{
 				System.out.println("try again");
 				Login();
-				out.println("name "+player.getName() + " " + player.getPass());
+				out.println("name\t"+name + "\t" + password);
 				loginStatement = in.readLine();
 				System.out.println(loginStatement);
 			}
@@ -82,6 +82,14 @@ static Player player;
 					System.out.println(in.readLine());
 				}
 			}
+			else if(input.equals("getInfra"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
+			{
+				int num = Integer.parseInt(in.readLine());
+				for(int i = 0; i<num; i++)
+				{
+					System.out.println(in.readLine());
+				}
+			}
 			else
 			System.out.println(in.readLine());		//otherwise just read the response.
 	
@@ -99,16 +107,16 @@ static Player player;
 		BufferedReader uname =
                 new BufferedReader(
                     new InputStreamReader(System.in));
-		String name = uname.readLine(); 
+		name = uname.readLine(); 
 		
 		System.out.print("password => ");			//enter password
 		BufferedReader upassword =
                 new BufferedReader(
                     new InputStreamReader(System.in));
-		String password = upassword.readLine(); 
+		password = upassword.readLine(); 
 		
 		
-		player = new Player(100, name, password);	//create a new player instance to hold the data
+		//player = new Player(100, name, password);	//create a new player instance to hold the data
 		
 		
 		} catch (UnknownHostException e) {
