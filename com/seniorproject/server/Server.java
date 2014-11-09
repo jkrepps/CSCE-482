@@ -31,7 +31,7 @@ private static Logger logger = new Logger();
 
 	public static void initialize() //read in all the items from the items file so they will be stored and ready before anyone connects
 	{
-		new Thread(new WeatherThread()).start();
+		new Thread(new WeatherThread()).start();//change to new Thread(new WeatherThread(int gameid)).start();
 	}
 	
 	/**
@@ -284,9 +284,9 @@ private static Logger logger = new Logger();
 	/*WEATHER THREAD*/
 	public static class WeatherThread implements Runnable {  // client thread, each client goes through this process individually and simultaneously. 
 
+		//id game
 
-
-        public WeatherThread() {// accept client socket connection.
+        public WeatherThread() {// accept client socket connection. // int id as an argument
         }
 
         @Override
