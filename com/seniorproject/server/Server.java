@@ -197,8 +197,7 @@ private static Logger logger = new Logger();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			outputLine += Integer.toString(numberItems+1);
-			outputLine += "\n" + "NAME" + "	" + "COST";
+			outputLine += Integer.toString(numberItems);
 			for(int i = 0; i < numberItems; i++) {
 					try {
 						outputLine += "\n" + resourceDao.getResourceList().get(i).getResourceName() + "/t" + resourceDao.getResourceList().get(i).getResourcePrice();
@@ -216,6 +215,23 @@ private static Logger logger = new Logger();
 				outputLine += "not enough money";
 			
 			
+		}
+		else if (tokens[0].equals("getInfra"))
+		{
+			int numberItems = 0;
+			try {
+				numberItems = PlayerDao.getInfras(p.getPlayerName()).size();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			outputLine += Integer.toString(numberItems);
+			for(int i = 0; i < numberItems; i++) {
+					try {
+						outputLine += "\n" + PlayerDao.getInfras(p.getPlayerName()).get(i).getInfraName();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+			}
 		}
 		else if (tokens[0].equals("sell"))
 		{
