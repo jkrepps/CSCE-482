@@ -18,6 +18,7 @@ public class Player
 	private static int NUMITEMS = 500; // for now, no idea what this number will be realistically
 	
     private Float playerMoney;		//private variables
+	private Double playerMarketing;
     private String playerName;
     private int playerId;
 	private String password;
@@ -29,23 +30,25 @@ public class Player
  	Resource[] inventory= new Resource[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
     Random rand = new Random();
 
-    public Player(int playerId, Float playerMoney, String playerName/*, String password*/) { // initialization function
+    public Player(int playerId, Float playerMoney, String playerName, Double playerMarketing) { // initialization function
 		this.playerId = playerId;
         this.playerMoney = playerMoney;
 		this.playerName = playerName;
-		//this.password = password;
+		this.playerMarketing = playerMarketing;
     }
    
     
 	/* Getters and Setters */
     public Float getPlayerMoney() { return playerMoney; }
     public String getPlayerName() { return playerName; }
+	public Double getPlayerMarketing() { return playerMarketing; }
 	public String getPass() { return password; }
     
     public void setPlayerName(String playerName) {this.playerName = playerName; }
     public void setPlayerMoney(Float playerMoney) {this.playerMoney = playerMoney; }
+	public void setPlayerMarketing (Double playerMarketing) { this.playerMarketing = playerMarketing; }
 	public void setPlayerId(int playerId) {this.playerId = playerId; }
-
+	
     public void addResource(Resource resource)
 	{ 
 		//add to inventory array
@@ -102,14 +105,19 @@ public class Player
 
     public boolean buyResource(String resourceName, String resourceClass, Float resourceCost) //for right now returns int, in future could be different
 	{
+	
 		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
 		//subtract gold (price of resource)
 		if(playerMoney - resource.getResourcePrice() >= 0) {
 			playerMoney = playerMoney - resource.getResourcePrice();
-			PlayerDao.setPlayerMoney(playerMoney);
+			try{
+				PlayerDao.setPlayerMoney(playerName,playerMoney);
+			}catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
 		}
 		else return false; // if you dont have enough money then dont do anything else
-
+	
 		//add to inventory (add to database!)
 		this.addResource(resource);
 		
@@ -132,8 +140,11 @@ public class Player
 		//add gold (profit from resource, for right now is just the price of resource)
 		//figure out how to make market work
 		playerMoney = playerMoney + resource.getResourcePrice();
-		PlayerDao.setPlayerMoney(playerMoney);
-
+		try{
+			PlayerDao.setPlayerMoney(playerName, playerMoney);
+		}catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 		//remove from inventory (remove from database!)
 		this.removeResource(resource);
 

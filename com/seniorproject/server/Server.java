@@ -76,6 +76,8 @@ private static Logger logger = new Logger();
 			System.err.println(e1.getMessage());
 		} 
 		
+		System.out.println("CREATED PLAYER\n");
+		
 		
         int portNumber = Integer.parseInt(args[0]);
 
@@ -110,7 +112,7 @@ private static Logger logger = new Logger();
 					new InputStreamReader(socket.getInputStream())); 	// input stream
 				
 				
-				Player p = new Player(0, startingPlayerMoney, "noname"); // create a new player Object that will have credentials determined later
+				Player p = new Player(0, startingPlayerMoney, "noname", 0.67); // create a new player Object that will have credentials determined later
 			
 			
 				String inputLine, outputLine;
@@ -170,12 +172,18 @@ private static Logger logger = new Logger();
 				else if (returnMessage == "NewUser"){
 					outputLine = "Welcome new user: " + tokens[1];
 					p.setPlayerId(playerid);
-					PlayerDao.setPlayerMoney(100.0f);
+					try {
+						// TODO Add a reasonable user name and game id
+						PlayerDao.createPlayer(new Player(0, 1000f,p.getPlayerName(), 0.6), p.getPlayerName(), 2);
+					} catch (Exception e) {
+						System.err.println(e.getMessage());
+					}			
+		
 					playerid ++;
 				}
 				else
 					outputLine = "Incorrect log in";
-			} catch (ServerException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -269,7 +277,7 @@ private static Logger logger = new Logger();
 	}
 	
 	
-	public static String Login(String username, String password, Player p)  //Login for users.
+	/*public static String Login(String username, String password, Player p)  //Login for users.
 	{
 				for(int i = 0; i < NUMPLAYERS; i++) //Go through the available player slots
 				{
@@ -288,14 +296,14 @@ private static Logger logger = new Logger();
 						}
 					else if(players[i] == null)				//IMPORTANT: if the server reaches an empty player slot, then the current username must not be in use and new credentials are created.
 						{
-						p = players[i] = new Player(i, startingPlayerMoney, username, password);   //100 = starting money (just for now) 
+						p = players[i] = new Player(i, startingPlayerMoney, username);   //100 = starting money (just for now) 
 						String output = "Successfully connected to the server, welcome "+ p.getPlayerName();
 						System.out.println(p.getPlayerName() + "joined.");
 						return output;
 						}
 				}
 		return "Incorrect log in";
-	}
+	}*/
 	
 	
 	/*WEATHER THREAD*/

@@ -6,8 +6,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.seniorproject.resource.*;
+import com.seniorproject.game.Player;
 
 public class PlayerDao extends DaoObject {
+	
+	// Create
+	public static int  createPlayer(Player player, String username, int gameId) throws DaoException {
+		String insertQuery = "INSERT INTO Player VALUES (0,'" + player.getPlayerName() + "','" + username +"','',"
+			+ gameId + "," + player.getPlayerMoney() + "," + player.getPlayerMarketing() + ");";
+			
+		int retval = -1;
+		
+		try {
+			retval = executeUpdate(insertQuery);
+		} catch (Exception e) {
+			throw new DaoException("Call to create player failed with: " + e.getMessage());
+		}
+		
+		return retval;
+	
+	}
 	
 	// Money	
 	public static int setPlayerMoney(String playername, float money) throws DaoException {
