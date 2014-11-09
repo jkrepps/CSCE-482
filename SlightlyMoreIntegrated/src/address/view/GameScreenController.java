@@ -82,7 +82,7 @@ public class GameScreenController implements ControlledScreen {
 		
 		marketPlace.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				market.setVisible(true);
+				//market.setVisible(true);
 				inventionPane.setVisible(false);
 				technologies.setVisible(false);
 			}
@@ -129,7 +129,12 @@ public class GameScreenController implements ControlledScreen {
 						Network.getInstance().SendMessage("buy\t" + name + "\tAsset\t1");
 						Network.getInstance().RecieveMessage();
 						time = Calendar.getInstance();
-						activityLog.appendText("You bought a " + name + " at " + format.format(time.getTime()) + ".\n");
+						Network.getInstance().SendMessage("logfile");
+						String log = Network.getInstance().RecieveMessage();
+						final int LOG_ROWS =  Integer.parseInt(log);
+						for (int i=0; i<LOG_ROWS; ++i ) {
+							activityLog.appendText(Network.getInstance().RecieveMessage() + "\n");
+						}
 					}
 				
 				});
@@ -142,34 +147,72 @@ public class GameScreenController implements ControlledScreen {
 	}
 	
 	public void buttonCreationTech() {
-		Network.getInstance().SendMessage("");
+		Network.getInstance().SendMessage("techlist");
 		String rstring = Network.getInstance().RecieveMessage();
 		final int ROWS = Integer.parseInt(rstring);
 		for(int i=0; i<ROWS; ++i) {
-			Button b = new Button(Network.getInstance().RecieveMessage());
-			b.setId("buttons");
-			b.setOnMouseClicked(new EventHandler<MouseEvent>() {
-				public void handle(MouseEvent t) {
-					String name = getName(b.getText());
-					Network.getInstance().SendMessage("");
-					Network.getInstance().RecieveMessage();
-				}
-			});
-			technologiesList.getChildren().add(b);
+			if (i != 0) {
+				Button b = new Button(Network.getInstance().RecieveMessage());
+				b.setId("buttons");
+				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent t) {
+						String name = getName(b.getText());
+						Network.getInstance().SendMessage("buy\t" + name + "\tTech\t1");
+						Network.getInstance().RecieveMessage();
+						time = Calendar.getInstance();
+						Network.getInstance().SendMessage("logfile");
+						String log = Network.getInstance().RecieveMessage();
+						final int LOG_ROWS = Integer.parseInt(log);
+						for(int i=0; i<LOG_ROWS; ++i) {
+							activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
+						}
+					}
+				});
+				technologiesList.getChildren().add(b);
+			}
+			else {
+				Network.getInstance().RecieveMessage();
+			}
 		}
 	}
-	private String getName(CharSequence c)
-	{
+	
+	public void buttonCreationMarket() {
+		Network.getInstance().SendMessage("marketlist");
+		String rstring = Network.getInstance().RecieveMessage();
+		final int ROWS = Integer.parseInt(rstring);
+		for(int i=0; i<ROWS; ++i) {
+			if (i != 0) {
+				Button b = new Button(Network.getInstance().RecieveMessage());
+				b.setId("buttons");
+				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent t) {
+						String name = getName(b.getText());
+						Network.getInstance().SendMessage("buy\t" + name + "\tMarket\t1");
+						Network.getInstance().RecieveMessage();
+						time = Calendar.getInstance();
+						Network.getInstance().SendMessage("logfile");
+						String log = Network.getInstance().RecieveMessage();
+						final int LOG_ROWS = Integer.parseInt(log);
+						for(int i=0; i<LOG_ROWS; ++i) {
+							activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
+						}
+					}
+				});
+				market.getChildren().add(b);
+			}
+			else {
+				Network.getInstance().RecieveMessage();
+			}
+		}
+	}
+	
+	private String getName(CharSequence c) {
 		String t = "";
-		for(int i = 0; i < c.length(); i++)
-		{
+		for(int i = 0; i < c.length(); i++) {
 			if(c.charAt(i) == '\t')
 			break;
 			t += c.charAt(i);
 		}
-		
-		
 		return t;
 	}
-	
 }
