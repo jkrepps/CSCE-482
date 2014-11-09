@@ -1,7 +1,7 @@
 import java.util.Random;
 
 
-class Weather
+class World
 {
 	static enum weathers{
 	FAIR, CLEAR, BREEZY, SPARSE_CLOUDS, CLOUDY, RAINING, LIGHTING, COLD, HOT, HURRICANE, EARTHQUAKE, MONSOON;
@@ -32,7 +32,7 @@ class Weather
 	weathers w;
 	daytimes d;
 	
-    public Weather() { // initialization function
+    public World() { // initialization function
 	
 		int randomw = rand.nextInt(wsize);
 		w = weathers.values()[randomw];

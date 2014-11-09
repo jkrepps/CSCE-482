@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class DaoObject {
 
-	private static Connection connection = null;
+	protected static Connection connection = null;
 	
 	public static boolean initialize (String url, String username, String pass) throws Exception {
 		try {
@@ -24,7 +24,6 @@ public class DaoObject {
 			throw e;
 		}
 	}
-
 	
 	public static ResultSet executeSelect(String statement) throws DaoException {
 		ResultSet resultSet = null;
@@ -41,6 +40,14 @@ public class DaoObject {
 	public static int executeUpdate (String statement ) throws DaoException {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(statement);
+			return preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("Executing update failed with: " + e.getMessage());
+		}
+	}
+	
+	public static int executeUpdate (PreparedStatement preparedStatement) throws DaoException {
+		try {
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			throw new DaoException("Executing update failed with: " + e.getMessage());

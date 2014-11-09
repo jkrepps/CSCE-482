@@ -1,6 +1,10 @@
 package com.seniorproject.dao;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.seniorproject.game.Game;
 
 public class UserDao extends DaoObject  {
 
@@ -54,4 +58,7 @@ public class UserDao extends DaoObject  {
 			throw new DaoException("Logging in has failed with: "+ e.getMessage());
 		}
 	}
+	
+
+
 }

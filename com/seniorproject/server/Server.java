@@ -10,8 +10,9 @@ import com.seniorproject.dao.DaoObject;
 import com.seniorproject.dao.MarketDao;
 import com.seniorproject.dao.ResourceDao;
 import com.seniorproject.dao.PlayerDao;
+import com.seniorproject.dao.UserDao;
 import com.seniorproject.game.Player;
-import com.seniorproject.game.Weather;
+import com.seniorproject.game.World;
 import com.seniorproject.resource.*;
 import com.seniorproject.logger.Logger;
 
@@ -20,7 +21,7 @@ public class Server {
 static int NUMPLAYERS = 12;
 static int NUMITEMS = 10;
 static Player[] players = new Player[NUMPLAYERS]; // array of all the players who can/have connected for this game
-static Weather weather = new Weather();
+static World world = new World();
 static float startingPlayerMoney = 100.0f;
 static int playerid = 0;
 
@@ -238,11 +239,11 @@ private static Logger logger = new Logger();
 		}
 		else if(tokens[0].equals("weather"))	 
 		{
-			outputLine = weather.GetWeather();
+			outputLine = world.GetWeather();
 		}
 		else if(tokens[0].equals("sweather"))	 
 		{
-			weather.SetWeather();
+			world.SetWeather();
 			outputLine = "changed weather";
 		}
 		else									//otherwise simply repeat the input command.
@@ -292,10 +293,10 @@ private static Logger logger = new Logger();
         public void run() {	//start thread
 			while(true)
 			{
-				weather.SetDaytime();
-				weather.SetWeather();
-				System.out.println("new weather is : " + weather.GetWeather());
-				System.out.println("new daytime is : " + weather.GetDaytime());
+				world.SetDaytime();
+				world.SetWeather();
+				System.out.println("new weather is : " + world.GetWeather());
+				System.out.println("new daytime is : " + world.GetDaytime());
 				try
 				{
 				TimeUnit.MINUTES.sleep(30);

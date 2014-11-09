@@ -8,6 +8,38 @@ import java.util.List;
 import com.seniorproject.resource.*;
 
 public class PlayerDao extends DaoObject {
+	
+	// Money	
+	public static int setMoney(String playername, float money) throws DaoException {
+		String updateQuery = "UPDATE Player SET money=" + money + " WHERE name='" + playername +"';";
+		int retval = -1;
+		
+		try {
+			retval = executeUpdate(updateQuery);
+		} catch (Exception e) {
+			throw new DaoException("Call to set Player money failed with:" + e.getMessage());
+		}
+		
+		return retval; 
+		
+	}
+	
+	public static float getMoney(String playername) throws DaoException {
+		String selectQuery = "SELECT money FROM Player where name='" + playername +"';";
+		float money = -1;
+		
+		try { 
+			ResultSet resultSet = executeSelect(selectQuery);
+			
+			resultSet.next();
+			money = resultSet.getFloat(1);
+			
+		} catch (Exception e) {
+			throw new DaoException("Call to get Player money failed with:" + e.getMessage());
+		}
+		
+		return money;
+	}
 
 	// Workers
 	public static List<Resource> getWorkers(String playerName) throws DaoException {

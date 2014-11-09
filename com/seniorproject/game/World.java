@@ -2,7 +2,7 @@ package com.seniorproject.game;
 import java.util.Random;
 
 
-public class Weather
+public class World
 {
 	private enum weathers{
 	FAIR, CLEAR, BREEZY, SPARSE_CLOUDS, CLOUDY, COLD, HOT, RAINING, LIGHTING, HURRICANE, EARTHQUAKE, MONSOON;
@@ -37,7 +37,7 @@ public class Weather
 	private weathers w = weathers.CLEAR;
 	private daytimes d = daytimes.MORNING;
 	
-    public Weather() { // initialization function
+    public World() { // initialization function
 	
 		int randomw = rand.nextInt(wsize);
 		int randomd = rand.nextInt(dsize);
