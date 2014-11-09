@@ -64,10 +64,8 @@ public class Resource {
 	public void setResourceId(int resourceId) { this.resourceId = resourceId; }
 	public void setResourceIcon(int resourceIcon) { this.resourceIcon = resourceIcon; }
 
-	//using String resourceClass
-	//or ResourceType resourceType
 	boolean isAsset() {
-		if (resourceType = ResourceType.ASSET && resourceClass == "asset") {
+		if (resourceType == ResourceType.ASSET) {
 			return true;
 		}
 
@@ -75,7 +73,7 @@ public class Resource {
 	}
 
 	boolean isInfra() {
-		if (resourceType = ResourceType.INFRA && resourceClass == "infra") {
+		if (resourceType == ResourceType.INFRA) {
 			return true;
 		}
 
@@ -83,14 +81,12 @@ public class Resource {
 	}
 
 	boolean isWorker() {
-		if (resourceType = ResourceType.WORKER && resourceClass == "worker") {
+		if (resourceType == ResourceType.WORKER) {
 			return true;
 		}
 
 		else return false;
 	}
-
-
 
 
 	/*Pretty complicated parsing function, shouldnt have much use when we move data storage to a more appropriate medium, this shouldn't cause a problem and I can explain if needed.*/
