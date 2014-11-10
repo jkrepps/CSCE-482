@@ -94,6 +94,7 @@ public class GameScreenController implements ControlledScreen {
 					String message = chat.getText();
 					chatWindow.setVisible(true);
 					chatWindow.appendText("Player 1:" + message + '\n');
+					updateHUD();
 				}
 			}
 		});
@@ -106,6 +107,7 @@ public class GameScreenController implements ControlledScreen {
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(false);
 				buttonCreationMarket();
+				updateHUD();
 			}
 		});
 		
@@ -117,6 +119,7 @@ public class GameScreenController implements ControlledScreen {
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(false);
 				buttonCreationInvent();
+				updateHUD();
 			}
 		});
 		technology.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -127,6 +130,7 @@ public class GameScreenController implements ControlledScreen {
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(false);
 				buttonCreationTech();
+				updateHUD();
 			}
 		});
 		inventory.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -137,6 +141,7 @@ public class GameScreenController implements ControlledScreen {
 				inventoryPane.setVisible(true);
 				playerMarketPane.setVisible(false);
 				buttonCreationInv();
+				updateHUD();
 			}
 		});
 		playerMarket.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -147,6 +152,7 @@ public class GameScreenController implements ControlledScreen {
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(true);
 				buttonCreationPlayerMarket();
+				updateHUD();
 			}
 		});
 	}
@@ -159,6 +165,16 @@ public class GameScreenController implements ControlledScreen {
 	// Sets the parent screen
 	public void setParentScreen(ScreensController screenPage) {
 		myController = screenPage;	
+	}
+	
+	// Updates the Heads Up Display's values
+	public void updateHUD() {
+		Network.getInstance().SendMessage("money");
+		String moneyS = Network.getInstance().RecieveMessage();
+		money.setText(moneyS + 'g');
+		Network.getInstance().SendMessage("weather");
+		String weatherS = Network.getInstance().RecieveMessage();
+		weather.setText(weatherS);
 	}
 	
 	// Dynamically acquires the buttons for the inventions available to the player
@@ -175,10 +191,7 @@ public class GameScreenController implements ControlledScreen {
 						String name = getName(b.getText());
 						Network.getInstance().SendMessage("buy\t" + name + "\tAsset\t1");
 						Network.getInstance().RecieveMessage();
-						Network.getInstance().SendMessage("money");
-						String moneyS = Network.getInstance().RecieveMessage();
-						money.setText(moneyS);
-						time = Calendar.getInstance();
+						updateHUD();
 						Network.getInstance().SendMessage("logfile");
 						String log = Network.getInstance().RecieveMessage();
 						final int LOG_ROWS =  Integer.parseInt(log);
@@ -210,10 +223,7 @@ public class GameScreenController implements ControlledScreen {
 						String name = getName(b.getText());
 						Network.getInstance().SendMessage("buy\t" + name + "\tTech\t1");
 						Network.getInstance().RecieveMessage();
-						Network.getInstance().SendMessage("money");
-						String moneyS = Network.getInstance().RecieveMessage();
-						money.setText(moneyS);
-						time = Calendar.getInstance();
+						updateHUD();
 						Network.getInstance().SendMessage("logfile");
 						String log = Network.getInstance().RecieveMessage();
 						final int LOG_ROWS = Integer.parseInt(log);
@@ -244,10 +254,7 @@ public class GameScreenController implements ControlledScreen {
 						String name = getName(b.getText());
 						Network.getInstance().SendMessage("buy\t" + name + "\tMarket\t1");
 						Network.getInstance().RecieveMessage();
-						Network.getInstance().SendMessage("money");
-						String moneyS = Network.getInstance().RecieveMessage();
-						money.setText(moneyS);
-						time = Calendar.getInstance();
+						updateHUD();
 						Network.getInstance().SendMessage("logfile");
 						String log = Network.getInstance().RecieveMessage();
 						final int LOG_ROWS = Integer.parseInt(log);
@@ -281,6 +288,7 @@ public class GameScreenController implements ControlledScreen {
 							public void handle(MouseEvent t) {
 								Network.getInstance().SendMessage("use\t" + name + "\tInv" );
 								Network.getInstance().RecieveMessage();
+								updateHUD();
 								Network.getInstance().SendMessage("logfile");
 								String log = Network.getInstance().RecieveMessage();
 								final int LOG_ROWS = Integer.parseInt(log);
@@ -293,6 +301,7 @@ public class GameScreenController implements ControlledScreen {
 							public void handle(MouseEvent t) {
 								Network.getInstance().SendMessage("sell\t" + name + "\tInv\t1");
 								Network.getInstance().RecieveMessage();
+								updateHUD();
 								Network.getInstance().SendMessage("logfile");
 								String log = Network.getInstance().RecieveMessage();
 								final int LOG_ROWS = Integer.parseInt(log);
@@ -326,9 +335,7 @@ public class GameScreenController implements ControlledScreen {
 						Network.getInstance().SendMessage("buy\t" + name + "\tMarket\t1");
 						Network.getInstance().RecieveMessage();
 						Network.getInstance().SendMessage("money");
-						String moneyS = Network.getInstance().RecieveMessage();
-						money.setText(moneyS);
-						time = Calendar.getInstance();
+						updateHUD();
 						Network.getInstance().SendMessage("logfile");
 						String log = Network.getInstance().RecieveMessage();
 						final int LOG_ROWS = Integer.parseInt(log);
