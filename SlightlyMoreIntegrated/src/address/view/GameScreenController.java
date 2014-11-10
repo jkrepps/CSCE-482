@@ -92,8 +92,13 @@ public class GameScreenController implements ControlledScreen {
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
 					String message = chat.getText();
-					chatWindow.setVisible(true);
-					chatWindow.appendText("Player 1:" + message + '\n');
+					Network.getInstance().SendMessage("chat\t" + message);
+					Network.getInstance().RecieveMessage();
+					Network.getInstance().SendMessage("getchat");
+					final int CHAT_ROWS = Integer.parseInt(Network.getInstance().RecieveMessage());
+					for(int i=0; i<CHAT_ROWS; ++i) {
+						chatWindow.appendText(Network.getInstance().RecieveMessage() + '\n');
+					}
 					updateHUD();
 				}
 			}
