@@ -38,7 +38,7 @@ public class GameScreenController implements ControlledScreen {
 	@FXML
 	private TextArea activityLog;
 	@FXML
-	private Text money;
+	private Text money = new Text("100g");
 	@FXML
 	private Text incomePer;
 	@FXML
@@ -80,7 +80,7 @@ public class GameScreenController implements ControlledScreen {
 	/*			FXML FUNCTIONS			  */
 	/*------------------------------------*/
 	@FXML
-	public void initialize() {
+	public void initialize() {	
 		// When enter is hit send the textfield of chat to the chat window.
 		chat.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent k) {
@@ -169,6 +169,9 @@ public class GameScreenController implements ControlledScreen {
 						String name = getName(b.getText());
 						Network.getInstance().SendMessage("buy\t" + name + "\tAsset\t1");
 						Network.getInstance().RecieveMessage();
+						Network.getInstance().SendMessage("money");
+						String moneyS = Network.getInstance().RecieveMessage();
+						money.setText(moneyS);
 						time = Calendar.getInstance();
 						Network.getInstance().SendMessage("logfile");
 						String log = Network.getInstance().RecieveMessage();
@@ -201,6 +204,9 @@ public class GameScreenController implements ControlledScreen {
 						String name = getName(b.getText());
 						Network.getInstance().SendMessage("buy\t" + name + "\tTech\t1");
 						Network.getInstance().RecieveMessage();
+						Network.getInstance().SendMessage("money");
+						String moneyS = Network.getInstance().RecieveMessage();
+						money.setText(moneyS);
 						time = Calendar.getInstance();
 						Network.getInstance().SendMessage("logfile");
 						String log = Network.getInstance().RecieveMessage();
@@ -232,6 +238,9 @@ public class GameScreenController implements ControlledScreen {
 						String name = getName(b.getText());
 						Network.getInstance().SendMessage("buy\t" + name + "\tMarket\t1");
 						Network.getInstance().RecieveMessage();
+						Network.getInstance().SendMessage("money");
+						String moneyS = Network.getInstance().RecieveMessage();
+						money.setText(moneyS);
 						time = Calendar.getInstance();
 						Network.getInstance().SendMessage("logfile");
 						String log = Network.getInstance().RecieveMessage();
@@ -285,6 +294,9 @@ public class GameScreenController implements ControlledScreen {
 						String name = getName(b.getText());
 						Network.getInstance().SendMessage("buy\t" + name + "\tMarket\t1");
 						Network.getInstance().RecieveMessage();
+						Network.getInstance().SendMessage("money");
+						String moneyS = Network.getInstance().RecieveMessage();
+						money.setText(moneyS);
 						time = Calendar.getInstance();
 						Network.getInstance().SendMessage("logfile");
 						String log = Network.getInstance().RecieveMessage();

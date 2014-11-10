@@ -9,28 +9,28 @@
    <top>
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Text fx:id="money" fill="#fffefe" strokeType="OUTSIDE" strokeWidth="0.0" text="\$2,000">
+            <Text fx:id="money" fill="#fffefe" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font name="Algerian" size="15.0" />
                </font>
             </Text>
             <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" styleClass="goldPane" />
-            <Text fx:id="incomePer" fill="#f8f0f0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0/minute">
+            <Text fx:id="incomePer" fill="#f8f0f0" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font name="Algerian" size="15.0" />
                </font>
             </Text>
-            <Text fx:id="weather" fill="#eeeaea" strokeType="OUTSIDE" strokeWidth="0.0" text="Sunny">
+            <Text fx:id="weather" fill="#eeeaea" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font name="Algerian" size="15.0" />
                </font>
             </Text>
-            <Text fx:id="playersRemaining" fill="#f5f3f3" strokeType="OUTSIDE" strokeWidth="0.0" text="3 Players Remaining">
+            <Text fx:id="playersRemaining" fill="#f5f3f3" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font name="Algerian" size="15.0" />
                </font>
             </Text>
-            <Text fx:id="marketingVal" fill="#f8f5f5" strokeType="OUTSIDE" strokeWidth="0.0" text="103.4">
+            <Text fx:id="marketingVal" fill="#f8f5f5" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font name="Algerian" size="15.0" />
                </font>
