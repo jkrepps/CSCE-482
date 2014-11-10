@@ -32,6 +32,8 @@ public class GameScreenController implements ControlledScreen {
 	@FXML
 	private VBox playerMarketList;
 	@FXML
+	private VBox useOrSell;
+	@FXML
 	private TextField chat;
 	@FXML
 	private TextArea chatWindow;
@@ -57,6 +59,10 @@ public class GameScreenController implements ControlledScreen {
 	private Button inventory;
 	@FXML
 	private Button playerMarket;
+	@FXML
+	private Button use;
+	@FXML
+	private Button sell;
 	@FXML
 	private ScrollPane playerMarketPane;
 	@FXML
@@ -269,7 +275,32 @@ public class GameScreenController implements ControlledScreen {
 				b.setId("buttons");
 				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent t) {
-						// Add Handle for sell and use inventory items here
+						String name = getName(b.getText());
+						useOrSell.setVisible(true);
+						use.setOnMouseClicked(new EventHandler<MouseEvent>() {
+							public void handle(MouseEvent t) {
+								Network.getInstance().SendMessage("use\t" + name + "\tInv" );
+								Network.getInstance().RecieveMessage();
+								Network.getInstance().SendMessage("logfile");
+								String log = Network.getInstance().RecieveMessage();
+								final int LOG_ROWS = Integer.parseInt(log);
+								for(int i=0; i<LOG_ROWS; ++i) {
+									activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
+								}
+							}
+						});
+						sell.setOnMouseClicked(new EventHandler<MouseEvent>() {
+							public void handle(MouseEvent t) {
+								Network.getInstance().SendMessage("sell\t" + name + "\tInv\t1");
+								Network.getInstance().RecieveMessage();
+								Network.getInstance().SendMessage("logfile");
+								String log = Network.getInstance().RecieveMessage();
+								final int LOG_ROWS = Integer.parseInt(log);
+								for(int i=0; i<LOG_ROWS; ++i) {
+									activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
+								}
+							}
+						});
 					}
 				});
 				inventoryList.getChildren().add(b);
