@@ -266,6 +266,10 @@ private static Logger logger = new Logger();
 		{
 			outputLine = world.GetWeather();
 		}
+		else if(tokens[0].equals("daytime"))	 
+		{
+			outputLine = world.GetDaytime();
+		}
 		else if(tokens[0].equals("sweather"))	 
 		{
 			world.SetWeather();
