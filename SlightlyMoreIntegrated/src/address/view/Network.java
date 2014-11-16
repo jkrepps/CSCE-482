@@ -31,6 +31,9 @@ public class Network
 		serverIp = sIp;
 		PortNo = pNo;
     }
+    public String getUSer() {
+    	return user;
+    }
     public void SetNetInfo(String u, String p, String sIp, int pNo)
     {
     	user = u;

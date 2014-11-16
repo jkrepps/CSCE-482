@@ -11,6 +11,7 @@ public class GameData {
 	public void setGames() {
 		Network.getInstance().SendMessage("gamelist");
 		String rstring = Network.getInstance().RecieveMessage();
+		System.out.println(rstring);
 		final int GAMES_ROWS = Integer.parseInt(rstring);
 		for(int i=0; i<GAMES_ROWS; ++i) {
 			Button b = new Button(Network.getInstance().RecieveMessage());

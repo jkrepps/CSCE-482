@@ -3,6 +3,7 @@ package address.view;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
@@ -20,6 +21,14 @@ public class CreateController implements ControlledScreen {
 	private Button submit;
 	@FXML
 	private Button back;
+	@FXML
+	private TextField name;
+	@FXML
+	private TextField playersNum;
+	@FXML
+	private TextField length;
+	@FXML
+	private TextField password;
 	
 	java.net.URL buttonSound = getClass().getResource("./Sounds/buttons.aiff");
 	java.net.URL buttonSound2 = getClass().getResource("./Sounds/buttonSound.mp3");
