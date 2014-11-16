@@ -87,6 +87,7 @@ public class OpeningController implements ControlledScreen {
 			public void handle(MouseEvent t) {
 				buttonClick.setVolume(.4);
 				buttonClick.play();
+				GameData.getInstance().setGames();
 				myController.setScreen(MainApplication.JOIN_SCREEN);
 			}
 		});

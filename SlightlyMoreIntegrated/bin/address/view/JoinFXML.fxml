@@ -14,7 +14,7 @@
       </Text>
    </top>
    <right>
-      <Button fx:id="join" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Join Game" BorderPane.alignment="CENTER_LEFT" />
+      <Button fx:id="findGame" mnemonicParsing="false" onMouseClicked="#findGame" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Find Games" BorderPane.alignment="CENTER_LEFT" />
    </right>
    <left>
       <Button fx:id="back" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Back" BorderPane.alignment="CENTER_RIGHT" />
@@ -22,7 +22,7 @@
    <center>
       <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" pannable="true" prefHeight="150.0" prefWidth="400.0" styleClass="game_Scroll" vmax="100.0" BorderPane.alignment="CENTER">
          <content>
-            <Button alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="400.0" styleClass="game_buttons" text="Joey's Game         3/4             Not Passworded" textAlignment="CENTER" textFill="#eee5e5" />
+            <VBox fx:id="gameBox" prefHeight="150.0" prefWidth="399.0" />
          </content>
       </ScrollPane>
    </center>

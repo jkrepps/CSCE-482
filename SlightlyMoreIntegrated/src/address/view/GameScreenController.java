@@ -2,6 +2,7 @@ package address.view;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,8 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class GameScreenController implements ControlledScreen {
 	/*------------------------------------*/
@@ -226,7 +227,7 @@ public class GameScreenController implements ControlledScreen {
 				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent t) {
 						String name = getName(b.getText());
-						Network.getInstance().SendMessage("buy\t" + name + "\tTech\t1");
+						Network.getInstance().SendMessage("buyt\t" + name);
 						Network.getInstance().RecieveMessage();
 						updateHUD();
 						Network.getInstance().SendMessage("logfile");

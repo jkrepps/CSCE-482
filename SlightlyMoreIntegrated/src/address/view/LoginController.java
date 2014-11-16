@@ -3,7 +3,6 @@ package address.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import address.MainApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -12,6 +11,7 @@ import javafx.scene.effect.BlurType;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import address.MainApplication;
 
 public class LoginController implements Initializable, ControlledScreen {
 	/*------------------*/
@@ -23,6 +23,7 @@ public class LoginController implements Initializable, ControlledScreen {
 	private TextField username;
 	@FXML
 	private TextField password;
+	
 	private ScreensController myController;
 	java.net.URL buttonSound = getClass().getResource("./Sounds/buttons.aiff");
 	java.net.URL buttonSound2 = getClass().getResource("./Sounds/buttonSound.mp3");

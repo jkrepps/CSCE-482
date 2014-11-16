@@ -1,11 +1,14 @@
 package address.view;
 
+import java.util.Vector;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import address.MainApplication;
@@ -19,10 +22,13 @@ public class JoinController implements ControlledScreen {
 	private AudioClip buttonDrag = new AudioClip(buttonSound.toString());
 	private AudioClip buttonClick = new AudioClip(buttonSound2.toString());
 	private ScreensController myController;
+	
 	@FXML
-	private Button join;
+	private VBox gameBox;
 	@FXML
 	private Button back;
+	@FXML
+	private Button findGame;
 	
 	/*-------------------------------------------*/
 	/*		CONSTRUCTORS						 */
@@ -35,29 +41,29 @@ public class JoinController implements ControlledScreen {
 	@FXML
 	public void initialize() {
 		// When mouse dragged over button play sound and change effect
-		join.setOnMouseEntered(new EventHandler<MouseEvent>() {
+		findGame.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				join.setEffect(new InnerShadow(BlurType.GAUSSIAN, Color.BLACK, 10, .7, 5, 5));
+				findGame.setEffect(new InnerShadow(BlurType.GAUSSIAN, Color.BLACK, 10, .7, 5, 5));
 				buttonDrag.setVolume(.3);
 				buttonDrag.play();
 			}
 		});
 		
 		// When mouse dragged off button clear effect
-		join.setOnMouseExited(new EventHandler<MouseEvent>() {
+		findGame.setOnMouseExited(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				join.setEffect(null);
+				findGame.setEffect(null);
 			}
 		});
 		
-		// When mouse clicked go to waiting screen
+		/* When mouse clicked go to waiting screen
 		join.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
 				buttonClick.setVolume(.7);
 				buttonClick.play();
 				myController.setScreen(MainApplication.WAITING_SCREEN);
 			}
-		});
+		});*/
 		
 		// When mouse dragged over button play sound and change effect
 		back.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -94,4 +100,19 @@ public class JoinController implements ControlledScreen {
 	public void setParentScreen(ScreensController screenPage) {
 		myController = screenPage;
 	}
+	
+	@FXML
+	public void findGame() {
+		GameData.getInstance().setGames();
+		Vector<Button> games = GameData.getInstance().getGames();
+		for(int i=0; i<games.size(); ++i) {
+			games.elementAt(i).setOnMouseClicked(new EventHandler<MouseEvent> (){
+				public void handle(MouseEvent t) {
+					
+				}
+			});
+		}
+		gameBox.getChildren().addAll(games);
+	}
+	
 }
