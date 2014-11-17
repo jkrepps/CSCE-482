@@ -312,9 +312,9 @@ private static Logger logger = new Logger();
 		}
 		else if (tokens[0].equals("buy"))
 		{
-			//1 = resource name, 2 = resource class, 3 = resource cost 
-			System.out.println(p.getPlayerId());
-			if(p.buyResource(tokens[1], tokens[2], Float.parseFloat(tokens[3])))
+			//1 = resource name 
+			//System.out.println(p.getPlayerId());
+			if(p.buyResource(tokens[1]))
 				outputLine += "purchased "+ tokens[1];
 			else
 				outputLine += "not enough money";
@@ -339,10 +339,10 @@ private static Logger logger = new Logger();
 		else if (tokens[0].equals("sell"))
 		{
 			//1 = resource name, 2 = resource class, 3 = resource cost
-			if(p.sellResource(tokens[1], tokens[2], Float.parseFloat(tokens[3])))
+			if(p.sellResource(tokens[1]))
 				outputLine += "sold " + tokens[1];
 			else
-				outputLine += "how can selling be real if our items aren't?";
+				outputLine += "Item not in player inventory";
 			
 		}
 

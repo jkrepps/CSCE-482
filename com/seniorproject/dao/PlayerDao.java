@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Boolean;
 
 import com.seniorproject.resource.*;
 import com.seniorproject.game.Player;
@@ -175,7 +176,7 @@ public class PlayerDao extends DaoObject {
 		}
 	}
 	
-	public List<Resource> getResources (int playerId) throws DaoException {
+	public List<Resource> getResources(int playerId) throws DaoException {
 		
 		String selectQuery = "SELECT * FROM PlayerResource WHERE player_id=" + playerId +";";
 		List<Resource> returnList = new ArrayList<Resource>();
@@ -210,6 +211,26 @@ public class PlayerDao extends DaoObject {
 		} catch (Exception e){
 			throw new DaoException ("Call to get Net Income failed with: " + e.getMessage());
 		}
+	}
+
+	public boolean isPlayerResource(int playerId, String resourceName) throws DaoException {
+		
+		String selectQuery = "SELECT * FROM PlayerResource WHERE player_id=" + playerId +" AND resourceName=\"" + resourceName + "\";";
+		List<Resource> returnList = new ArrayList<Resource>();
+		
+		try {
+			ResultSet resultSet = executeSelect(selectQuery);
+			
+			if(resultSet.next())
+			{
+				return true;
+			}
+		
+		}catch (Exception e) {
+			throw new DaoException("Call to get check if player owns resource failed with: " + e.getMessage());
+		}
+		
+		return false;
 	}
 	
 }
