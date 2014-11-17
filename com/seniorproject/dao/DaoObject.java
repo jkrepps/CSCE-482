@@ -32,6 +32,8 @@ public class DaoObject {
 	
 	public ResultSet executeSelect(String statement) throws DaoException {
 		ResultSet resultSet = null;
+		if (connection == null)
+		System.out.println("Execute Select connection is null\n");
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(statement);
 			resultSet = preparedStatement.executeQuery();
@@ -43,7 +45,10 @@ public class DaoObject {
 	}
 	
 	public int executeUpdate (String statement ) throws DaoException {
+		if (connection == null)
+		System.out.println("Execute Update connection is null\n");
 		try {
+			System.out.println(statement);
 			PreparedStatement preparedStatement = connection.prepareStatement(statement);
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {

@@ -9,19 +9,23 @@ import java.util.List;
 import com.seniorproject.resource.*;
 import com.seniorproject.game.Player;
 
+
 public class PlayerDao extends DaoObject {
-	
+
+//Connection connection;	
+
 	public PlayerDao(Connection connection) {
 		this.connection = connection;
 	}
 	
 	// Create
 	public int createPlayer(Player player, String username, int gameId) throws DaoException {
-		String insertQuery = "INSERT INTO Player VALUES (0,'" + player.getPlayerName() + "','" + username +"',"
+		String insertQuery = "INSERT INTO Player VALUES (0,'" + username + "','" + username +"',"
 			+ gameId + "," + player.getPlayerMoney() + "," + player.getPlayerMarketing() + ");";
 		
 		System.out.println(insertQuery);
 			//TODO ADD PLAYER += 1
+		UpdateGamePlayersIncrement(gameId);
 			
 		int retval = -1;
 		
@@ -34,11 +38,10 @@ public class PlayerDao extends DaoObject {
 		return retval;
 	
 	}
-	
 	public Player checkPlayer(int gameId, String username) throws DaoException {
 		
 		String selectQuery = "SELECT * FROM Player WHERE user='" + username + "' AND game_id=" + gameId +";";
-		Player player = new Player(0, "noname", 100.0f, 0.67);
+		Player player = new Player(0, "noname", 100.0f, 0.67, connection);
 		GameDao gameDao = new GameDao(this.getConnection());
 		
 		try {
@@ -53,16 +56,32 @@ public class PlayerDao extends DaoObject {
 				}
 				else
 					return null;
-			
 			}
 			else 
-				player = new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getFloat(5), resultSet.getDouble(6));
+				player = new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getFloat(5), resultSet.getDouble(6), connection);
 		} catch ( Exception e) {
 			e.printStackTrace();
 		}
 		return player;
 	}
-
+	/*public Player getId(int gameId, String username) throws DaoException {
+		
+		String selectQuery = "SELECT * FROM Player WHERE user='" + username + "' AND game_id=" + gameId +";";
+		GameDao gameDao = new GameDao(this.getConnection());
+		
+		try {
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			
+			if(!resultSet.next()) { 
+				return null;
+			}
+			else 
+				player = new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getFloat(5), resultSet.getDouble(6), connection);
+		} catch ( Exception e) {
+			e.printStackTrace();
+		}
+		return player;
+	}*/
 	// Money	
 	
 	public int updatePlayerMoney(String playername, float money) throws DaoException {
@@ -79,8 +98,8 @@ public class PlayerDao extends DaoObject {
 		
 	}
 	
-	public int setPlayerMoney(String playername, float money) throws DaoException {
-		String updateQuery = "UPDATE Player SET money=" + money + " WHERE name='" + playername +"';";
+	public int setPlayerMoney(String playername, int playerId, float money) throws DaoException {
+		String updateQuery = "UPDATE Player SET money=" + money + " WHERE name='" + playername +"' AND id=" + playerId +";";
 		int retval = -1;
 		
 		try {
@@ -93,8 +112,8 @@ public class PlayerDao extends DaoObject {
 		
 	}
 	
-	public float getPlayerMoney(String playername) throws DaoException {
-		String selectQuery = "SELECT money FROM Player where name='" + playername +"';";
+	public float getPlayerMoney(String playername, int playerId) throws DaoException {
+		String selectQuery = "SELECT money FROM Player where name='" + playername +"' AND id=" + playerId +";";
 		float money = -1;
 		
 		try { 
@@ -109,7 +128,20 @@ public class PlayerDao extends DaoObject {
 		
 		return money;
 	}
-	
+	//game players
+	public int UpdateGamePlayersIncrement(int gameId) throws DaoException 
+	{
+		String updateQuery = "UPDATE Game SET current_players=current_players+" + 1 + " WHERE id=" + gameId +";";
+		int retval = -1;
+		
+		try {
+			retval = this.executeUpdate(updateQuery);
+		} catch (Exception e) {
+			throw new DaoException("Call to update current players in game "+ gameId+ " failed with:" + e.getMessage());
+		}
+		
+		return retval; 
+	}
 	// returns resourceID
 	public int addResource (Resource resource, int playerId) throws DaoException {
 		

@@ -19,6 +19,7 @@ import com.seniorproject.game.Game;
 import com.seniorproject.game.Player;
 import com.seniorproject.game.World;
 import com.seniorproject.logger.Logger;
+import com.seniorproject.resource.Resource;
 
 
 public class Server {
@@ -34,7 +35,7 @@ static GameDao gameDao;
 static DaoObject dao;
 
 
-private static ResourceDao resourceDao = new ResourceDao();
+private static ResourceDao resourceDao;// = new ResourceDao(dao.getConnection());
 private static Logger logger = new Logger();
 
 	public static int initializeGame(Game game, DaoObject dao) throws Exception
@@ -93,6 +94,7 @@ private static Logger logger = new Logger();
 		login = new Login(dao);
 		System.out.println("After login \n");
 		playerDao = new PlayerDao(dao.getConnection());
+		resourceDao = new ResourceDao(dao.getConnection());
 		gameDao = new GameDao(dao.getConnection());
 		
 		
@@ -133,7 +135,7 @@ private static Logger logger = new Logger();
 					new InputStreamReader(socket.getInputStream())); 	// input stream
 				
 				
-				Player p = new Player(0, "noname", startingPlayerMoney, 0.67); // create a new player Object that will have credentials determined later
+				Player p = new Player(0, "noname", startingPlayerMoney, 0.67, dao.getConnection()); // create a new player Object that will have credentials determined later
 			
 			
 				String inputLine, outputLine;
@@ -189,14 +191,14 @@ private static Logger logger = new Logger();
 				p.setPlayerName(tokens[1]);
 				if (returnMessage == "Relog") {
 					outputLine = "Successfully relogged: " + tokens[1];
-					p.setPlayerMoney(playerDao.getPlayerMoney(tokens[1]));
+					//p.setPlayerMoney(playerDao.getPlayerMoney(tokens[1]));
 				}
 				else if (returnMessage == "NewUser"){
 					outputLine = "Welcome new user: " + tokens[1];
 					p.setPlayerId(playerid);
 					try {
 						// TODO Add a reasonable user name and game id
-						playerDao.createPlayer(new Player(0,p.getPlayerName(), 1000f, 0.6), p.getPlayerName(), 1);
+						playerDao.createPlayer(new Player(0,p.getPlayerName(), 1000f, 0.6, dao.getConnection()), p.getPlayerName(), 1);
 					} catch (Exception e) {
 						System.err.println(e.getMessage());
 					}			
@@ -268,9 +270,11 @@ private static Logger logger = new Logger();
 		{
 			int gameId = Integer.parseInt(tokens[1]);
 			String username = tokens[2];
-			PlayerDao a= new PlayerDao(dao.getConnection());
-			Player ptemp = a.checkPlayer(gameId, username);
-			p = ptemp;
+			Player temp = playerDao.checkPlayer(gameId, username);
+			p.copyPlayer(temp);
+			playerDao.setPlayerMoney( username, p.getPlayerId(), playerDao.getPlayerMoney(username,p.getPlayerId()) );
+			p.setPlayerMoney( playerDao.getPlayerMoney( username,p.getPlayerId()) );
+			System.out.println(p.getPlayerId());
 			
 			if (p == null)
 				outputLine += "failed";
@@ -290,7 +294,9 @@ private static Logger logger = new Logger();
 		else if(tokens[0].equals("itemlist"))	 //itemlist = show a list of all items
 		{
 			int numberItems = 0;
+			List<Resource> list;
 			try {
+				list = resourceDao.getResourceList();
 				numberItems = resourceDao.getResourceList().size();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -307,12 +313,11 @@ private static Logger logger = new Logger();
 		else if (tokens[0].equals("buy"))
 		{
 			//1 = resource name, 2 = resource class, 3 = resource cost 
+			System.out.println(p.getPlayerId());
 			if(p.buyResource(tokens[1], tokens[2], Float.parseFloat(tokens[3])))
 				outputLine += "purchased "+ tokens[1];
 			else
 				outputLine += "not enough money";
-			
-			
 		}
 		else if (tokens[0].equals("getResources"))
 		{

@@ -1,5 +1,6 @@
 package com.seniorproject.game;
 
+import java.sql.Connection;
 import com.seniorproject.dao.DaoException;
 import com.seniorproject.dao.DaoObject;
 import com.seniorproject.dao.PlayerDao;
@@ -31,14 +32,20 @@ public class Player
  	Resource[] inventory= new Resource[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
     Random rand = new Random();
 
-    public Player(int playerId, String playerName, float playerMoney, Double playerMarketing) { // initialization function
+    public Player(int playerId, String playerName, float playerMoney, Double playerMarketing, Connection connection) { // initialization function
 		this.playerId = playerId;
         this.playerMoney = playerMoney;
 		this.playerName = playerName;
 		this.playerMarketing = playerMarketing;
+		playerDao = new PlayerDao(connection);
     }
    
-
+	public void copyPlayer(Player p) { // initialization function
+		this.playerId = p.playerId;
+        this.playerMoney = p.playerMoney;
+		this.playerName = p.playerName;
+		this.playerMarketing = p.playerMarketing;
+    }
 
 
 	/* Getters and Setters */
@@ -63,8 +70,10 @@ public class Player
 				System.out.println("new purchase");
 				break;
 			}
-
+		if(playerDao == null)
+		System.out.println("dao is null in add Resource - player\n");
 		//add to inventory database
+		System.out.println(playerId);
 		playerDao.addResource(resource, playerId);
 
 		//automatically generate
@@ -105,8 +114,10 @@ public class Player
 		//subtract gold (price of resource)
 		if(playerMoney - resource.getResourcePrice() >= 0) {
 			playerMoney = playerMoney - resource.getResourcePrice();
+		if(playerDao == null)
+		System.out.println("dao is null in player\n");
 			try{
-				playerDao.setPlayerMoney(playerName,playerMoney);
+				playerDao.setPlayerMoney(playerName,playerId,playerMoney);
 			}catch (Exception e) {
 				System.err.println(e.getMessage());
 			}
@@ -114,7 +125,8 @@ public class Player
 		else return false; // if you dont have enough money then dont do anything else
 	
 		//add to inventory (add to database!)
-		this.addResource(resource);
+		System.out.println(playerId);
+		addResource(resource);
 		
 		//publish to activity log
 		try {
@@ -136,7 +148,7 @@ public class Player
 		//figure out how to make market work
 		playerMoney = playerMoney + resource.getResourcePrice();
 		try{
-			playerDao.setPlayerMoney(playerName, playerMoney);
+			playerDao.setPlayerMoney(playerName, playerId, playerMoney);
 		}catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
