@@ -4,6 +4,7 @@ import java.sql.Connection;
 import com.seniorproject.dao.DaoException;
 import com.seniorproject.dao.DaoObject;
 import com.seniorproject.dao.PlayerDao;
+import com.seniorproject.dao.ResourceDao;
 import com.seniorproject.resource.Resource;
 import com.seniorproject.logger.Logger;
 
@@ -25,10 +26,12 @@ public class Player
     private int playerId;
 	private String password;
     private PlayerDao playerDao;
+	private ResourceDao resourceDao;
     private String log;
     private Logger logger = new Logger();
 	private int resourceID = 0;
 
+	//ResourceDao resourceDao = new ResourceDao();
  	Resource[] inventory= new Resource[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
     Random rand = new Random();
 
@@ -38,6 +41,7 @@ public class Player
 		this.playerName = playerName;
 		this.playerMarketing = playerMarketing;
 		playerDao = new PlayerDao(connection);
+		resourceDao = new ResourceDao(connection);
     }
    
 	public void copyPlayer(Player p) { // initialization function
@@ -108,12 +112,15 @@ public class Player
 
 	//need to add a playerId
 
-    public boolean buyResource( String resourceName, String resourceClass, Float resourceCost) throws DaoException //for right now returns int, in future could be different
+    public boolean buyResource( String resourceName) throws DaoException //for right now returns int, in future could be different
 	{
-		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
+		String resourceType = resourceDao.getResourceType(resourceName).toString();
+		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
+
+		Resource resource = new Resource(resourceName, resourceType, resourcePrice);
 		//subtract gold (price of resource)
-		if(playerMoney - resource.getResourcePrice() >= 0) {
-			playerMoney = playerMoney - resource.getResourcePrice();
+		if(playerMoney - resourcePrice >= 0) {
+			playerMoney = playerMoney - resourcePrice;
 		if(playerDao == null)
 		System.out.println("dao is null in player\n");
 			try{
@@ -141,12 +148,15 @@ public class Player
 	//are we doing this?
 	//need to add a playerId table
 
-	public boolean sellResource( String resourceName, String resourceClass, Float resourceCost) throws DaoException
+	public boolean sellResource( String resourceName) throws DaoException
 	{
-		Resource resource = new Resource(resourceName, resourceClass, resourceCost);
+		String resourceType = resourceDao.getResourceType(resourceName).toString();
+		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
+
+		Resource resource = new Resource(resourceName, resourceType, resourcePrice);
 		//add gold (profit from resource, for right now is just the price of resource)
 		//figure out how to make market work
-		playerMoney = playerMoney + resource.getResourcePrice();
+		playerMoney = playerMoney + resourcePrice;
 		try{
 			playerDao.setPlayerMoney(playerName, playerId, playerMoney);
 		}catch (Exception e) {
@@ -159,7 +169,7 @@ public class Player
 		//not logging name of player purchasing because it will say they purchased it
 		//should we specify whether purchasing secondhand?
 		try {
-			log = this.getPlayerName() + " sold " + resource.getResourceName();
+			log = this.getPlayerName() + " sold " + resourceName;
 			logger.writeToLog(log);
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
