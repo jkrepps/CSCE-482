@@ -49,6 +49,7 @@ static String password = "";
 			
 			
             while ((userInput = stdIn.readLine()) != null) {			//once connected, begin chat with the server, processing info as it comes back.
+				if(!userInput.equals("read"))
                 out.println(userInput);
 				ProcessReturn(userInput, in);
             }
@@ -66,7 +67,16 @@ static String password = "";
 	{
 		try
 		{
-			if(input.equals("playerlist"))					// read in multiple lines for the player -(server sends a number relating to the number of players[lines to get ready to read])
+			if(input.equals("gamelist"))					// read in multiple lines for the player -(server sends a number relating to the number of players[lines to get ready to read])
+			{
+				int num = Integer.parseInt(in.readLine());
+				System.out.println(num);
+				for(int i = 0; i<num; i++)
+				{
+					System.out.println(in.readLine());
+				}
+			}
+			else if(input.equals("playerlist"))					// read in multiple lines for the player -(server sends a number relating to the number of players[lines to get ready to read])
 			{
 				int num = Integer.parseInt(in.readLine());
 				for(int i = 0; i<num; i++)
