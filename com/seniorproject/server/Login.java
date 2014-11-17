@@ -1,22 +1,30 @@
 package com.seniorproject.server;
 
 import com.seniorproject.dao.DaoException;
+import com.seniorproject.dao.DaoObject;
 import com.seniorproject.dao.UserDao;
 
 public class Login {
 	
+	UserDao userDao;
+	
+	public Login(DaoObject dao) { 
+		System.out.println(dao.getConnection());
+		userDao = new UserDao(dao.getConnection());
+	}
+	
 	private static PasswordService encryptor = null;
 	
-	public static String UserLogin (String username, String password) throws ServerException {
+	public String UserLogin (String username, String password) throws ServerException {
 		try {
 			encryptor = new PasswordService();
 			String postHashPassword = encryptor.encrypt(password);
 			
-			boolean userExists = UserDao.CheckUser(username);
+			boolean userExists = userDao.CheckUser(username);
 			
 			
 			if ( userExists) {
-				if (UserDao.CheckPassword(username, postHashPassword)) {
+				if (userDao.CheckPassword(username, postHashPassword)) {
 					System.out.println("Successfully Logged In");
 					return "Relog";
 				}
@@ -27,7 +35,7 @@ public class Login {
 			}
 			
 			else {
-				UserDao.RegisterUser(username, postHashPassword);
+				userDao.RegisterUser(username, postHashPassword);
 				System.out.println("Registered user: " + username);
 				return "NewUser";
 			}		

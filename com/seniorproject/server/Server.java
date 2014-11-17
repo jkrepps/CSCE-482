@@ -1,19 +1,23 @@
 package com.seniorproject.server;
 
-import java.util.concurrent.TimeUnit;
-import java.net.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.List;
+import java.util.ArrayList;
 
-import com.seniorproject.dao.DaoException;
-import com.seniorproject.dao.DaoFactoryImpl;
 import com.seniorproject.dao.DaoObject;
-import com.seniorproject.dao.MarketDao;
-import com.seniorproject.dao.ResourceDao;
+import com.seniorproject.dao.GameDao;
 import com.seniorproject.dao.PlayerDao;
-import com.seniorproject.dao.UserDao;
+import com.seniorproject.dao.ResourceDao;
+import com.seniorproject.game.Game;
 import com.seniorproject.game.Player;
 import com.seniorproject.game.World;
-import com.seniorproject.resource.*;
 import com.seniorproject.logger.Logger;
 
 
@@ -24,14 +28,23 @@ static Player[] players = new Player[NUMPLAYERS]; // array of all the players wh
 static World world = new World();
 static float startingPlayerMoney = 100.0f;
 static int playerid = 0;
+static Login login;
+static PlayerDao playerDao;
+static GameDao gameDao;
+static DaoObject dao;
 
 
 private static ResourceDao resourceDao = new ResourceDao();
 private static Logger logger = new Logger();
 
-	public static void initialize() //read in all the items from the items file so they will be stored and ready before anyone connects
+	public static int initializeGame(Game game, DaoObject dao) throws Exception
 	{
-		new Thread(new WeatherThread()).start();//change to new Thread(new WeatherThread(int gameid)).start();
+		GameDao gameDao = new GameDao(dao.getConnection());
+		int gameId = gameDao.createGame(game);
+		game.startGameThread(gameId, dao);
+		return gameId;
+		
+		//new Thread(new GameThread()).start();//change to new Thread(new WeatherThread(int gameid)).start();
 	}
 	
 	/**
@@ -47,6 +60,7 @@ private static Logger logger = new Logger();
 		
 		InetAddress ip;
         String hostname;
+        
         try {						
             ip = InetAddress.getLocalHost();  //for testing purposes, this section displays the current servers local IP and hostname
             hostname = ip.getHostName();
@@ -65,18 +79,21 @@ private static Logger logger = new Logger();
             System.exit(1);
         }
 		
-
-        
-		initialize(); // initialize Items
-		
+		dao = new DaoObject();
 		// Initialize database connections
 		try {
-			DaoObject.initialize(args[1], args[2], args[3]);
+			System.out.println(dao.initialize(args[1], args[2], args[3]));
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
 		
-		System.out.println("CREATED PLAYER\n");
+		
+		
+		//initialize Login
+		login = new Login(dao);
+		System.out.println("After login \n");
+		playerDao = new PlayerDao(dao.getConnection());
+		gameDao = new GameDao(dao.getConnection());
 		
 		
         int portNumber = Integer.parseInt(args[0]);
@@ -101,18 +118,22 @@ private static Logger logger = new Logger();
 
         public SocketThread(Socket socket) {// accept client socket connection.
             this.socket = socket;
+			PlayerDao playerDao = new PlayerDao(dao.getConnection());
         }
 
         @Override
         public void run() {	//start thread
 			try{
+			
+			
+				System.out.println("Inside Socketthread \n");
 				PrintWriter out =
 					new PrintWriter(socket.getOutputStream(), true);	//output stream 
 				BufferedReader in = new BufferedReader(
 					new InputStreamReader(socket.getInputStream())); 	// input stream
 				
 				
-				Player p = new Player(0, startingPlayerMoney, "noname", 0.67); // create a new player Object that will have credentials determined later
+				Player p = new Player(0, "noname", startingPlayerMoney, 0.67); // create a new player Object that will have credentials determined later
 			
 			
 				String inputLine, outputLine;
@@ -139,7 +160,7 @@ private static Logger logger = new Logger();
 				out.close(); //close this client socket
 				in.close();
 				socket.close();
-				} catch (IOException e) {
+				} catch (Exception e) {	
 				System.out.println("Exception caught when trying to listen on port or listening for a connection");
 				System.out.println(e.getMessage());
 			}
@@ -153,8 +174,9 @@ private static Logger logger = new Logger();
 	 * @return
 	 */
 	
-	public static String processRequest (String input, Player p) //Process an input from a player p
+	public static String processRequest (String input, Player p) throws Exception//Process an input from a player p
 	{
+		System.out.println("Inside Process Request with input: " + input + "\n");
 		String outputLine = "";
 		String delims = "\t";
 		String[] tokens = input.split(delims); // parse the input command into tokens and process keywords
@@ -163,18 +185,18 @@ private static Logger logger = new Logger();
 		{
 			try {
 				System.out.println(tokens[1]);
-				String returnMessage = Login.UserLogin(tokens[1], tokens[2]);
+				String returnMessage = login.UserLogin(tokens[1], tokens[2]);
 				p.setPlayerName(tokens[1]);
 				if (returnMessage == "Relog") {
 					outputLine = "Successfully relogged: " + tokens[1];
-					p.setPlayerMoney(PlayerDao.getPlayerMoney(tokens[1]));
+					p.setPlayerMoney(playerDao.getPlayerMoney(tokens[1]));
 				}
 				else if (returnMessage == "NewUser"){
 					outputLine = "Welcome new user: " + tokens[1];
 					p.setPlayerId(playerid);
 					try {
 						// TODO Add a reasonable user name and game id
-						PlayerDao.createPlayer(new Player(0, 1000f,p.getPlayerName(), 0.6), p.getPlayerName(), 2);
+						playerDao.createPlayer(new Player(0,p.getPlayerName(), 1000f, 0.6), p.getPlayerName(), 1);
 					} catch (Exception e) {
 						System.err.println(e.getMessage());
 					}			
@@ -188,6 +210,73 @@ private static Logger logger = new Logger();
 				e.printStackTrace();
 			}
 			// outputLine = Login(tokens[1],tokens[2],p);
+		}
+		/*
+		else if(tokens[0].equals("gamelist"))   //playerlist = show all current players
+		{
+			String username = tokens[1];
+			List<Game> gameList = new ArrayList<Game> ();
+			
+			try {
+				gameList = gameDao.getGameList(username); 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			outputLine += Integer.toString(gameList.size());
+			for (Game g : gameList) {
+				outputLine += "\n-" + g.getGameId();
+			}
+			
+		}
+		*/
+		else if (tokens[0].equals("gamelist"))
+		{
+			List<Game> gameList = new ArrayList<Game> ();
+			
+				try {
+				gameList = gameDao.getGameList(); 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println(gameList.size());
+			outputLine += Integer.toString(gameList.size());
+			for (Game g : gameList) {
+				outputLine += "\n" + g.getGameId();
+			}
+		}
+		else if(tokens[0].equals("newgame"))   //playerlist = show all current players
+		{
+			String maxPlayers = tokens[1];
+			Game newGame = new Game(Integer.parseInt(maxPlayers), 12, 30);
+			
+			try {
+				initializeGame(newGame, dao);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			outputLine += Integer.toString(NUMPLAYERS) + "";
+			for(int i = 0; i < NUMPLAYERS; i++)
+				if(players[i] != null)
+					outputLine += "\n-" + players[i].getPlayerName();
+				else
+					outputLine += "\n -empty Slot";
+		}
+
+		else if(tokens[0].equals("connect"))   //playerlist = show all current players
+		{
+			int gameId = Integer.parseInt(tokens[1]);
+			String username = tokens[2];
+			PlayerDao a= new PlayerDao(dao.getConnection());
+			Player ptemp = a.checkPlayer(gameId, username);
+			p = ptemp;
+			
+			if (p == null)
+				outputLine += "failed";
+			else 
+				outputLine += "success";
+			
 		}
 		else if(tokens[0].equals("playerlist"))   //playerlist = show all current players
 		{
@@ -225,18 +314,18 @@ private static Logger logger = new Logger();
 			
 			
 		}
-		else if (tokens[0].equals("getInfra"))
+		else if (tokens[0].equals("getResources"))
 		{
 			int numberItems = 0;
 			try {
-				numberItems = PlayerDao.getInfras(p.getPlayerName()).size();
+				numberItems = playerDao.getResources(p.getPlayerId()).size();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			outputLine += Integer.toString(numberItems);
 			for(int i = 0; i < numberItems; i++) {
 					try {
-						outputLine += "\n" + PlayerDao.getInfras(p.getPlayerName()).get(i).getInfraName();
+						outputLine += "\n" + playerDao.getResources(p.getPlayerId()).get(i).getResourceName();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -266,10 +355,6 @@ private static Logger logger = new Logger();
 		{
 			outputLine = world.GetWeather();
 		}
-		else if(tokens[0].equals("daytime"))	 
-		{
-			outputLine = world.GetDaytime();
-		}
 		else if(tokens[0].equals("sweather"))	 
 		{
 			world.SetWeather();
@@ -281,36 +366,7 @@ private static Logger logger = new Logger();
 	}
 	
 	
-	/*public static String Login(String username, String password, Player p)  //Login for users.
-	{
-				for(int i = 0; i < NUMPLAYERS; i++) //Go through the available player slots
-				{
-					if(players[i] != null && players[i].getPlayerName().equals(username) && players[i].getPass().equals(password)) //if a player logs in with an existing username and password
-						{
-						p = players[i];
-						String output = "Successfully relogged to the server, welcome "+ p.getPlayerName();
-						System.out.println(p.getPlayerName() + "joined.");
-						return output;
-						}
-					else if(players[i] != null && players[i].getPlayerName().equals(username) && !players[i].getPass().equals(password))//if a player logs in with an existing username and wrong password
-						{
-						//p = players[i];
-						String output = "Incorrect log in";
-						return output;
-						}
-					else if(players[i] == null)				//IMPORTANT: if the server reaches an empty player slot, then the current username must not be in use and new credentials are created.
-						{
-						p = players[i] = new Player(i, startingPlayerMoney, username);   //100 = starting money (just for now) 
-						String output = "Successfully connected to the server, welcome "+ p.getPlayerName();
-						System.out.println(p.getPlayerName() + "joined.");
-						return output;
-						}
-				}
-		return "Incorrect log in";
-	}*/
-	
-	
-	/*WEATHER THREAD*/
+	/*
 	public static class WeatherThread implements Runnable {  // client thread, each client goes through this process individually and simultaneously. 
 
 		//id game
@@ -335,5 +391,7 @@ private static Logger logger = new Logger();
 			}
         }
     }
+    
+    */
 	
 }

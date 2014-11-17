@@ -8,7 +8,7 @@ import com.seniorproject.resource.Resource;
 
 public class MarketDao extends DaoObject {
 	
-	public static int sellResource(Resource resource, String seller, int quantity) throws DaoException {
+	public int sellResource(Resource resource, String seller, int quantity) throws DaoException {
 		String resourceName = resource.getResourceName();
 		String resourceClass = resource.getResourceClass();
 		Float resourcePrice = resource.getResourcePrice();
@@ -17,7 +17,7 @@ public class MarketDao extends DaoObject {
 				+ seller + "', " + Integer.toString(quantity) + ", " + resourcePrice + ");";
 		
 		try {
-			return executeUpdate(insertQuery);
+			return this.executeUpdate(insertQuery);
 		} catch (Exception e) {
 			throw new DaoException("Adding Resource to Market has failed with: " + e.getMessage());
 		}
@@ -25,12 +25,12 @@ public class MarketDao extends DaoObject {
  	}
 	
 	// List of all resources on the market
-	public static List<Resource> getMarketResources() throws DaoException {
+	public List<Resource> getMarketResources() throws DaoException {
 		String selectQuery = "SELECT * FROM Market;";
 		List<Resource> returnList = new ArrayList<Resource>();
 		
 		try {
-			ResultSet resultSet = executeSelect(selectQuery);
+			ResultSet resultSet = this.executeSelect(selectQuery);
 			
 			while(resultSet.next()) {
 				Resource temp = new Resource(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(6));
@@ -45,13 +45,13 @@ public class MarketDao extends DaoObject {
 	
 	
 	// Buying resource (subtracting values from market) by resource_id as returned by getMarketResources()
-	public static int buyResource(String buyer, int resourceId, int buyingQuantity) throws DaoException {
+	public int buyResource(String buyer, int resourceId, int buyingQuantity) throws DaoException {
 		
 		String updateQuery = "UPDATE Market SET quantity = quantity-"+Integer.toString(buyingQuantity)
 				+ " WHERE resource_id = " + Integer.toString(resourceId) + ";"; 
 		
 		try {
-			return executeUpdate(updateQuery);
+			return this.executeUpdate(updateQuery);
 		} catch (Exception e) {
 			throw new DaoException("Buying Resources has failed with: " + e.getMessage());
 		} 

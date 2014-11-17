@@ -8,12 +8,12 @@ import com.seniorproject.resource.Resource;
 
 public class ResourceDao extends DaoObject {
 	
-	public static List<Resource> getResourceList() throws DaoException {
+	public List<Resource> getResourceList() throws DaoException {
 		String selectQuery = "SELECT * FROM ResourceList;";
 		List<Resource> returnList = new ArrayList<Resource>();
 		
 		try {
-			ResultSet resultSet = executeSelect(selectQuery);
+			ResultSet resultSet = this.executeSelect(selectQuery);
 			
 			while (resultSet.next()) {
 				Resource temp = new Resource(resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4));

@@ -8,9 +8,14 @@ import java.sql.SQLException;
 
 public class DaoObject {
 
-	protected static Connection connection = null;
+	public DaoObject() { connection = null; }
+	public DaoObject(DaoObject dao) { connection = dao.getConnection(); }
 	
-	public static boolean initialize (String url, String username, String pass) throws Exception {
+	protected Connection connection = null;
+	
+	public Connection getConnection () { return connection; }
+	
+	public boolean initialize (String url, String username, String pass) throws Exception {
 		try {
 			String jdbcUrl = "jdbc:mysql://" + url + "?user=" + username + "&password=" + pass;
 			// Loading MySQL driver
@@ -25,7 +30,7 @@ public class DaoObject {
 		}
 	}
 	
-	public static ResultSet executeSelect(String statement) throws DaoException {
+	public ResultSet executeSelect(String statement) throws DaoException {
 		ResultSet resultSet = null;
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -37,7 +42,7 @@ public class DaoObject {
 		return resultSet;
 	}
 	
-	public static int executeUpdate (String statement ) throws DaoException {
+	public int executeUpdate (String statement ) throws DaoException {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(statement);
 			return preparedStatement.executeUpdate();
@@ -46,7 +51,7 @@ public class DaoObject {
 		}
 	}
 	
-	public static int executeUpdate (PreparedStatement preparedStatement) throws DaoException {
+	public int executeUpdate (PreparedStatement preparedStatement) throws DaoException {
 		try {
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -54,7 +59,7 @@ public class DaoObject {
 		}
 	}
 	
-	public static int executeDelete (String statement ) throws DaoException {
+	public int executeDelete (String statement ) throws DaoException {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(statement);
 			return preparedStatement.executeUpdate();

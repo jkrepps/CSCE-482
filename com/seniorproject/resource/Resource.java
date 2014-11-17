@@ -20,21 +20,25 @@ public class Resource {
 	private String resourceName;
 	private int resourceId;
 	private int resourceIcon;
+	private float resourceIncome;
 
 	Random rand = new Random();
-
-	public Resource(int resourceId, String fileName) {
-    	this.resourceId=resourceId;
-		String[][] data = readFileToArray(fileName, "\t");  /*This is just a really long and silly parsing function I have used in the past, 
-																it has many applications so I like using it*/
-		System.out.println("MADE Resources!");					// testing purposes, let me know items were created
-	}
 
 	public Resource() {
 
 	}
+	
 	//this is used in MarketDao, problem - should resourceClass be of type ResourceClass
-	public Resource (int resourceId, String resourceName, String resourceClass, Float resourcePrice){
+	public Resource (int resourceId, String resourceName, String resourceClass, Float resourcePrice, float resourceIncome) {
+		this.resourceId = resourceId;
+		this.resourceName = resourceName;
+		this.resourceClass = resourceClass;
+		this.resourcePrice = resourcePrice;
+		this.resourceIncome = resourceIncome;
+	}
+	
+	//this is used in MarketDao, problem - should resourceClass be of type ResourceClass
+	public Resource (int resourceId, String resourceName, String resourceClass, Float resourcePrice) {
 		this.resourceId = resourceId;
 		this.resourceName = resourceName;
 		this.resourceClass = resourceClass;
@@ -56,6 +60,7 @@ public class Resource {
 	public String getResourceName() { return resourceName; }
 	public int getResouceId() { return resourceId; }
 	public int getResourceIcon() { return resourceIcon; }
+	public float getResourceIncome() { return resourceIncome; }
 
 	public void setResourcePrice(float resourcePrice) { this.resourcePrice = resourcePrice; }
 	public void setResourceType(ResourceType resourceType) { this.resourceType = resourceType; }
