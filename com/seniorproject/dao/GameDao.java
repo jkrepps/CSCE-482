@@ -61,23 +61,29 @@ public class GameDao extends DaoObject{
 		
 		int retval = -1;
 		try {
-			PreparedStatement insertStatement = this.connection.prepareStatement("INSERT INTO Game VALUES (0, ?, ?, ?, ?, ?");
+			System.out.println("point1");
+			PreparedStatement insertStatement = this.connection.prepareStatement("INSERT INTO Game VALUES (0, ?, ?, ?, ?, ?, ?);");
+			System.out.println("point2");
 			insertStatement.setInt(1,game.getCurrentPlayers().size());
 			insertStatement.setInt(2,game.getMaxPlayers());
 			insertStatement.setTimestamp(3, new Timestamp(game.getStartTime().getTime()));
 			insertStatement.setTimestamp(4, new Timestamp(game.getEndTime().getTime()));
 			insertStatement.setInt(5, game.getGameYears());
 			insertStatement.setString(6, game.getWeather());
+			System.out.println("point3");
+			System.out.println(insertStatement);
 			
 			insertStatement.executeUpdate();
-			
+			System.out.println("point4");
 			String selectIdQuery = "SELECT LAST_INSERT_ID();";
-			
+			System.out.println("point5");
 			ResultSet resultSet = executeSelect(selectIdQuery);
+			System.out.println("point6");
 			
 			resultSet.next();
-			
+			System.out.println("point7");
 			retval = resultSet.getInt(1);
+			System.out.println("point8");
 			
 		} catch (SQLException e) {
 			throw new DaoException("Creating Game failed with: " + e.getMessage());

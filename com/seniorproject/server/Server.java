@@ -40,9 +40,13 @@ private static Logger logger = new Logger();
 
 	public static int initializeGame(Game game, DaoObject dao) throws Exception
 	{
+		System.out.println("point0");
 		GameDao gameDao = new GameDao(dao.getConnection());
+		System.out.println("point01");
 		int gameId = gameDao.createGame(game);
+		System.out.println("point02");
 		game.startGameThread(gameId, dao);
+		System.out.println("point03");
 		return gameId;
 		
 		//new Thread(new GameThread()).start();//change to new Thread(new WeatherThread(int gameid)).start();
@@ -249,6 +253,7 @@ private static Logger logger = new Logger();
 		}
 		else if(tokens[0].equals("newgame"))   //playerlist = show all current players
 		{
+			
 			String maxPlayers = tokens[1];
 			Game newGame = new Game(Integer.parseInt(maxPlayers), 12, 30);
 			
@@ -257,7 +262,7 @@ private static Logger logger = new Logger();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+			System.out.println("pointz");
 			outputLine += Integer.toString(NUMPLAYERS) + "";
 			for(int i = 0; i < NUMPLAYERS; i++)
 				if(players[i] != null)

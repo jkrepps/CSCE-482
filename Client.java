@@ -65,9 +65,11 @@ static String password = "";
 	
 	public static void ProcessReturn(String input, BufferedReader in) // process every response from the server
 	{
+		String delims = "\t";
+		String[] tokens = input.split(delims);
 		try
 		{
-			if(input.equals("gamelist"))					// read in multiple lines for the player -(server sends a number relating to the number of players[lines to get ready to read])
+			if(tokens[0].equals("gamelist"))					// read in multiple lines for the player -(server sends a number relating to the number of players[lines to get ready to read])
 			{
 				int num = Integer.parseInt(in.readLine());
 				System.out.println(num);
@@ -76,7 +78,7 @@ static String password = "";
 					System.out.println(in.readLine());
 				}
 			}
-			else if(input.equals("playerlist"))					// read in multiple lines for the player -(server sends a number relating to the number of players[lines to get ready to read])
+			else if(tokens[0].equals("playerlist"))					// read in multiple lines for the player -(server sends a number relating to the number of players[lines to get ready to read])
 			{
 				int num = Integer.parseInt(in.readLine());
 				for(int i = 0; i<num; i++)
@@ -84,7 +86,7 @@ static String password = "";
 					System.out.println(in.readLine());
 				}
 			}
-			else if(input.equals("itemlist"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
+			else if(tokens[0].equals("itemlist"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
 			{
 				int num = Integer.parseInt(in.readLine());
 				for(int i = 0; i<num; i++)
@@ -100,7 +102,15 @@ static String password = "";
 					System.out.println(in.readLine());
 				}
 			}
-			else if(input.equals("logfile"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
+			else if(tokens[0].equals("logfile"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
+			{
+				int num = Integer.parseInt(in.readLine());
+				for(int i = 0; i<num; i++)
+				{
+					System.out.println(in.readLine());
+				}
+			}
+			else if(tokens[0].equals("newgame"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
 			{
 				int num = Integer.parseInt(in.readLine());
 				for(int i = 0; i<num; i++)
