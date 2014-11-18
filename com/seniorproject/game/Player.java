@@ -87,13 +87,14 @@ public class Player
 	public void removeResource(Resource resource) throws DaoException 
 	{ 
 		for (int i=0;i<inventory.length;i++)
+		{
 			if (inventory[i]==resource)
 			{
 				inventory[i]=null;	
 				System.out.println("inventory slot removed");
 				break;
 			}
-
+		}
 		//remove from inventory database (may need to make this more specific)
 		playerDao.removeResource(resource, playerId);
 	}
@@ -151,10 +152,10 @@ public class Player
 		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
 
 		Resource resource = new Resource(resourceName, resourceType, resourcePrice);
+
 		//add gold (profit from resource, for right now is just the price of resource)
 		//figure out how to make market work
 		if (playerDao.isPlayerResource(playerId, resourceName)) {
-
 			playerMoney = playerMoney + resourcePrice;
 			try{
 				playerDao.setPlayerMoney(playerName, playerId, playerMoney);
@@ -162,7 +163,7 @@ public class Player
 				System.err.println(e.getMessage());
 			}
 			//remove from inventory (remove from database!)
-			this.removeResource(resource);
+			removeResource(resource);
 
 			//publish to activity log
 			//not logging name of player purchasing because it will say they purchased it

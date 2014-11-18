@@ -166,11 +166,9 @@ public class PlayerDao extends DaoObject {
 	}
 
 	public int removeResource (Resource resource, int playerId) throws DaoException {
-
-		String deleteQuery ="DELETE FROM PlayerResource WHERE resourceName = '" + resource.getResourceName() + "' AND playerId = " + playerId + ";";
-		
+		String deleteQuery ="DELETE FROM PlayerResource WHERE resourceName = '" + resource.getResourceName() + "' AND player_id = " + playerId + ";";
 		try {
-			return this.executeDelete(deleteQuery);			
+			return executeDelete(deleteQuery);			
 		} catch (Exception e) {
 			throw new DaoException("Call to remove Resource failed with: " + e.getMessage());
 		}
