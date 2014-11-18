@@ -113,8 +113,8 @@ public class PlayerDao extends DaoObject {
 		
 	}
 	
-	public float getPlayerMoney(String playername, int playerId) throws DaoException {
-		String selectQuery = "SELECT money FROM Player where name='" + playername +"' AND id=" + playerId +";";
+	public float getPlayerMoney(String playername, int gameId) throws DaoException {
+		String selectQuery = "SELECT money FROM Player where name='" + playername +"' AND game_id=" + gameId +";";
 		float money = -1;
 		
 		try { 

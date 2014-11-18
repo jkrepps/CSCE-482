@@ -271,16 +271,25 @@ private static Logger logger = new Logger();
 			int gameId = Integer.parseInt(tokens[1]);
 			String username = tokens[2];
 			Player temp = playerDao.checkPlayer(gameId, username);
-			p.copyPlayer(temp);
-			playerDao.setPlayerMoney( username, p.getPlayerId(), playerDao.getPlayerMoney(username,p.getPlayerId()) );
-			p.setPlayerMoney( playerDao.getPlayerMoney( username,p.getPlayerId()) );
-			System.out.println(p.getPlayerId());
 			
-			if (p == null)
+			// game is full
+			if(temp == null) {
 				outputLine += "failed";
-			else 
-				outputLine += "success";
-			
+				
+			}
+			else {
+				p.copyPlayer(temp);
+				//TODO WHAT THE FUCK IS HAPPENING HERE why 
+				playerDao.setPlayerMoney( username, p.getPlayerId(), playerDao.getPlayerMoney(username,gameId) );
+				p.setPlayerMoney( playerDao.getPlayerMoney( username, gameId));
+				System.out.println(p.getPlayerId());
+				
+				if (p == null)
+					outputLine += "failed";
+				else 
+					outputLine += "success";
+			}
+				
 		}
 		else if(tokens[0].equals("playerlist"))   //playerlist = show all current players
 		{
