@@ -144,11 +144,11 @@ public class PlayerDao extends DaoObject {
 		return retval; 
 	}
 	// returns resourceID
-	public int addResource (Resource resource, int playerId) throws DaoException {
+	public int addResource (Resource resource, int playerId, int numUnits) throws DaoException {
 		
 		int retval = -1;
 		String insertQuery ="INSERT INTO PlayerResource VALUES (0, " +  playerId +  ", '" + 
-				resource.getResourceName() + "', '" + resource.getResourceClass() + "', " + resource.getResourcePrice() + "," + resource.getResourceIncome() + ");" ;
+				resource.getResourceName() + "', '" + resource.getResourceClass() + "', " + resource.getResourcePrice() + "," + resource.getResourceIncome() + "," + numUnits + ");" ;
 		
 		try {
 			this.executeUpdate(insertQuery);

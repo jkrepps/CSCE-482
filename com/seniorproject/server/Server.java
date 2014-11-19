@@ -326,9 +326,9 @@ private static Logger logger = new Logger();
 		}
 		else if (tokens[0].equals("buy"))
 		{
-			//1 = resource name 
+			//1 = resource name 2 = numUnits
+			if(p.buyResource(tokens[1], Integer.parseInt(tokens[2])))
 			//System.out.println(p.getPlayerId());
-			if(p.buyResource(tokens[1]))
 				outputLine += "purchased "+ tokens[1];
 			else
 				outputLine += "not enough money";
@@ -379,6 +379,7 @@ private static Logger logger = new Logger();
 			world.SetWeather();
 			outputLine = "changed weather";
 		}
+
 		else									//otherwise simply repeat the input command.
 		outputLine = "Copy: " + input;
 		return outputLine;

@@ -64,7 +64,7 @@ public class Player
 	public void setPlayerMarketing (Double playerMarketing) { this.playerMarketing = playerMarketing; }
 	public void setPlayerId(int playerId) {this.playerId = playerId; }
 	
-    public void addResource(Resource resource) throws DaoException
+    public void addResource(Resource resource, Float resourcePrice, int numUnits) throws DaoException
 	{ 
 		//add to inventory array
 		for (int i=0;i<inventory.length;i++)
@@ -78,7 +78,19 @@ public class Player
 		System.out.println("dao is null in add Resource - player\n");
 		//add to inventory database
 		System.out.println(playerId);
-		playerDao.addResource(resource, playerId);
+		playerDao.addResource(resource, playerId, numUnits);
+
+		//update money (only happens if transaction is successful)
+		playerMoney = playerMoney - (resourcePrice * numUnits);
+			
+			if(playerDao == null)
+				System.out.println("dao is null in player\n");
+			
+			try{
+				playerDao.setPlayerMoney(playerName,playerId,playerMoney);
+			}catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
 
 		//automatically generate
 		resourceID ++;
@@ -113,29 +125,20 @@ public class Player
 
 	//need to add a playerId
 
-    public boolean buyResource( String resourceName) throws DaoException //for right now returns int, in future could be different
+    public boolean buyResource(String resourceName, int numUnits) throws DaoException //for right now returns int, in future could be different
 	{
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
 		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
 		Resource resource = new Resource(resourceName, resourceType, resourcePrice);
+		
 		//subtract gold (price of resource)
-		if(playerMoney - resourcePrice >= 0) {
-			playerMoney = playerMoney - resourcePrice;
-		if(playerDao == null)
-		System.out.println("dao is null in player\n");
-			try{
-				playerDao.setPlayerMoney(playerName,playerId,playerMoney);
-			}catch (Exception e) {
-				System.err.println(e.getMessage());
-			}
-		}
-		else return false; // if you dont have enough money then dont do anything else
+		if(playerMoney - (resourcePrice * numUnits) < 0) return false; // if you dont have enough money then dont do anything else
 	
 		//add to inventory (add to database!)
-		addResource(resource);
+		addResource(resource, resourcePrice, numUnits);
 		//publish to activity log
 		try {
-			log = this.getPlayerName() + " purchased " + resource.getResourceName();
+			log = this.getPlayerName() + " purchased " + numUnits + " units of " + resource.getResourceName();
 			logger.writeToLog(log);
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
