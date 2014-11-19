@@ -353,11 +353,17 @@ private static Logger logger = new Logger();
 		else if (tokens[0].equals("buy"))
 		{
 			//1 = resource name 2 = numUnits
-			if(p.buyResource(tokens[1], Integer.parseInt(tokens[2])))
+			if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == 1)
 			//System.out.println(p.getPlayerId());
 				outputLine += "purchased "+ tokens[2] + " units of " + tokens[1];
-			else
-				outputLine += "not enough money";
+			else if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == 0)
+				outputLine += "Not enough money";
+			else if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == -1 )
+				outputLine += "Item doesn't exist";
+			else if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == -2 )
+				outputLine += "Error with update of database entry";
+			else 
+				outputLine += "UNKNOWN ERROR";
 		}
 		else if (tokens[0].equals("getResources"))
 		{
@@ -379,10 +385,14 @@ private static Logger logger = new Logger();
 		else if (tokens[0].equals("sell"))
 		{
 			//1 = resource name, 2 = numUnits
-			if(p.sellResource(tokens[1], Integer.parseInt(tokens[2])))
+			if(p.sellResource(tokens[1], Integer.parseInt(tokens[2])) == 1)
 				outputLine += "sold " + tokens[2] + " units of " + tokens[1];
-			else
+			else if (p.sellResource(tokens[1], Integer.parseInt(tokens[2])) == 0)
 				outputLine += "Not enough items in player inventory";
+			else if (p.sellResource(tokens[1], Integer.parseInt(tokens[2])) == -1)
+				outputLine += "Item doesn't exist";
+			else
+				outputLine += "UNKNOWN ERROR";
 			
 		}
 

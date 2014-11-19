@@ -65,8 +65,11 @@ public class Player
  
 	//need to add a playerId
 
-    public boolean buyResource(String resourceName, int numUnits) throws DaoException //for right now returns int, in future could be different
+    public int buyResource(String resourceName, int numUnits) throws DaoException //for right now returns int, in future could be different
 	{
+		//can't go further unless in itemlist
+		if(resourceDao.isInItemList(resourceName) == false) return -1;
+
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
 		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
 		Resource resource = new Resource(resourceName, resourceType, resourcePrice);
@@ -74,8 +77,8 @@ public class Player
 		int newNumUnits = numAvailableUnits + numUnits;
 
 		
-		//subtract gold (price of resource)
-		if(playerMoney - (resourcePrice * numUnits) < 0) return false; // if you dont have enough money then dont do anything else
+		//only purchase if can afford it
+		if(playerMoney - (resourcePrice * numUnits) < 0) return 0; // if you dont have enough money then dont do anything else
 	
 		//add to database
 		if(playerDao == null) System.out.println("dao is null in add Resource - player\n");
@@ -87,7 +90,13 @@ public class Player
 			playerDao.updateResource(resource, playerId, newNumUnits);
 		}
 
-		else { playerDao.addResource(resource, playerId, numUnits); }
+		else 
+		{ 
+			if(playerDao.addResource(resource, playerId, numUnits) == -1){
+				System.out.println("Adding resource is broken");
+				return -2;
+			} 
+		}
 
 		//update money (only happens if transaction is successful)
 		playerMoney = playerMoney - (resourcePrice * numUnits);
@@ -109,14 +118,18 @@ public class Player
 		//automatically generate
 		resourceID ++;
 
-		return true;
+		return 1;
 	}
 
 	//are we doing this?
 	//need to add a playerId table
 
-	public boolean sellResource(String resourceName, int numUnits) throws DaoException
+	public int sellResource(String resourceName, int numUnits) throws DaoException
 	{
+
+		//can only sell if it exists in itemlist
+		if(resourceDao.isInItemList(resourceName) == false) return -1;
+
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
 		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
 		int numAvailableUnits = playerDao.getResourceNumUnits(playerId, resourceName);
@@ -151,13 +164,13 @@ public class Player
 				} catch (Exception e1) {
 					System.err.println(e1.getMessage());
 				} 
-				return true;
+				return 1;
 			}
 
 			else if (newNumUnits < 0)
 			{
 				System.out.println("This can't be done, not enough units available");
-				return false;
+				return 0;
 			}
 
 			else if (newNumUnits > 0)
@@ -182,12 +195,12 @@ public class Player
 				} catch (Exception e1) {
 					System.err.println(e1.getMessage());
 				} 
-				return true;
+				return 1;
 			}
 			
-			else return false;
+			else return 0;
 		}
-		else return false;
+		else return 0;
 	}
 	
 	// TODO: Implement refresh()

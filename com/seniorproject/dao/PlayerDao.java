@@ -159,6 +159,7 @@ public class PlayerDao extends DaoObject {
 			retval = resultSet.getInt(1);
 			
 		} catch (Exception e1) {
+			System.out.println("Something broke in the addResource function of PlayerDao");
 			System.err.println(e1.getMessage());
 		}
 		
