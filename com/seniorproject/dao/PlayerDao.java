@@ -165,6 +165,15 @@ public class PlayerDao extends DaoObject {
 		return retval;
 	}
 
+	public int updateResource (Resource resource, int playerId, int newNumUnits) throws DaoException {
+		String updateQuery ="UPDATE PlayerResource SET units = " + newNumUnits + " WHERE player_id = " + playerId + " AND resourceName = '" + resource.getResourceName() + "';";
+		try {
+			return executeUpdate(updateQuery);			
+		} catch (Exception e) {
+			throw new DaoException("Call to update number of units of resource failed with: " + e.getMessage());
+		}
+	}
+
 	public int removeResource (Resource resource, int playerId) throws DaoException {
 		String deleteQuery ="DELETE FROM PlayerResource WHERE resourceName = '" + resource.getResourceName() + "' AND player_id = " + playerId + ";";
 		try {
@@ -229,6 +238,24 @@ public class PlayerDao extends DaoObject {
 		}
 		
 		return false;
+	}
+
+	public int getResourceNumUnits(int playerId, String resourceName) throws DaoException {
+		String selectQuery = "SELECT units FROM PlayerResource WHERE player_id='" + playerId +"' AND resourceName=\"" + resourceName +"\";";
+
+		int numUnits = -1;
+		
+		try { 
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			
+			if (resultSet.next()) numUnits = resultSet.getInt(1);
+			else numUnits = 0;
+			
+		} catch (Exception e) {
+			throw new DaoException("Call to get number of resource units failed with:" + e.getMessage());
+		}
+		
+		return numUnits;
 	}
 	
 }

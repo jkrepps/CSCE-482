@@ -31,8 +31,6 @@ public class Player
     private Logger logger = new Logger();
 	private int resourceID = 0;
 
-	//ResourceDao resourceDao = new ResourceDao();
- 	Resource[] inventory= new Resource[NUMITEMS];//Item[] inventory= new Item[NUMITEMS];
     Random rand = new Random();
 
     public Player(int playerId, String playerName, float playerMoney, Double playerMarketing, Connection connection) { // initialization function
@@ -64,65 +62,7 @@ public class Player
 	public void setPlayerMarketing (Double playerMarketing) { this.playerMarketing = playerMarketing; }
 	public void setPlayerId(int playerId) {this.playerId = playerId; }
 	
-    public void addResource(Resource resource, Float resourcePrice, int numUnits) throws DaoException
-	{ 
-		//add to inventory array
-		for (int i=0;i<inventory.length;i++)
-			if (inventory[i]==null)
-			{
-				inventory[i]=resource;	
-				System.out.println("new purchase");
-				break;
-			}
-		if(playerDao == null)
-		System.out.println("dao is null in add Resource - player\n");
-		//add to inventory database
-		System.out.println(playerId);
-		playerDao.addResource(resource, playerId, numUnits);
-
-		//update money (only happens if transaction is successful)
-		playerMoney = playerMoney - (resourcePrice * numUnits);
-			
-			if(playerDao == null)
-				System.out.println("dao is null in player\n");
-			
-			try{
-				playerDao.setPlayerMoney(playerName,playerId,playerMoney);
-			}catch (Exception e) {
-				System.err.println(e.getMessage());
-			}
-
-		//automatically generate
-		resourceID ++;
-	}
-
-	public void removeResource(Resource resource) throws DaoException 
-	{ 
-		for (int i=0;i<inventory.length;i++)
-		{
-			if (inventory[i]==resource)
-			{
-				inventory[i]=null;	
-				System.out.println("inventory slot removed");
-				break;
-			}
-		}
-		//remove from inventory database (may need to make this more specific)
-		playerDao.removeResource(resource, playerId);
-	}
-
-    public Resource[] getInventory()
-    { 
-    	return inventory;
-    }
-	
-    public boolean isInInventory(Resource resource)    
-    {
-		for (int i=0;i<inventory.length;i++)
-			if (inventory[i]==resource)	return true;
-		return false;	
-    }
-
+ 
 	//need to add a playerId
 
     public boolean buyResource(String resourceName, int numUnits) throws DaoException //for right now returns int, in future could be different
@@ -130,54 +70,122 @@ public class Player
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
 		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
 		Resource resource = new Resource(resourceName, resourceType, resourcePrice);
+		int numAvailableUnits = playerDao.getResourceNumUnits(playerId, resourceName);
+		int newNumUnits = numAvailableUnits + numUnits;
+
 		
 		//subtract gold (price of resource)
 		if(playerMoney - (resourcePrice * numUnits) < 0) return false; // if you dont have enough money then dont do anything else
 	
-		//add to inventory (add to database!)
-		addResource(resource, resourcePrice, numUnits);
+		//add to database
+		if(playerDao == null) System.out.println("dao is null in add Resource - player\n");
+	
+		System.out.println(playerId);
+
+		//only add if it isn't already there
+		if(playerDao.isPlayerResource(playerId, resourceName)) {
+			playerDao.updateResource(resource, playerId, newNumUnits);
+		}
+
+		else { playerDao.addResource(resource, playerId, numUnits); }
+
+		//update money (only happens if transaction is successful)
+		playerMoney = playerMoney - (resourcePrice * numUnits);
+			
+		try{
+			playerDao.setPlayerMoney(playerName,playerId,playerMoney);
+		}catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+
 		//publish to activity log
 		try {
-			log = this.getPlayerName() + " purchased " + numUnits + " units of " + resource.getResourceName();
+			log = playerName + " purchased " + numUnits + " units of " + resource.getResourceName();
 			logger.writeToLog(log);
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		}
+
+		//automatically generate
+		resourceID ++;
+
 		return true;
 	}
 
 	//are we doing this?
 	//need to add a playerId table
 
-	public boolean sellResource( String resourceName) throws DaoException
+	public boolean sellResource(String resourceName, int numUnits) throws DaoException
 	{
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
 		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
+		int numAvailableUnits = playerDao.getResourceNumUnits(playerId, resourceName);
+		int newNumUnits = numAvailableUnits - numUnits;
 
 		Resource resource = new Resource(resourceName, resourceType, resourcePrice);
 
 		//add gold (profit from resource, for right now is just the price of resource)
 		//figure out how to make market work
 		if (playerDao.isPlayerResource(playerId, resourceName)) {
-			playerMoney = playerMoney + resourcePrice;
-			try{
-				playerDao.setPlayerMoney(playerName, playerId, playerMoney);
-			}catch (Exception e) {
-				System.err.println(e.getMessage());
-			}
-			//remove from inventory (remove from database!)
-			removeResource(resource);
+			
+			//remove from database!
+			if (newNumUnits == 0)
+			{
+				playerDao.removeResource(resource, playerId);
 
-			//publish to activity log
-			//not logging name of player purchasing because it will say they purchased it
-			//should we specify whether purchasing secondhand?
-			try {
-				log = this.getPlayerName() + " sold " + resourceName;
-				logger.writeToLog(log);
-			} catch (Exception e1) {
-				System.err.println(e1.getMessage());
-			} 
-			return true;
+				//add money from sale
+				playerMoney = playerMoney + (resource.getResourcePrice() * numUnits);
+				
+				try{
+					playerDao.setPlayerMoney(playerName, playerId, playerMoney);
+				}catch (Exception e) {
+					System.err.println(e.getMessage());
+				}
+
+				//publish to activity log
+				//not logging name of player purchasing because it will say they purchased it
+				//should we specify whether purchasing secondhand?
+				try {
+					log = playerName + " sold " + numUnits + " units of " + resource.getResourceName();
+					logger.writeToLog(log);
+				} catch (Exception e1) {
+					System.err.println(e1.getMessage());
+				} 
+				return true;
+			}
+
+			else if (newNumUnits < 0)
+			{
+				System.out.println("This can't be done, not enough units available");
+				return false;
+			}
+
+			else if (newNumUnits > 0)
+			{
+				playerDao.updateResource(resource, playerId, newNumUnits);
+
+				//add money from sale
+				playerMoney = playerMoney + (resource.getResourcePrice() * numUnits);
+				
+				try{
+					playerDao.setPlayerMoney(playerName, playerId, playerMoney);
+				}catch (Exception e) {
+					System.err.println(e.getMessage());
+				}
+
+				//publish to activity log
+				//not logging name of player purchasing because it will say they purchased it
+				//should we specify whether purchasing secondhand?
+				try {
+					log = playerName + " sold " + numUnits + " units of " + resource.getResourceName();
+					logger.writeToLog(log);
+				} catch (Exception e1) {
+					System.err.println(e1.getMessage());
+				} 
+				return true;
+			}
+			
+			else return false;
 		}
 		else return false;
 	}
