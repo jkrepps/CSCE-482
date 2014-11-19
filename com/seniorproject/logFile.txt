@@ -77,3 +77,21 @@ Lance sold Coal
 Lance purchased Coal
 Lance sold Coal
 noname purchased Coal
+Jayme purchased Coal
+Jayme sold Coal
+Jayme purchased Coal
+Jayme sold Coal
+Jayme purchased Coal
+Jayme purchased Coal
+Jayme purchased Coal
+Jayme sold Coal
+Jayme purchased Coal
+Jayme purchased 10 units of Coal
+Jayme purchased 10 units of Coal
+Jayme purchased 10 units of Coal
+noname purchased 2 units of Coal
+Jayme sold Coal
+Jayme purchased 2 units of Coal
+Jayme sold Coal
+Lance purchased 10 units of Coal
+Lance sold Coal

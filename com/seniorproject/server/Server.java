@@ -15,11 +15,13 @@ import com.seniorproject.dao.DaoObject;
 import com.seniorproject.dao.GameDao;
 import com.seniorproject.dao.PlayerDao;
 import com.seniorproject.dao.ResourceDao;
+import com.seniorproject.dao.TechDao;
 import com.seniorproject.game.Game;
 import com.seniorproject.game.Player;
 import com.seniorproject.game.World;
 import com.seniorproject.logger.Logger;
 import com.seniorproject.resource.Resource;
+import com.seniorproject.resource.Tech;
 
 
 public class Server {
@@ -36,17 +38,14 @@ static DaoObject dao;
 
 
 private static ResourceDao resourceDao;// = new ResourceDao(dao.getConnection());
+private static TechDao techDao;
 private static Logger logger = new Logger();
 
 	public static int initializeGame(Game game, DaoObject dao) throws Exception
 	{
-		System.out.println("point0");
 		GameDao gameDao = new GameDao(dao.getConnection());
-		System.out.println("point01");
 		int gameId = gameDao.createGame(game);
-		System.out.println("point02");
 		game.startGameThread(gameId, dao);
-		System.out.println("point03");
 		return gameId;
 		
 		//new Thread(new GameThread()).start();//change to new Thread(new WeatherThread(int gameid)).start();
@@ -99,6 +98,7 @@ private static Logger logger = new Logger();
 		System.out.println("After login \n");
 		playerDao = new PlayerDao(dao.getConnection());
 		resourceDao = new ResourceDao(dao.getConnection());
+		techDao = new TechDao(dao.getConnection());
 		gameDao = new GameDao(dao.getConnection());
 		
 		
@@ -262,7 +262,6 @@ private static Logger logger = new Logger();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.out.println("pointz");
 			outputLine += Integer.toString(NUMPLAYERS) + "";
 			for(int i = 0; i < NUMPLAYERS; i++)
 				if(players[i] != null)
@@ -310,19 +309,46 @@ private static Logger logger = new Logger();
 			int numberItems = 0;
 			List<Resource> list;
 			try {
-				list = resourceDao.getResourceList();
-				numberItems = resourceDao.getResourceList().size();
+				list = resourceDao.getResourceList(p);
+				numberItems = list.size();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			outputLine += Integer.toString(numberItems);
-			for(int i = 0; i < numberItems; i++) {
-					try {
-						outputLine += "\n" + resourceDao.getResourceList().get(i).getResourceName() + "\t" + resourceDao.getResourceList().get(i).getResourcePrice();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+			try 
+			{
+				list = resourceDao.getResourceList(p);
+				for(int i = 0; i < numberItems; i++) 
+				{
+					outputLine += "\n" + list.get(i).getResourceName() + "\t" + list.get(i).getResourcePrice();
+				}
+			} catch (Exception e) {
+					e.printStackTrace();
 			}
+			
+		}
+		else if(tokens[0].equals("techlist"))	 //itemlist = show a list of all items
+		{
+			int numberItems = 0;
+			List<Tech> list;
+			try {
+				list = techDao.getTechList(p);
+				numberItems = list.size();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			outputLine += Integer.toString(numberItems);
+			try 
+			{
+				list = techDao.getTechList(p);
+				for(int i = 0; i < numberItems; i++) 
+				{
+					outputLine += "\n" + list.get(i).getTechName() + "\t" + list.get(i).getTechPrice();
+				}
+			} catch (Exception e) {
+					e.printStackTrace();
+			}
+			
 		}
 		else if (tokens[0].equals("buy"))
 		{

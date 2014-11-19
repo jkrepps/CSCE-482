@@ -94,6 +94,14 @@ static String password = "";
 					System.out.println(in.readLine());
 				}
 			}
+			else if(tokens[0].equals("techlist"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
+			{
+				int num = Integer.parseInt(in.readLine());
+				for(int i = 0; i<num; i++)
+				{
+					System.out.println(in.readLine());
+				}
+			}
 			else if(input.equals("getResources"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
 			{
 				int num = Integer.parseInt(in.readLine());

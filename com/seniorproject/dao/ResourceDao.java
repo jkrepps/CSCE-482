@@ -7,6 +7,7 @@ import java.sql.Connection;
 
 import com.seniorproject.resource.Resource;
 import com.seniorproject.resource.ResourceType;
+import com.seniorproject.game.Player;
 
 public class ResourceDao extends DaoObject {
 	
@@ -14,8 +15,20 @@ public class ResourceDao extends DaoObject {
 		this.connection = connection;
 	}
 
-	public List<Resource> getResourceList() throws DaoException {
-		//DaoObject dao = new DaoObject();
+	public List<Resource> getResourceList(Player p) throws DaoException {
+		//grab string from PlayerTechs corresponding to current research levels
+			///String selectQuery = "SELECT currentResearch FROM PlayerTechs WHERE player_id = " + p.getPlayerId() + ";";
+		//parse the return string into indexes that can be looped through
+			///String PossibleIDs = executeSelect(selectQuery);
+			///String Delim = ","
+			///String IDS[] = PossibleIDs.split(Delim);
+		//create a loop for Selecting from ResourceList based on each ID
+			/**for(int i = 0; i < IDS.length(); i++)
+			{
+				String selectQuery = "SELECT * FROM ResourceList WHERE RequiredTech = " + IDS[i] + ";";
+			}
+			*/
+		
 		String selectQuery = "SELECT * FROM ResourceList;";
 		List<Resource> returnList = new ArrayList<Resource>();
 		try {
