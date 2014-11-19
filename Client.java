@@ -94,7 +94,7 @@ static String password = "";
 					System.out.println(in.readLine());
 				}
 			}
-			else if(input.equals("getInfra"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
+			else if(input.equals("getResources"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
 			{
 				int num = Integer.parseInt(in.readLine());
 				for(int i = 0; i<num; i++)
