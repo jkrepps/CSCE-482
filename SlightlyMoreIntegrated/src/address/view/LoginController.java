@@ -44,6 +44,7 @@ public class LoginController implements Initializable, ControlledScreen {
 		String passwordS = password.getText();
 		Network.getInstance().SetNetInfo(usernameS, passwordS, "54.68.68.208", 4446);
 		String connect = Network.getInstance().StartConnection();
+		myController.setUserName(usernameS);
 		myController.setScreen(MainApplication.OPENING_SCREEN);
 	}
 

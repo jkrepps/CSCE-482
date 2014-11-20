@@ -26,7 +26,7 @@ public class MainApplication extends Application {
 	public static final String WAITING_SCREEN_FXML = "WaitingFXML.fxml";
 	public static final String YOUR_JOIN_SCREEN = "yourjoin";
 	public static final String YOUR_JOIN_SCREEN_FXML = "YourJoinFXML.fxml";
-		
+	
 	/*----------------------------------*/
 	/*		HELPER FUNCTIONS			*/
 	/*----------------------------------*/

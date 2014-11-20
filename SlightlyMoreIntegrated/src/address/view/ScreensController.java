@@ -10,7 +10,8 @@ public class ScreensController extends StackPane {
 	/*--------------------*/
 	/*		DATA MEMBERS  */
 	/*--------------------*/
-	private HashMap<String, Node> screens = new HashMap<>();		// Hash Map to keep track of screens and their respective string identifiers
+	private HashMap<String, Node> screens = new HashMap<>(); // Hash Map to keep track of screens and their respective string identifiers
+	private String username;
 	
 	/*-----------------------*/
 	/*		HELPER FUNCTIONS */
@@ -53,5 +54,13 @@ public class ScreensController extends StackPane {
 			System.out.println("screen has not been loaded!\n");
 			return false;
 		}
+	}
+	
+	public void setUserName(String name){
+			username = name;
+	}
+	
+	public String getUserName() {
+		return username;
 	}
 }

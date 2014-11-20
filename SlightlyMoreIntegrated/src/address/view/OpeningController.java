@@ -139,6 +139,7 @@ public class OpeningController implements ControlledScreen {
 			public void handle(MouseEvent t) {
 				buttonClick.setVolume(.4);
 				buttonClick.play();
+				System.out.println(myController.getUserName());
 				myController.setScreen(MainApplication.HOWTO_SCREEN);
 			}
 		});

@@ -6,8 +6,8 @@ import javafx.scene.control.Button;
 
 public class GameData {
 	
-	Vector<Button> games = new Vector();
-	Vector<Button> yourGames = new Vector();
+	Vector<Button> games = new Vector<Button>();
+	Vector<Button> yourGames = new Vector<Button>();
 	
 	public void setGames() {
 		Network.getInstance().SendMessage("gamelist");

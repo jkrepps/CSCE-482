@@ -106,9 +106,12 @@ public class JoinController implements ControlledScreen {
 		GameData.getInstance().setGames();
 		Vector<Button> games = GameData.getInstance().getGames();
 		for(int i=0; i<games.size(); ++i) {
+			Button temp = games.elementAt(i);
 			games.elementAt(i).setOnMouseClicked(new EventHandler<MouseEvent> (){
 				public void handle(MouseEvent t) {
-					
+					Network.getInstance().SendMessage("game" + myController.getUserName() + temp.getText());
+					Network.getInstance().RecieveMessage();
+					myController.setScreen(MainApplication.GAME_SCREEN);
 				}
 			});
 		}
