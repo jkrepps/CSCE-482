@@ -41,12 +41,20 @@
                         <Font name="Matura MT Script Capitals" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="joinGame" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Join Game" textFill="#ebe8e8">
+                  <Button fx:id="joinGame" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Join Others Games" textFill="#ebe8e8">
                      <font>
                         <Font name="Matura MT Script Capitals" size="12.0" />
                      </font>
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="31.35" offsetX="10.0" offsetY="5.0" radius="16.2925" width="35.82" />
+                     </effect>
+                  </Button>
+                  <Button fx:id="joinYourGame" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Join Your Games" textFill="#e8e2e2">
+                     <font>
+                        <Font name="Matura MT Script Capitals" size="12.0" />
+                     </font>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" height="44.72" radius="19.6375" spread="0.24" width="35.83" />
                      </effect>
                   </Button>
                   <Button fx:id="howToPlay" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="How To Play" textFill="#f5f0f0">

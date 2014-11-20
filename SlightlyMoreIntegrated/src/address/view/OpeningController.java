@@ -27,6 +27,8 @@ public class OpeningController implements ControlledScreen {
 	@FXML
 	private Button joinGame;
 	@FXML
+	private Button joinYourGame;
+	@FXML
 	private Button howToPlay;
 	
 	/*------------------------------------------*/
@@ -88,6 +90,31 @@ public class OpeningController implements ControlledScreen {
 				buttonClick.setVolume(.4);
 				buttonClick.play();
 				myController.setScreen(MainApplication.JOIN_SCREEN);
+			}
+		});
+		
+		// if mouse dragged over button play sounds and set effect
+		joinYourGame.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent t) {
+				joinYourGame.setEffect(new InnerShadow(BlurType.GAUSSIAN, Color.AZURE, 10, .9, 0, 0));
+				buttonDrag.setVolume(.3);
+				buttonDrag.play();
+			}
+		});
+		
+		// if mouse is drug off button play sounds and set effect back
+		joinYourGame.setOnMouseExited(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent t) {
+				joinYourGame.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.BLACK, 15.17, 0, 15, 5 ));
+			}
+		});
+		
+		// when clicked play click sound and go to join your game screen
+		joinYourGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent t) {
+				buttonClick.setVolume(.4);
+				buttonClick.play();
+				myController.setScreen(MainApplication.YOUR_JOIN_SCREEN);
 			}
 		});
 		

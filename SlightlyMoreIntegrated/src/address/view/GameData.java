@@ -7,11 +7,11 @@ import javafx.scene.control.Button;
 public class GameData {
 	
 	Vector<Button> games = new Vector();
+	Vector<Button> yourGames = new Vector();
 	
 	public void setGames() {
 		Network.getInstance().SendMessage("gamelist");
 		String rstring = Network.getInstance().RecieveMessage();
-		System.out.println(rstring);
 		final int GAMES_ROWS = Integer.parseInt(rstring);
 		for(int i=0; i<GAMES_ROWS; ++i) {
 			Button b = new Button(Network.getInstance().RecieveMessage());
@@ -19,10 +19,23 @@ public class GameData {
 		}
 	}
 	
+	public void setYourGames() {
+		Network.getInstance().SendMessage("yourgamelist");
+		String rstring = Network.getInstance().RecieveMessage();
+		final int GAMES_ROWS = Integer.parseInt(rstring);
+		for(int i=0; i<GAMES_ROWS; ++i) {
+			Button b = new Button(Network.getInstance().RecieveMessage());
+			yourGames.add(b);
+		}
+	}
+	
 	public Vector<Button> getGames() {
 		return games;
 	}
 	
+	public Vector<Button> getYourGames() {
+		return yourGames;
+	}
 	private static GameData instance;
 
 	  static 

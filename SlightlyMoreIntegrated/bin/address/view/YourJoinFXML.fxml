@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1250.0" styleClass="background" stylesheets="@YourJoinStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.YourJoinController">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="#9374e3" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Your Games">
+               <font>
+                  <Font name="Matura MT Script Capitals" size="46.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#cac6e8" height="0.0" radius="11.4225" spread="0.38" width="47.69">
+                     <input>
+                        <InnerShadow choke="0.35" height="0.0" radius="6.2325" width="26.93" />
+                     </input>
+                  </DropShadow>
+               </effect>
+            </Text>
+            <ScrollPane fx:id="gamesPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" styleClass="game_Scroll">
+               <content>
+                  <VBox fx:id="gamesList" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="700.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </center>
+   <left>
+      <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#backClick" onMouseEntered="#mouseEnter" prefHeight="35.0" prefWidth="200.0" styleClass="buttons" text="Back" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Algerian" size="18.0" />
+         </font>
+      </Button>
+   </left>
+   <right>
+      <Button fx:id="findGames" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseEntered="#findGame" prefHeight="35.0" prefWidth="200.0" styleClass="buttons" text="Find Games" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Algerian" size="17.0" />
+         </font>
+      </Button>
+   </right>
+</BorderPane>
