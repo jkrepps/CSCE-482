@@ -50,32 +50,6 @@ private static Logger logger = new Logger();
 		
 		//new Thread(new GameThread()).start();//change to new Thread(new WeatherThread(int gameid)).start();
 	}
-	public static int reinitializeGame() throws Exception
-	{
-		List<Game> gameList = new ArrayList<Game> ();
-		List<Player> playerList = new ArrayList<Player> ();
-		GameDao gameDao = new GameDao(dao.getConnection());
-		try {
-			gameList = gameDao.getFullGameList(); 
-		
-		for (int i = 0; i < gameList.size(); i++) 
-		{
-			System.out.println("creating game i");
-			gameList.get(i).startGameThread(i, dao);
-			playerList = playerDao.getPlayersForGame(gameList.get(i));
-			 
-			for (int j = 0; j < playerList.size(); j++) 
-			{
-				System.out.println("inserting player i");
-				gameList.get(i).insertPlayer(playerList.get(j));
-			}
-		}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return 1;
-		//new Thread(new GameThread()).start();//change to new Thread(new WeatherThread(int gameid)).start();
-	}
 	
 	/**
 	 * Main functions that "starts" the server
@@ -128,14 +102,6 @@ private static Logger logger = new Logger();
 		gameDao = new GameDao(dao.getConnection());
 		
 		
-		//reInitialize all games that may have been closed
-		try
-		{
-		reinitializeGame();
-		} catch (Exception e) {
-		System.out.println(e.getMessage());
-		}
-		
         int portNumber = Integer.parseInt(args[0]);
 
         try { 
@@ -173,7 +139,7 @@ private static Logger logger = new Logger();
 					new InputStreamReader(socket.getInputStream())); 	// input stream
 				
 				
-				Player p = new Player(-1, "noname", startingPlayerMoney, 0.67, dao.getConnection()); // create a new player Object that will have credentials determined later
+				Player p = new Player(0, "noname", startingPlayerMoney, 0.67, dao.getConnection()); // create a new player Object that will have credentials determined later
 			
 			
 				String inputLine, outputLine;
@@ -274,7 +240,7 @@ private static Logger logger = new Logger();
 		{
 			List<Game> gameList = new ArrayList<Game> ();
 			
-			try {
+				try {
 				gameList = gameDao.getGameList(); 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -329,11 +295,6 @@ private static Logger logger = new Logger();
 			}
 				
 		}
-		else if(p.getPlayerId() == -1)
-		{
-			outputLine = "Connect to a game first.";
-		}
-		/// From here on out, it is not possible for a user to issue this command if they have not connected to a game
 		else if(tokens[0].equals("playerlist"))   //playerlist = show all current players
 		{
 			outputLine += Integer.toString(NUMPLAYERS) + "";
@@ -399,8 +360,6 @@ private static Logger logger = new Logger();
 				outputLine += "Not enough money";
 			else if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == -1 )
 				outputLine += "Item doesn't exist";
-			else if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == -2 )
-				outputLine += "Error with update of database entry";
 			else 
 				outputLine += "UNKNOWN ERROR";
 		}
@@ -426,7 +385,7 @@ private static Logger logger = new Logger();
 			//1 = resource name, 2 = numUnits
 			if(p.sellResource(tokens[1], Integer.parseInt(tokens[2])) == 1)
 				outputLine += "sold " + tokens[2] + " units of " + tokens[1];
-			else if (p.sellResource(tokens[1], Integer.parseInt(tokens[2])) == 0)
+			else if (p.sellResource(tokens[1], Integer.parseInt(tokens[2])) == 1)
 				outputLine += "Not enough items in player inventory";
 			else if (p.sellResource(tokens[1], Integer.parseInt(tokens[2])) == -1)
 				outputLine += "Item doesn't exist";
@@ -454,9 +413,39 @@ private static Logger logger = new Logger();
 			world.SetWeather();
 			outputLine = "changed weather";
 		}
-		else	//otherwise simply repeat the input command.
+
+		else									//otherwise simply repeat the input command.
 		outputLine = "Copy: " + input;
 		return outputLine;
 	}
+	
+	
+	/*
+	public static class WeatherThread implements Runnable {  // client thread, each client goes through this process individually and simultaneously. 
+
+		//id game
+
+        public WeatherThread() {// accept client socket connection. // int id as an argument
+        }
+
+        @Override
+        public void run() {	//start thread
+			while(true)
+			{
+				world.SetDaytime();
+				world.SetWeather();
+				System.out.println("new weather is : " + world.GetWeather());
+				System.out.println("new daytime is : " + world.GetDaytime());
+				try
+				{
+				TimeUnit.MINUTES.sleep(30);
+				} catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+			}
+        }
+    }
+    
+    */
 	
 }

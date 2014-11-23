@@ -41,6 +41,7 @@ public class Game {
 		this.endTime = endTime;
 		this.gameYears = gameYears;
 		this.weather = weather; // placeholder
+		this.currentPlayers = new ArrayList<Player>();
 		
 	}
 	
@@ -64,6 +65,7 @@ public class Game {
 	
 	
 	public boolean insertPlayer(Player p) {
+	System.out.println("player p being inserted = "+ p);
 		if (currentPlayers.size() == maxPlayers)
 			return false;
 		else {
@@ -79,12 +81,13 @@ public class Game {
 		int gameId;
 		DaoObject dao;
 		PlayerDao playerDao;
+		World world;
 		
         public GameThread(int gameId, DaoObject dao) throws Exception {// accept client socket connection. // int id as an argument
         	this.gameId = gameId;
         	this.dao = dao;
         	playerDao = new PlayerDao(dao.getConnection());
-        	
+        	world = new World();
         }
 
         @Override
@@ -93,18 +96,16 @@ public class Game {
         	
 			while(true)
 			{
-				
-				World world = new World();
 				world.SetDaytime();
 				world.SetWeather();
 				System.out.println("Weather is : " + world.GetWeather());
 				System.out.println("Time of day is : " + world.GetDaytime());
 				try
 				{
-				TimeUnit.MINUTES.sleep(30);
+				TimeUnit.SECONDS.sleep(10);
 				for ( Player p : currentPlayers ) {
-					float netIncome = playerDao.getIncome(p.getPlayerId());
-					playerDao.updatePlayerMoney(p.getPlayerName(), netIncome);
+					float netIncome = playerDao.updateAssets(p);
+					//playerDao.updatePlayerMoney(p.getPlayerName(), netIncome);
 					// Player.refresh()
 				}
 				} catch (InterruptedException | DaoException e) {

@@ -51,7 +51,14 @@ public class Player
 
 
 	/* Getters and Setters */
-    public Float getPlayerMoney() { return playerMoney; }
+    public Float getPlayerMoney() 
+	{ 
+		try{
+		playerMoney = playerDao.getPlayerMoney(playerName, playerDao.getGameId(playerId));
+		}catch(Exception e){ System.out.println(e);}
+		
+		return playerMoney; 
+	}
     public String getPlayerName() { return playerName; }
 	public Double getPlayerMarketing() { return playerMarketing; }
 	public String getPass() { return password; }

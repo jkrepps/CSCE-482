@@ -20,7 +20,10 @@ public class World
 	
 		public daytimes next()
 	    {
-	        return values()[(this.ordinal()+1) % values().length];
+		int length = daytimes.values().length - 1;
+	        return this.ordinal() < length
+				 ? daytimes.values()[this.ordinal() + 1]
+				 : daytimes.values()[0];
 	    }
 		
 		@Override public String toString() {
@@ -42,7 +45,7 @@ public class World
 		int randomw = rand.nextInt(wsize);
 		int randomd = rand.nextInt(dsize);
 		w = weathers.values()[randomw];
-		d = daytimes.values()[randomd];
+		d = daytimes.values()[0];
     }
     
 	

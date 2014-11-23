@@ -78,6 +78,16 @@ public class ResourceDao extends DaoObject {
 		}
 		return false;
 	}
+	public Boolean isInPlayerItemList(String resourceName) throws DaoException {
+		String selectQuery = "SELECT id FROM ResourceList WHERE name = '" + resourceName + "';";
+		try {
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			if(resultSet.next()) { return true; }
+		} catch (Exception e) {
+			throw new DaoException("Getting resource type failed with: " +  e.getMessage());
+		}
+		return false;
+	}
 
 	public ResourceType getResourceType(String ResourceName) throws DaoException {
 		String selectQuery = "SELECT type FROM ResourceList WHERE name = '" + ResourceName + "';";

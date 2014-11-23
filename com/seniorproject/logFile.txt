@@ -95,3 +95,56 @@ Jayme purchased 2 units of Coal
 Jayme sold Coal
 Lance purchased 10 units of Coal
 Lance sold Coal
+Lance purchased 5 units of Coal
+Lance sold Coal
+Jayme purchased 3 units of Coal
+Jayme sold 3 units of Coal
+Jayme purchased 3 units of Coal
+Jayme sold 2 units of Coal
+Jayme purchased 4 units of Coal
+Jayme purchased 4 units of Coal
+Jayme purchased 10 units of Coal
+Jayme sold 4 units of Coal
+Jayme sold 5 units of Coal
+Jayme sold 2 units of Coal
+Jayme purchased 12 units of Coal
+Jayme sold 12 units of Coal
+Jayme purchased 1 units of Coal
+Jayme sold 1 units of Coal
+Jayme purchased 10 units of Coal
+Jayme sold 5 units of Coal
+Jayme purchased 3 units of Coal
+Jayme purchased 5 units of Coal
+Jayme purchased 10 units of Coal
+Jayme purchased 3 units of Coal
+Jayme sold 3 units of Coal
+Jayme purchased 4 units of Cake
+Jayme purchased 4 units of Cake
+Jayme purchased 2 units of Cake
+Jayme purchased 2 units of Cake
+Jayme sold 10 units of Coal
+Jayme sold 10 units of Coal
+Jayme purchased 10 units of Coal
+Jayme purchased 2 units of Cake
+Jayme purchased 2 units of Solar Panel
+Jayme sold 13 units of Coal
+Jayme purchased 10 units of Coal
+Jayme purchased 1 units of Cake
+Jayme purchased 3 units of Coal
+Jayme purchased 5 units of Coal
+Jayme sold 10 units of Coal
+Jayme purchased 10 units of Cake
+Jayme sold 5 units of Cake
+Jayme sold 1 units of Cake
+Jayme sold 2 units of Cake
+Jayme purchased 10 units of Coal
+Jayme sold 12 units of Coal
+Jayme purchased 10 units of Copper
+user1 purchased 2 units of Solar Panel
+user1 purchased 1 units of Windmill
+NishsTestDummy2 purchased 10 units of Solar Panel
+Lance purchased 5 units of Coal
+Lance purchased 1 units of Pike
+Lance purchased 1 units of Cotton Farm
+Lance purchased 1 units of Cotton Farm
+Lance purchased 1 units of Cotton Farm
