@@ -5,7 +5,7 @@ import com.seniorproject.dao.DaoException;
 import com.seniorproject.dao.DaoObject;
 import com.seniorproject.dao.PlayerDao;
 import com.seniorproject.dao.ResourceDao;
-import com.seniorproject.resource.Resource;
+import com.seniorproject.resource.*;
 import com.seniorproject.logger.Logger;
 
 import java.util.Random;
@@ -75,7 +75,7 @@ public class Player
     public int buyResource(String resourceName, int numUnits) throws DaoException //for right now returns int, in future could be different
 	{
 		//can't go further unless in itemlist
-		if(resourceDao.isInItemList(resourceName) == false) return -1;
+		if(resourceDao.isInItemList(resourceName) && resourceDao.isInPlayerItemList(resourceName,this) == false) return -1;
 
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
 		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
@@ -125,6 +125,59 @@ public class Player
 		//automatically generate
 		resourceID ++;
 
+		return 1;
+	}
+	
+	public int buyTech(String techName) throws DaoException //for right now returns int, in future could be different
+	{
+		//can't go further unless in itemlist
+		if(resourceDao.isInTechList(techName) && resourceDao.isInPlayerTechList(techName,this) == false) return -1;
+
+
+		Tech tech = resourceDao.getTech(techName);
+		int playerScience = playerDao.getScience(this);
+		
+		//only purchase if can afford it
+		if(playerScience - (tech.getTechPrice()) < 0) return 0; // if you dont have enough money then dont do anything else
+	
+		//add to database
+		if(playerDao == null) System.out.println("dao is null in add Resource - player\n");
+	
+		System.out.println(playerId);
+
+		//only add if it isn't already there
+		if(playerDao.isPlayerTech(playerId, tech.getResouceId())) {
+			return -2;
+		}
+
+		else 
+		{ 
+			if(playerDao.addTech(tech, playerId) == -1){
+				System.out.println("Adding tech is broken");
+				return -2;
+			} 
+		}
+		/*
+		//update money (only happens if transaction is successful)
+		playerMoney = playerMoney - (resourcePrice * numUnits);
+			
+		try{
+			playerDao.setPlayerMoney(playerName,playerId,playerMoney);
+		}catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+
+		//publish to activity log
+		try {
+			log = playerName + " purchased " + numUnits + " units of " + resource.getResourceName();
+			logger.writeToLog(log);
+		} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+		}
+
+		//automatically generate
+		resourceID ++;
+		*/
 		return 1;
 	}
 

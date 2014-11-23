@@ -24,7 +24,6 @@ public class PlayerDao extends DaoObject {
 	public int createPlayer(Player player, String username, int gameId) throws DaoException {
 		String insertQuery = "INSERT INTO Player VALUES (0,'" + username + "','" + username +"',"
 			+ gameId + "," + player.getPlayerMoney() + "," + player.getPlayerMarketing() + ");";
-		System.out.println(insertQuery);
 			//TODO ADD PLAYER += 1
 		UpdateGamePlayersIncrement(gameId);
 			
@@ -50,12 +49,10 @@ public class PlayerDao extends DaoObject {
 			
 			if(!resultSet.next()) 
 			{ 
-				System.out.println("no result set");
 				if (gameDao.checkGame(gameId)) {
 					if (createPlayer(player, username, gameId) > 0)
 					{
 						player = checkPlayer(gameId, username, game);
-						System.out.println("new player inserted into game");
 						game.insertPlayer(player);
 						return player;
 					}
@@ -67,7 +64,6 @@ public class PlayerDao extends DaoObject {
 			}
 			else 
 			{
-				System.out.println("inserting old player");
 				player = new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getFloat(5), resultSet.getDouble(6), connection);
 			}
 		} catch ( Exception e) {
@@ -145,7 +141,6 @@ public class PlayerDao extends DaoObject {
 	public int getGameId(int playerId) throws DaoException {
 		String selectQuery = "SELECT game_id FROM Player where id=" + playerId +";";
 		int ID = -1;
-		System.out.println(selectQuery);
 		try { 
 			ResultSet resultSet = this.executeSelect(selectQuery);
 			
@@ -161,7 +156,6 @@ public class PlayerDao extends DaoObject {
 	public float getPlayerMoney(String playername, int gameId) throws DaoException {
 		String selectQuery = "SELECT money FROM Player where name='" + playername +"' AND game_id=" + gameId +";";
 		float money = -1;
-		System.out.println(selectQuery);
 		try { 
 			ResultSet resultSet = this.executeSelect(selectQuery);
 			
@@ -210,6 +204,28 @@ public class PlayerDao extends DaoObject {
 		
 		return retval;
 	}
+	
+	public int addTech (Tech tech, int playerId) throws DaoException {
+		
+		int retval = -1;
+		String insertQuery ="INSERT INTO PlayerTechs VALUES (" +  playerId +  ", " + 
+				tech.getResouceId() + ");" ;
+		
+		try {
+			this.executeUpdate(insertQuery);
+			
+			String selectIdQuery = "SELECT LAST_INSERT_ID();";
+			ResultSet resultSet = executeSelect(selectIdQuery);			
+			resultSet.next();			
+			retval = resultSet.getInt(1);
+			
+		} catch (Exception e1) {
+			System.out.println("Something broke in the addTech function of PlayerDao");
+			System.err.println(e1.getMessage());
+		}
+		
+		return retval;
+	}
 
 	public int updateResource (Resource resource, int playerId, int newNumUnits) throws DaoException {
 		String updateQuery ="UPDATE PlayerResource SET units = " + newNumUnits + " WHERE player_id = " + playerId + " AND resourceName = '" + resource.getResourceName() + "';";
@@ -248,6 +264,24 @@ public class PlayerDao extends DaoObject {
 		
 		return returnList;
 	}
+	public int getScience(Player p) throws DaoException {
+		
+		String selectQuery = "SELECT units FROM PlayerResource WHERE player_id=" + p.getPlayerId() +" AND resourceName = 'Science';";
+		int units = 0;
+		
+		try {
+			ResultSet resultSet = executeSelect(selectQuery);
+			
+			while(resultSet.next()) {
+				
+				units = resultSet.getInt(1);
+			}
+		}catch (Exception e) {
+			throw new DaoException("Call to get Science by Player failed with: " + e.getMessage());
+		}
+		
+		return units;
+	}
 	/*
 	public float getIncome (int playerId) throws DaoException {
 		
@@ -272,28 +306,20 @@ public class PlayerDao extends DaoObject {
 		Float netIncome = 0.0f;
 		Float rincome = 0.0f;
 		int units = 0;
-		System.out.println("point1");
 		try {
 			ResultSet resultSet = executeSelect(selectQuery);
-			System.out.println("point2");
 			//get list of resources player owns
 			while(resultSet.next())
 			{
-				System.out.println("point3");
 				resourceList.add(new Resource(resultSet.getString(3),resultSet.getString(4),resultSet.getFloat(5)));
 			}
-			System.out.println("point4");
 			//for each resource, get the income for that resource and multiply it by the number of units the person has. append to net income.
 			for(int i = 0; i < resourceList.size(); i++)
 			{
-				System.out.println("point5");
 				rincome = getIncomeOfResource(resourceList.get(i).getResourceName());
-				System.out.println("point6");
 				units = getResourceNumUnits(playerId, resourceList.get(i).getResourceName());
-				System.out.println("point7");
 				netIncome += rincome * units;
 			}
-			System.out.println("point8");
 
 			return netIncome;
 		} catch (Exception e){
@@ -301,7 +327,7 @@ public class PlayerDao extends DaoObject {
 		}
 	}
 	public float updateAssets (Player p) throws DaoException {
-		String selectQuery = "SELECT * FROM PlayerResource WHERE player_id=" + p.getPlayerId() + ";";
+		String selectQuery = "SELECT * FROM PlayerResource WHERE player_id=" + p.getPlayerId() + " AND resourceClass = 'INFRA';";
 		List<Resource> resourceList = new ArrayList<Resource> ();
 		Float netIncome = 0.0f;
 		Float rincome = 0.0f;
@@ -322,7 +348,6 @@ public class PlayerDao extends DaoObject {
 					//System.out.println("2");
 					netIncome = rincome * units;
 					String incomeType = getResourceIncomeType(resourceList.get(i).getResourceName());
-					System.out.println("income type = " + incomeType);
 				if(incomeType.equals("Money"))
 				{	//then simply increment money by netincome
 					setPlayerMoney(p.getPlayerName(), p.getPlayerId(), getPlayerMoney(p.getPlayerName(), getGameId(p.getPlayerId())) + netIncome);
@@ -354,7 +379,6 @@ public class PlayerDao extends DaoObject {
 	public String getResourceIncomeType(String resourceName)throws DaoException 
 	{
 		String selectQuery = "SELECT income_type FROM ResourceList WHERE name='" + resourceName + "';";
-		System.out.println(selectQuery);
 		List<Resource> resourceList = new ArrayList<Resource> ();
 		String IncomeType;
 		try {
@@ -373,7 +397,6 @@ public class PlayerDao extends DaoObject {
 	{
 	//chance price to income later
 		String selectQuery = "SELECT income FROM ResourceList WHERE name='" + resourceName + "';";
-		System.out.println(selectQuery);
 		List<Resource> resourceList = new ArrayList<Resource> ();
 		Float Income;
 		try {
@@ -404,6 +427,25 @@ public class PlayerDao extends DaoObject {
 		
 		}catch (Exception e) {
 			throw new DaoException("Call to get check if player owns resource failed with: " + e.getMessage());
+		}
+		
+		return false;
+	}
+	public boolean isPlayerTech(int playerId, int techId) throws DaoException {
+		
+		String selectQuery = "SELECT * FROM PlayerTechs WHERE player_id=" + playerId +" AND Researched=" + techId + ";";
+		List<Resource> returnList = new ArrayList<Resource>();
+		
+		try {
+			ResultSet resultSet = executeSelect(selectQuery);
+			
+			if(resultSet.next())
+			{
+				return true;
+			}
+		
+		}catch (Exception e) {
+			throw new DaoException("Call to get check if player owns tech failed with: " + e.getMessage());
 		}
 		
 		return false;

@@ -151,3 +151,15 @@ Lance purchased 1 units of Cotton Farm
 David purchased 1 units of Cotton Farm
 TheOne purchased 1 units of Cotton Farm
 test6 purchased 1 units of Cotton Farm
+user1 purchased 1 units of Basic Farm
+user1 purchased 5 units of Factory Worker
+user1 sold 1 units of Factory Worker
+user1 sold 1 units of Factory Worker
+user1 sold 1 units of Factory Worker
+user1 sold 1 units of Factory Worker
+user1 sold 1 units of Factory Worker
+user1 purchased 1 units of Lab
+Lance purchased 1 units of Lab
+Lance purchased 2 units of Basic Farm
+Lance sold 400 units of Cotton
+Lance purchased 10 units of Plot

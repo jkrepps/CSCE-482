@@ -65,11 +65,9 @@ public class Game {
 	
 	
 	public boolean insertPlayer(Player p) {
-	System.out.println("player p being inserted = "+ p);
 		if (currentPlayers.size() == maxPlayers)
 			return false;
 		else {
-			System.out.println("adding p");
 			currentPlayers.add(p);
 			return true;
 		}
@@ -99,8 +97,8 @@ public class Game {
 			{
 				world.SetDaytime();
 				world.SetWeather();
-				System.out.println("Weather is : " + world.GetWeather());
-				System.out.println("Time of day is : " + world.GetDaytime());
+				System.out.println("Weather for game "+gameId+" is : " + world.GetWeather());
+				System.out.println("Time of day for game "+gameId+" is : " + world.GetDaytime());
 				try
 				{
 				TimeUnit.SECONDS.sleep(10);

@@ -61,13 +61,11 @@ private static List<Game> gameList;
 		
 		for (int i = 0; i < gameList.size(); i++) 
 		{
-			System.out.println("creating game i");
 			gameList.get(i).startGameThread(i, dao);
 			playerList = playerDao.getPlayersForGame(gameList.get(i));
 			 
 			for (int j = 0; j < playerList.size(); j++) 
 			{
-				System.out.println("inserting player i");
 				gameList.get(i).insertPlayer(playerList.get(j));
 			}
 		}
@@ -217,15 +215,12 @@ private static List<Game> gameList;
 	
 	public static String processRequest (String input, Player p) throws Exception//Process an input from a player p
 	{
-		System.out.println("Inside Process Request with input: " + input + "\n");
 		String outputLine = "";
 		String delims = "\t";
 		String[] tokens = input.split(delims); // parse the input command into tokens and process keywords
-		System.out.println(tokens[0]);
 		if(tokens[0].equals("name"))   			  //name = Login
 		{
 			try {
-				System.out.println(tokens[1]);
 				String returnMessage = login.UserLogin(tokens[1], tokens[2]);
 				p.setPlayerName(tokens[1]);
 				if (returnMessage == "Relog") {
@@ -412,6 +407,21 @@ private static List<Game> gameList;
 			else if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == -1 )
 				outputLine += "Item doesn't exist";
 			else if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == -2 )
+				outputLine += "Error with update of database entry";
+			else 
+				outputLine += "UNKNOWN ERROR";
+		}
+		else if (tokens[0].equals("buytech"))
+		{
+			//1 = resource name 2 = numUnits
+			int result = p.buyTech(tokens[1]);
+			if (result == 1)
+				outputLine += "purchased " + tokens[1];
+			else if (result == 0)
+				outputLine += "Not enough money";
+			else if (result == -1 )
+				outputLine += "Item doesn't exist";
+			else if (result == -2 )
 				outputLine += "Error with update of database entry";
 			else 
 				outputLine += "UNKNOWN ERROR";

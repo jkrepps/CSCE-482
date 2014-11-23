@@ -6,6 +6,7 @@ import java.util.List;
 import java.sql.Connection;
 
 import com.seniorproject.resource.Resource;
+import com.seniorproject.resource.*;
 import com.seniorproject.resource.ResourceType;
 import com.seniorproject.game.Player;
 
@@ -16,27 +17,29 @@ public class ResourceDao extends DaoObject {
 	}
 
 	public List<Resource> getResourceList(Player p) throws DaoException {
+		List<Integer> techIDs = new ArrayList<Integer>();
 		//grab string from PlayerTechs corresponding to current research levels
-			///String selectQuery = "SELECT currentResearch FROM PlayerTechs WHERE player_id = " + p.getPlayerId() + ";";
-		//parse the return string into indexes that can be looped through
-			///String PossibleIDs = executeSelect(selectQuery);
-			///String Delim = ","
-			///String IDS[] = PossibleIDs.split(Delim);
-		//create a loop for Selecting from ResourceList based on each ID
-			/**for(int i = 0; i < IDS.length(); i++)
-			{
-				String selectQuery = "SELECT * FROM ResourceList WHERE RequiredTech = " + IDS[i] + ";";
-			}
-			*/
-		
-		String selectQuery = "SELECT * FROM ResourceList;";
 		List<Resource> returnList = new ArrayList<Resource>();
-		try {
-			ResultSet resultSet = this.executeSelect(selectQuery);
-			while (resultSet.next()) {
-				//System.out.println("hi");
-				Resource temp = new Resource(resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4));
-				returnList.add(temp);
+		String selectQuery = "SELECT Researched FROM PlayerTechs WHERE player_id = " + p.getPlayerId() + ";";
+		//parse the return string into indexes that can be looped through
+		try 
+		{
+			ResultSet resultSet = executeSelect(selectQuery);
+			techIDs.add(0);
+			while (resultSet.next())
+			{
+				techIDs.add(resultSet.getInt(1));
+			}
+			//create a loop for Selecting from ResourceList based on each ID
+			for(int i = 0; i < techIDs.size(); i++)
+			{
+				selectQuery = "SELECT * FROM ResourceList WHERE tech_restrict = " + techIDs.get(i) + ";";
+				resultSet = this.executeSelect(selectQuery);
+				while (resultSet.next()) 
+				{
+					Resource temp = new Resource(resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4));
+					returnList.add(temp);
+				}
 			}
 		} catch (Exception e) {
 			throw new DaoException("Getting Resourcelist failed with: " + e.getMessage());
@@ -78,6 +81,58 @@ public class ResourceDao extends DaoObject {
 		}
 		return false;
 	}
+	public Boolean isInTechList(String resourceName) throws DaoException {
+		String selectQuery = "SELECT tech_id FROM TechTree WHERE name = '" + resourceName + "';";
+		try {
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			if(resultSet.next()) { return true; }
+		} catch (Exception e) {
+			throw new DaoException("Getting resource type failed with: " +  e.getMessage());
+		}
+		return false;
+	}
+	
+	public Boolean isInPlayerItemList(String resourceName, Player p) throws DaoException {
+		
+		try {
+		List<Resource> resources = getResourceList(p);
+		for(int i = 0; i < resources.size(); i++) 
+		{
+			if(resources.get(i).getResourceName().equals(resourceName))
+				return true;
+		}
+		} catch (Exception e) {
+			throw new DaoException("Getting resource type failed with: " +  e.getMessage());
+		}
+		return false;
+	}
+	
+	public Boolean isInPlayerTechList(String resourceName, Player p) throws DaoException 
+	{
+		TechDao techDao = new TechDao(connection);
+		try {
+		List<Tech> resources = techDao.getTechList(p);
+		for(int i = 0; i < resources.size(); i++) 
+		{
+			if(resources.get(i).getTechName().equals(resourceName))
+				return true;
+		}
+		} catch (Exception e) {
+			throw new DaoException("Getting resource type failed with: " +  e.getMessage());
+		}
+		return false;
+	}
+	public Tech getTech(String resourceName) throws DaoException {
+		String selectQuery = "SELECT * FROM TechTree WHERE name = '" + resourceName + "';";
+		try {
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			if(resultSet.next()) { return new Tech(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getFloat(4)); }
+		} catch (Exception e) {
+			throw new DaoException("Getting resource type failed with: " +  e.getMessage());
+		}
+		return null;
+	}
+	
 	public Boolean isInPlayerItemList(String resourceName) throws DaoException {
 		String selectQuery = "SELECT id FROM ResourceList WHERE name = '" + resourceName + "';";
 		try {

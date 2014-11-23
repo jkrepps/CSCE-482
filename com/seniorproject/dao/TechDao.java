@@ -15,19 +15,59 @@ public class TechDao extends DaoObject {
 		this.connection = connection;
 	}
 
-	public List<Tech> getTechList(Player p) throws DaoException {
-		//DaoObject dao = new DaoObject();
-		String selectQuery = "SELECT * FROM TechTree;";
+	public List<Tech> getTechList(Player p) throws DaoException 
+	{
+		List<String> techIDs = new ArrayList<String>();
+		//grab string from PlayerTechs corresponding to current research levels
 		List<Tech> returnList = new ArrayList<Tech>();
-		try {
-			ResultSet resultSet = this.executeSelect(selectQuery);
-			while (resultSet.next()) {
-				//System.out.println("hi");
-				Tech temp = new Tech(resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4));
-				returnList.add(temp);
+		String selectQuery = "SELECT Researched FROM PlayerTechs WHERE player_id = " + p.getPlayerId() + ";";
+		//parse the return string into indexes that can be looped through
+		try 
+		{
+			ResultSet resultSet = executeSelect(selectQuery);
+			techIDs.add("0");
+			while (resultSet.next())
+			{
+				techIDs.add(Integer.toString(resultSet.getInt(1)));
 			}
+			//create a loop for Selecting from ResourceList based on each ID
+			selectQuery = "SELECT * FROM TechTree;";
+			resultSet = this.executeSelect(selectQuery);
+			while (resultSet.next()) 
+			{
+				Tech temp = new Tech(resultSet.getInt(1),resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(4));
+				//get trace
+				String trace = temp.getTechTrace();
+				//delimit
+				String delim = ",";
+				String[] tokens = trace.split(delim);
+				boolean hasReqTech = true;
+				boolean forcheck = false;
+				for(int i = 0; i < tokens.length; i++)
+				{
+					for(String str: techIDs) 
+					{
+						if(str.trim().contains(tokens[i]))
+							forcheck = true;
+					}
+					if(forcheck == false)
+						hasReqTech = false;
+				}
+				if(hasReqTech)
+				{	//IF doesnt already own
+					boolean owns = false;
+					for(String str: techIDs) 
+					{
+						if(str.trim().contains(Integer.toString(temp.getResouceId())))
+							owns = true;
+					}
+					if(!owns)
+						returnList.add(temp);
+				}
+			}
+			
 		} catch (Exception e) {
-			throw new DaoException("Getting TechTree failed with: " + e.getMessage());
+			throw new DaoException("Getting Resourcelist failed with: " + e.getMessage());
 			
 		}
 		
