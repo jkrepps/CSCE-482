@@ -398,16 +398,19 @@ private static List<Game> gameList;
 		}
 		else if (tokens[0].equals("buy"))
 		{
+			int result = p.buyResource(tokens[1], Integer.parseInt(tokens[2]));
 			//1 = resource name 2 = numUnits
-			if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == 1)
+			if ( result == 1)
 			//System.out.println(p.getPlayerId());
 				outputLine += "purchased "+ tokens[2] + " units of " + tokens[1];
-			else if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == 0)
+			else if (result == 0)
 				outputLine += "Not enough money";
-			else if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == -1 )
+			else if (result == -1 )
 				outputLine += "Item doesn't exist";
-			else if (p.buyResource(tokens[1], Integer.parseInt(tokens[2])) == -2 )
+			else if (result == -2 )
 				outputLine += "Error with update of database entry";
+			else if (result == -3 )
+				outputLine += "Not enough skilled workers";
 			else 
 				outputLine += "UNKNOWN ERROR";
 		}

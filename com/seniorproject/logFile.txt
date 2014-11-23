@@ -163,3 +163,20 @@ Lance purchased 1 units of Lab
 Lance purchased 2 units of Basic Farm
 Lance sold 400 units of Cotton
 Lance purchased 10 units of Plot
+Lance purchased 1 units of Road
+Lance purchased 1 units of Construction Worker
+Lance purchased 1 units of Road
+Lance purchased 1 units of Construction Worker
+Lance purchased 1 units of Construction Worker
+Lance purchased 1 units of Construction Worker
+Lance purchased 1 units of Construction Worker
+Lance purchased 1 units of Road
+Lance purchased 1 units of Road
+Lance purchased 3 units of Construction Worker
+Lance purchased 1 units of Road
+Lance purchased 3 units of Construction Worker
+Lance purchased 1 units of Road
+Lance purchased 20 units of Construction Worker
+Lance purchased 20 units of Road
+Lance purchased 5 units of Construction Worker
+Lance purchased 10 units of Road

@@ -76,24 +76,52 @@ public class Player
 	{
 		//can't go further unless in itemlist
 		if(resourceDao.isInItemList(resourceName) && resourceDao.isInPlayerItemList(resourceName,this) == false) return -1;
-
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
 		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
 		Resource resource = new Resource(resourceName, resourceType, resourcePrice);
-		int numAvailableUnits = playerDao.getResourceNumUnits(playerId, resourceName);
+		int numAvailableUnits = playerDao.getResourceNumUnits(playerId, resourceName,resourceType);
 		int newNumUnits = numAvailableUnits + numUnits;
-
-		
+		//only purchase if have the correct number of workers for the building
+		int numworkers = resourceDao.getResourceWorkerNum(resourceName);
+		String workertype = resourceDao.getResourceWorkerName(resourceName);
+		if(!playerDao.hasRequiredWorkers(this, workertype, numworkers * numUnits))
+			return -3;
 		//only purchase if can afford it
 		if(playerMoney - (resourcePrice * numUnits) < 0) return 0; // if you dont have enough money then dont do anything else
 	
 		//add to database
 		if(playerDao == null) System.out.println("dao is null in add Resource - player\n");
-	
-		System.out.println(playerId);
+		if(numworkers > 0)
+		{
+			Resource worker = new Resource(workertype, "WORKER", resourceDao.getResourcePrice(workertype));
+			int currentworkers = playerDao.getResourceNumUnits(playerId, workertype, "WORKER");
+			int currentusedworkers = playerDao.getResourceNumUnits(playerId, workertype, "INFRA");
+			//subtract workers
+			if (currentworkers - numworkers * numUnits == 0)
+			{
+				playerDao.removeResource(worker, playerId);
+			}
+			else
+			{
+				playerDao.updateResource(worker, playerId, currentworkers - numworkers * numUnits);
+			}
 
-		//only add if it isn't already there
-		if(playerDao.isPlayerResource(playerId, resourceName)) {
+			//add used workers
+			worker = new Resource(workertype, "INFRA", resourceDao.getResourcePrice(workertype));
+			if(playerDao.isPlayerResource(playerId, workertype, "INFRA")) {
+				playerDao.updateResource(worker, playerId, currentusedworkers + numworkers * numUnits);
+			}
+			else 
+			{ 
+				System.out.println("making new entry");
+				if(playerDao.addResource(worker, playerId, numworkers * numUnits) == -1){
+					System.out.println("Adding resource is broken");
+					return -2;
+				} 
+			}
+		}
+		//only add resource if it isn't already there
+		if(playerDao.isPlayerResource(playerId, resourceName, resourceDao.getResourceClass(resourceName))) {
 			playerDao.updateResource(resource, playerId, newNumUnits);
 		}
 
@@ -192,14 +220,14 @@ public class Player
 
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
 		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
-		int numAvailableUnits = playerDao.getResourceNumUnits(playerId, resourceName);
+		int numAvailableUnits = playerDao.getResourceNumUnits(playerId, resourceName, resourceDao.getResourceType(resourceName).toString());
 		int newNumUnits = numAvailableUnits - numUnits;
 
 		Resource resource = new Resource(resourceName, resourceType, resourcePrice);
 
 		//add gold (profit from resource, for right now is just the price of resource)
 		//figure out how to make market work
-		if (playerDao.isPlayerResource(playerId, resourceName)) {
+		if (playerDao.isPlayerResource(playerId, resourceName, resourceDao.getResourceClass(resourceName))) {
 			
 			//remove from database!
 			if (newNumUnits == 0)

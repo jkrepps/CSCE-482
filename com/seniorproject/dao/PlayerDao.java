@@ -228,8 +228,10 @@ public class PlayerDao extends DaoObject {
 	}
 
 	public int updateResource (Resource resource, int playerId, int newNumUnits) throws DaoException {
-		String updateQuery ="UPDATE PlayerResource SET units = " + newNumUnits + " WHERE player_id = " + playerId + " AND resourceName = '" + resource.getResourceName() + "';";
+		String updateQuery ="UPDATE PlayerResource SET units = " + newNumUnits + " WHERE player_id = " + playerId + " AND resourceName = '" + resource.getResourceName() +
+			 "' AND resourceClass = '" + resource.getResourceClass() + "';";
 		try {
+		System.out.println(updateQuery);
 			return executeUpdate(updateQuery);			
 		} catch (Exception e) {
 			throw new DaoException("Call to update number of units of resource failed with: " + e.getMessage());
@@ -237,8 +239,10 @@ public class PlayerDao extends DaoObject {
 	}
 
 	public int removeResource (Resource resource, int playerId) throws DaoException {
-		String deleteQuery ="DELETE FROM PlayerResource WHERE resourceName = '" + resource.getResourceName() + "' AND player_id = " + playerId + ";";
+		String deleteQuery ="DELETE FROM PlayerResource WHERE resourceName = '" + resource.getResourceName() + "' AND player_id = " + playerId + 
+					" AND resourceClass = '" + resource.getResourceClass() + "';";
 		try {
+			System.out.println(deleteQuery);
 			return executeDelete(deleteQuery);			
 		} catch (Exception e) {
 			throw new DaoException("Call to remove Resource failed with: " + e.getMessage());
@@ -317,7 +321,7 @@ public class PlayerDao extends DaoObject {
 			for(int i = 0; i < resourceList.size(); i++)
 			{
 				rincome = getIncomeOfResource(resourceList.get(i).getResourceName());
-				units = getResourceNumUnits(playerId, resourceList.get(i).getResourceName());
+				units = getResourceNumUnits(playerId, resourceList.get(i).getResourceName(),resourceList.get(i).getResourceClass());
 				netIncome += rincome * units;
 			}
 
@@ -344,7 +348,7 @@ public class PlayerDao extends DaoObject {
 			{
 			//System.out.println(" 1 " + resourceList.get(i).getResourceName() + " " + resourceList.get(i).getResourceClass()+ " " +resourceList.get(i).getResourcePrice());
 					rincome = getIncomeOfResource(resourceList.get(i).getResourceName());
-					units = getResourceNumUnits(p.getPlayerId(), resourceList.get(i).getResourceName());
+					units = getResourceNumUnits(p.getPlayerId(), resourceList.get(i).getResourceName(),resourceList.get(i).getResourceClass());
 					//System.out.println("2");
 					netIncome = rincome * units;
 					String incomeType = getResourceIncomeType(resourceList.get(i).getResourceName());
@@ -355,8 +359,8 @@ public class PlayerDao extends DaoObject {
 				else
 				{ //add the resource to the players resourcelist
 					Resource newResource = getResource(incomeType);
-					if(isPlayerResource(p.getPlayerId(), newResource.getResourceName())) {
-						int numAvailableUnits = getResourceNumUnits(p.getPlayerId(), newResource.getResourceName());
+					if(isPlayerResource(p.getPlayerId(), newResource.getResourceName(), newResource.getResourceClass())) {
+						int numAvailableUnits = getResourceNumUnits(p.getPlayerId(), newResource.getResourceName(),resourceList.get(i).getResourceClass());
 						int newNumUnits = numAvailableUnits + (int)Math.round(rincome);
 						updateResource(newResource, p.getPlayerId(), newNumUnits);
 					}
@@ -412,9 +416,9 @@ public class PlayerDao extends DaoObject {
 	
 	}
 	
-	public boolean isPlayerResource(int playerId, String resourceName) throws DaoException {
+	public boolean isPlayerResource(int playerId, String resourceName, String Classification) throws DaoException {
 		
-		String selectQuery = "SELECT * FROM PlayerResource WHERE player_id=" + playerId +" AND resourceName=\"" + resourceName + "\";";
+		String selectQuery = "SELECT * FROM PlayerResource WHERE player_id=" + playerId +" AND resourceName=\"" + resourceName + "\" AND resourceClass = '" + Classification + "';";
 		List<Resource> returnList = new ArrayList<Resource>();
 		
 		try {
@@ -465,8 +469,8 @@ public class PlayerDao extends DaoObject {
 			throw new DaoException ("Call to get Resource IncomeType failed with: " + e.getMessage());
 		}
 	}
-	public int getResourceNumUnits(int playerId, String resourceName) throws DaoException {
-		String selectQuery = "SELECT units FROM PlayerResource WHERE player_id='" + playerId +"' AND resourceName=\"" + resourceName +"\";";
+	public int getResourceNumUnits(int playerId, String resourceName, String Classification) throws DaoException {
+		String selectQuery = "SELECT units FROM PlayerResource WHERE player_id='" + playerId +"' AND resourceName=\"" + resourceName +"\"AND resourceClass = '" + Classification + "';";
 
 		int numUnits = -1;
 		
@@ -521,6 +525,16 @@ public class PlayerDao extends DaoObject {
 		}
 		
 		return numPlayers;
+	}
+	public boolean hasRequiredWorkers(Player p, String workertype,int numworkers) throws DaoException
+	{
+		int units = getResourceNumUnits(p.getPlayerId(), workertype, "WORKER");
+		System.out.println("have = "+ units);
+		System.out.println("needed = "+numworkers);
+		if(units >= numworkers)
+			return true;
+		else
+			return false;
 	}
 	
 }

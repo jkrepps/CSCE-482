@@ -172,5 +172,59 @@ public class ResourceDao extends DaoObject {
 		return resourceType;
 	}
 
-}
 
+	public int getResourceWorkerNum(String ResourceName) throws DaoException {
+		String selectQuery = "SELECT num_Workers FROM ResourceList WHERE name = '" + ResourceName + "';";
+		int resourcePrice = 0;
+		try {
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			if(resultSet.next())
+			{
+				resourcePrice = resultSet.getInt(1);
+			}
+			else
+			{
+				return 0;
+			}
+		} catch (Exception e) {
+			throw new DaoException("Getting resource price failed with: " + e.getMessage());
+		}
+		return resourcePrice;
+	}
+	public String getResourceWorkerName(String ResourceName) throws DaoException {
+		String selectQuery = "SELECT workerReq FROM ResourceList WHERE name = '" + ResourceName + "';";
+		String resourcePrice = "";
+		try {
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			if(resultSet.next())
+			{
+				resourcePrice = resultSet.getString(1);
+			}
+			else
+			{
+				return null;
+			}
+		} catch (Exception e) {
+			throw new DaoException("Getting resource price failed with: " + e.getMessage());
+		}
+		return resourcePrice;
+	}
+	public String getResourceClass(String ResourceName) throws DaoException {
+		String selectQuery = "SELECT type FROM ResourceList WHERE name = '" + ResourceName + "';";
+		String resourcePrice = "";
+		try {
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			if(resultSet.next())
+			{
+				resourcePrice = resultSet.getString(1);
+			}
+			else
+			{
+				return null;
+			}
+		} catch (Exception e) {
+			throw new DaoException("Getting resource price failed with: " + e.getMessage());
+		}
+		return resourcePrice;
+	}
+}
