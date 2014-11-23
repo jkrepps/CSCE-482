@@ -27,8 +27,6 @@ public class CreateController implements ControlledScreen {
 	private TextField playersNum;
 	@FXML
 	private TextField length;
-	@FXML
-	private TextField password;
 	
 	java.net.URL buttonSound = getClass().getResource("./Sounds/buttons.aiff");
 	java.net.URL buttonSound2 = getClass().getResource("./Sounds/buttonSound.mp3");
@@ -68,6 +66,11 @@ public class CreateController implements ControlledScreen {
 			public void handle(MouseEvent t) {
 				buttonClick.setVolume(.7);
 				buttonClick.play();
+				String nameG = name.getText();
+				String pNums = playersNum.getText();
+				String len = length.getText();
+				Network.getInstance().SendMessage("newgame\t" + pNums);
+				Network.getInstance().RecieveMessage();
 				myController.setScreen(MainApplication.GAME_SCREEN);
 			}
 		});
@@ -84,7 +87,7 @@ public class CreateController implements ControlledScreen {
 		// On mouse drag exit change effect back
 		back.setOnMouseExited(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				submit.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.AZURE, 15.17, 0, 15, 0));
+				back.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.AZURE, 15.17, 0, 15, 0));
 			}
 		});
 		

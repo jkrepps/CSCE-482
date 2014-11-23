@@ -109,7 +109,7 @@ public class JoinController implements ControlledScreen {
 			Button temp = games.elementAt(i);
 			games.elementAt(i).setOnMouseClicked(new EventHandler<MouseEvent> (){
 				public void handle(MouseEvent t) {
-					Network.getInstance().SendMessage("game" + myController.getUserName() + temp.getText());
+					Network.getInstance().SendMessage("connect\t" + temp.getText() + '\t' + myController.getUserName());
 					Network.getInstance().RecieveMessage();
 					myController.setScreen(MainApplication.GAME_SCREEN);
 				}

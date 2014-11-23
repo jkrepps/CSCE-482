@@ -41,6 +41,8 @@ public class GameScreenController implements ControlledScreen {
 	@FXML
 	private TextArea activityLog;
 	@FXML
+	private TextField quantity;
+	@FXML
 	private Text money = new Text("100g");
 	@FXML
 	private Text incomePer;
@@ -108,7 +110,6 @@ public class GameScreenController implements ControlledScreen {
 		marketPlace.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
 				market.setVisible(true);
-				inventionPane.setVisible(false);
 				technologies.setVisible(false);
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(false);
@@ -117,33 +118,21 @@ public class GameScreenController implements ControlledScreen {
 			}
 		});
 		
-		inventions.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent t) {
-				inventionPane.setVisible(true);
-				market.setVisible(false);
-				technologies.setVisible(false);
-				inventoryPane.setVisible(false);
-				playerMarketPane.setVisible(false);
-				buttonCreationInvent();
-				updateHUD();
-			}
-		});
 		technology.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
 				technologies.setVisible(true);
 				market.setVisible(false);
-				inventionPane.setVisible(false);
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(false);
 				buttonCreationTech();
 				updateHUD();
 			}
 		});
+		
 		inventory.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
 				technologies.setVisible(false);
 				market.setVisible(false);
-				inventionPane.setVisible(false);
 				inventoryPane.setVisible(true);
 				playerMarketPane.setVisible(false);
 				buttonCreationInv();
@@ -154,7 +143,6 @@ public class GameScreenController implements ControlledScreen {
 			public void handle(MouseEvent t) {
 				technologies.setVisible(false);
 				market.setVisible(false);
-				inventionPane.setVisible(false);
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(true);
 				buttonCreationPlayerMarket();
@@ -183,19 +171,21 @@ public class GameScreenController implements ControlledScreen {
 		weather.setText(weatherS);
 	}
 	
-	// Dynamically acquires the buttons for the inventions available to the player
+/*	// Dynamically acquires the buttons for the inventions available to the player
 	public void buttonCreationInvent() {
 		Network.getInstance().SendMessage("itemlist");							// send message to get the itemlist
 		String rstring = Network.getInstance().RecieveMessage();				// receive the message returned by the server
-		final int ROWS = Integer.parseInt(rstring);								// number of items or buttons created
+		final int ROWS = Integer.parseInt(rstring);						// number of items or buttons created
+		quantity.setVisible(true);
 		for(int i=0; i<ROWS; ++i) {												// Acquire the buttons and create them
 			if(i != 0) {
 				Button b = new Button(Network.getInstance().RecieveMessage());
 				b.setId("buttons");
 				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent t) {
+						String quant = quantity.getText();
 						String name = getName(b.getText());
-						Network.getInstance().SendMessage("buy\t" + name + "\tAsset\t1");
+						Network.getInstance().SendMessage("buy\t" + name + "\t" + quant);
 						Network.getInstance().RecieveMessage();
 						updateHUD();
 						Network.getInstance().SendMessage("logfile");
@@ -213,13 +203,14 @@ public class GameScreenController implements ControlledScreen {
 				Network.getInstance().RecieveMessage();
 			}
 		}
-	}
+	}*/
 	
 	// Dynamically acquires the buttons for the technology able to the researched
 	public void buttonCreationTech() {
 		Network.getInstance().SendMessage("techlist");
 		String rstring = Network.getInstance().RecieveMessage();
 		final int ROWS = Integer.parseInt(rstring);
+		quantity.setVisible(true);
 		for(int i=0; i<ROWS; ++i) {
 			if (i != 0) {
 				Button b = new Button(Network.getInstance().RecieveMessage());
@@ -227,7 +218,8 @@ public class GameScreenController implements ControlledScreen {
 				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent t) {
 						String name = getName(b.getText());
-						Network.getInstance().SendMessage("buyt\t" + name);
+						String quant = quantity.getText();
+						Network.getInstance().SendMessage("buyt\t" + name + '\t' + quant);
 						Network.getInstance().RecieveMessage();
 						updateHUD();
 						Network.getInstance().SendMessage("logfile");
@@ -248,9 +240,10 @@ public class GameScreenController implements ControlledScreen {
 	
 	// Dynamically acquires the buttons for the world market items
 	public void buttonCreationMarket() {
-		Network.getInstance().SendMessage("marketlist");
+		Network.getInstance().SendMessage("itemlist");
 		String rstring = Network.getInstance().RecieveMessage();
 		final int ROWS = Integer.parseInt(rstring);
+		quantity.setVisible(true);
 		for(int i=0; i<ROWS; ++i) {
 			if (i != 0) {
 				Button b = new Button(Network.getInstance().RecieveMessage());
@@ -258,7 +251,8 @@ public class GameScreenController implements ControlledScreen {
 				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent t) {
 						String name = getName(b.getText());
-						Network.getInstance().SendMessage("buy\t" + name + "\tMarket\t1");
+						String quant = quantity.getText();
+						Network.getInstance().SendMessage("buy\t" + name + "\t" + quant);
 						Network.getInstance().RecieveMessage();
 						updateHUD();
 						Network.getInstance().SendMessage("logfile");
@@ -279,7 +273,7 @@ public class GameScreenController implements ControlledScreen {
 	
 	// Dynamically acquires the buttons for the player's inventory list
 	public void buttonCreationInv() {
-		Network.getInstance().SendMessage("inventorylist");
+		Network.getInstance().SendMessage("getResources");
 		String rstring = Network.getInstance().RecieveMessage();
 		final int ROWS = Integer.parseInt(rstring);
 		for(int i=0; i<ROWS; ++i) {
@@ -290,22 +284,11 @@ public class GameScreenController implements ControlledScreen {
 					public void handle(MouseEvent t) {
 						String name = getName(b.getText());
 						useOrSell.setVisible(true);
-						use.setOnMouseClicked(new EventHandler<MouseEvent>() {
-							public void handle(MouseEvent t) {
-								Network.getInstance().SendMessage("use\t" + name + "\tInv" );
-								Network.getInstance().RecieveMessage();
-								updateHUD();
-								Network.getInstance().SendMessage("logfile");
-								String log = Network.getInstance().RecieveMessage();
-								final int LOG_ROWS = Integer.parseInt(log);
-								for(int i=0; i<LOG_ROWS; ++i) {
-									activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
-								}
-							}
-						});
+						quantity.setVisible(true);
 						sell.setOnMouseClicked(new EventHandler<MouseEvent>() {
 							public void handle(MouseEvent t) {
-								Network.getInstance().SendMessage("sell\t" + name + "\tInv\t1");
+								String quant = quantity.getText();
+								Network.getInstance().SendMessage("sell\t" + name + "\t" + quant);
 								Network.getInstance().RecieveMessage();
 								updateHUD();
 								Network.getInstance().SendMessage("logfile");

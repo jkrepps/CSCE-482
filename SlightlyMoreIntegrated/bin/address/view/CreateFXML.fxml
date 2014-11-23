@@ -32,7 +32,7 @@
                         <Font name="Matura MT Script Capitals" size="15.0" />
                      </font>
                   </Text>
-                  <TextField />
+                  <TextField fx:id="name" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
@@ -42,7 +42,7 @@
                         <Font name="Matura MT Script Capitals" size="15.0" />
                      </font>
                   </Text>
-                  <TextField />
+                  <TextField fx:id="playersNum" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
@@ -52,17 +52,7 @@
                         <Font name="Matura MT Script Capitals" size="15.0" />
                      </font>
                   </Text>
-                  <TextField />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
-               <children>
-                  <Text fill="#eeeeee" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
-                     <font>
-                        <Font name="Matura MT Script Capitals" size="15.0" />
-                     </font>
-                  </Text>
-                  <TextField />
+                  <TextField fx:id="length" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="45.0">
