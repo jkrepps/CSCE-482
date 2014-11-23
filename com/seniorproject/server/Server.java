@@ -40,6 +40,7 @@ static DaoObject dao;
 private static ResourceDao resourceDao;// = new ResourceDao(dao.getConnection());
 private static TechDao techDao;
 private static Logger logger = new Logger();
+private static List<Game> gameList;
 
 	public static int initializeGame(Game game, DaoObject dao) throws Exception
 	{
@@ -52,7 +53,7 @@ private static Logger logger = new Logger();
 	}
 	public static int reinitializeGame() throws Exception
 	{
-		List<Game> gameList = new ArrayList<Game> ();
+		gameList = new ArrayList<Game> ();
 		List<Player> playerList = new ArrayList<Player> ();
 		GameDao gameDao = new GameDao(dao.getConnection());
 		try {
@@ -236,7 +237,7 @@ private static Logger logger = new Logger();
 					p.setPlayerId(playerid);
 					try {
 						// TODO Add a reasonable user name and game id
-						playerDao.createPlayer(new Player(0,p.getPlayerName(), 1000f, 0.6, dao.getConnection()), p.getPlayerName(), 1);
+						playerDao.createPlayer(new Player(0,p.getPlayerName(), 1000f, 0.6, dao.getConnection()), p.getPlayerName(), 0);
 					} catch (Exception e) {
 						System.err.println(e.getMessage());
 					}			
@@ -308,7 +309,7 @@ private static Logger logger = new Logger();
 		{
 			int gameId = Integer.parseInt(tokens[1]);
 			String username = tokens[2];
-			Player temp = playerDao.checkPlayer(gameId, username);
+			Player temp = playerDao.checkPlayer(gameId, username, gameList.get(gameId-1));
 			
 			// game is full
 			if(temp == null) {
@@ -336,12 +337,23 @@ private static Logger logger = new Logger();
 		/// From here on out, it is not possible for a user to issue this command if they have not connected to a game
 		else if(tokens[0].equals("playerlist"))   //playerlist = show all current players
 		{
-			outputLine += Integer.toString(NUMPLAYERS) + "";
-			for(int i = 0; i < NUMPLAYERS; i++)
-				if(players[i] != null)
-					outputLine += "\n-" + players[i].getPlayerName();
-				else
-					outputLine += "\n -empty Slot";
+			int gameID = playerDao.getGameId(p.getPlayerId());
+			List<String> playerlist;
+			int numberItems = 0;
+			try 
+			{
+				playerlist = playerDao.getPlayerList(gameID);
+				numberItems = playerDao.getGameSize(gameID);
+			
+				outputLine += Integer.toString(numberItems);
+			
+				for(int i = 0; i < numberItems; i++) 
+				{
+					outputLine += "\n" + playerlist.get(i);
+				}
+			} catch (Exception e) {
+					e.printStackTrace();
+			}
 		}
 		else if(tokens[0].equals("itemlist"))	 //itemlist = show a list of all items
 		{

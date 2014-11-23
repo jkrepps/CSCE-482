@@ -24,7 +24,6 @@ public class PlayerDao extends DaoObject {
 	public int createPlayer(Player player, String username, int gameId) throws DaoException {
 		String insertQuery = "INSERT INTO Player VALUES (0,'" + username + "','" + username +"',"
 			+ gameId + "," + player.getPlayerMoney() + "," + player.getPlayerMarketing() + ");";
-		
 		System.out.println(insertQuery);
 			//TODO ADD PLAYER += 1
 		UpdateGamePlayersIncrement(gameId);
@@ -40,19 +39,26 @@ public class PlayerDao extends DaoObject {
 		return retval;
 	
 	}
-	public Player checkPlayer(int gameId, String username) throws DaoException {
+	public Player checkPlayer(int gameId, String username, Game game) throws DaoException {
 		
 		String selectQuery = "SELECT * FROM Player WHERE user='" + username + "' AND game_id=" + gameId +";";
-		Player player = new Player(0, "noname", 100.0f, 0.67, connection);
+		Player player = new Player(0, username, 100.0f, 0.67, connection);
 		GameDao gameDao = new GameDao(this.getConnection());
 		
 		try {
 			ResultSet resultSet = this.executeSelect(selectQuery);
 			
-			if(!resultSet.next()) { 
+			if(!resultSet.next()) 
+			{ 
+				System.out.println("no result set");
 				if (gameDao.checkGame(gameId)) {
 					if (createPlayer(player, username, gameId) > 0)
+					{
+						player = checkPlayer(gameId, username, game);
+						System.out.println("new player inserted into game");
+						game.insertPlayer(player);
 						return player;
+					}
 					else
 						return null;
 				}
@@ -60,7 +66,10 @@ public class PlayerDao extends DaoObject {
 					return null;
 			}
 			else 
+			{
+				System.out.println("inserting old player");
 				player = new Player(resultSet.getInt(1), resultSet.getString(2), resultSet.getFloat(5), resultSet.getDouble(6), connection);
+			}
 		} catch ( Exception e) {
 			e.printStackTrace();
 		}
@@ -430,6 +439,46 @@ public class PlayerDao extends DaoObject {
 		}
 		
 		return numUnits;
+	}
+	public List<String> getPlayerList(int gameId) throws DaoException {
+		String selectQuery = "SELECT * FROM Player WHERE game_id=" + gameId +";";
+
+		List<String> namelist = new ArrayList<String>();
+		
+		try { 
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			
+			while (resultSet.next())
+			{
+				namelist.add(resultSet.getString(2));
+			}
+			while(namelist.size() < getGameSize(gameId))
+			{
+				namelist.add("empty slot");
+			}
+			
+		} catch (Exception e) {
+			throw new DaoException("Call to get player list failed with:" + e.getMessage());
+		}
+		
+		return namelist;
+	}
+	public int getGameSize(int gameId) throws DaoException {
+		String selectQuery = "SELECT max_players FROM Game WHERE id=" + gameId + ";";
+
+		int numPlayers = -1;
+		
+		try { 
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			
+			if (resultSet.next()) numPlayers = resultSet.getInt(1);
+			else numPlayers = 0;
+			
+		} catch (Exception e) {
+			throw new DaoException("Call to get game size failed with:" + e.getMessage());
+		}
+		
+		return numPlayers;
 	}
 	
 }

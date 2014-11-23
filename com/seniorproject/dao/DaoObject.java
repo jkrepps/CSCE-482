@@ -48,7 +48,7 @@ public class DaoObject {
 		if (connection == null)
 		System.out.println("Execute Update connection is null\n");
 		try {
-			System.out.println(statement);
+			//System.out.println(statement);
 			PreparedStatement preparedStatement = connection.prepareStatement(statement);
 			return preparedStatement.executeUpdate();
 		} catch (SQLException e) {

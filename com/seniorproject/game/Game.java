@@ -69,6 +69,7 @@ public class Game {
 		if (currentPlayers.size() == maxPlayers)
 			return false;
 		else {
+			System.out.println("adding p");
 			currentPlayers.add(p);
 			return true;
 		}
