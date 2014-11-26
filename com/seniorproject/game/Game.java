@@ -75,23 +75,17 @@ public class Game {
 		
 		for(int i = 0; i < currentPlayers.size(); i++)
 		{
-			System.out.println("Players in game - " + gameId +" are " + currentPlayers.get(i).getPlayerName());
 			if(playerDao.getPlayerMoney(currentPlayers.get(i).getPlayerName(), gameId) >= 0 )
 			{
-				System.out.println("currPlayers = " +currentPlayers.size());
-				System.out.println(" and playerStatus = " +playerStatus.size());
 				playerStatus.set(i,0);
-				peopleInGame++;System.out.println("hi in");
+				peopleInGame++;
 			}
 			else if(playerDao.getPlayerMoney(currentPlayers.get(i).getPlayerName(), gameId) <= 0 )
 				playerStatus.set(i,playerStatus.get(i) + 1);
-			System.out.println("hi");
 			if(playerStatus.get(i) == 4 )
 				playerDao.setPlayerStatus(currentPlayers.get(i).getPlayerId(), -1);
-			System.out.println("hi4");
 			if(currentPlayers.size() == maxPlayers && peopleInGame == 1)
 			{
-			System.out.println("loop");
 				for(int j = 0; j < currentPlayers.size(); j++)
 				{
 					if(playerDao.getPlayerStatus(currentPlayers.get(i).getPlayerId()) == 0);
