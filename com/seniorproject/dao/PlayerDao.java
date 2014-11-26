@@ -23,7 +23,7 @@ public class PlayerDao extends DaoObject {
 	// Create
 	public int createPlayer(Player player, String username, int gameId) throws DaoException {
 		String insertQuery = "INSERT INTO Player VALUES (0,'" + username + "','" + username +"',"
-			+ gameId + "," + player.getPlayerMoney() + "," + player.getPlayerMarketing() + ");";
+			+ gameId + "," + player.getPlayerMoney() + "," + player.getPlayerMarketing() + ",0);";
 			//TODO ADD PLAYER += 1
 		UpdateGamePlayersIncrement(gameId);
 			
@@ -156,6 +156,7 @@ public class PlayerDao extends DaoObject {
 	public float getPlayerMoney(String playername, int gameId) throws DaoException {
 		String selectQuery = "SELECT money FROM Player where name='" + playername +"' AND game_id=" + gameId +";";
 		float money = -1;
+		System.out.println(selectQuery);
 		try { 
 			ResultSet resultSet = this.executeSelect(selectQuery);
 			
@@ -165,7 +166,7 @@ public class PlayerDao extends DaoObject {
 		} catch (Exception e) {
 			throw new DaoException("Call to get Player money failed with:" + e.getMessage());
 		}
-		
+		System.out.println("money = " + money);
 		return money;
 	}
 	//game players
@@ -535,6 +536,39 @@ public class PlayerDao extends DaoObject {
 			return true;
 		else
 			return false;
+	}
+	
+	public int setPlayerStatus(int playerId, int status) throws DaoException
+	{
+		String updateQuery ="UPDATE Player SET status = " + status + " WHERE id = " + playerId + ";";
+
+		int retval = -1;
+		
+		try { 
+			retval = this.executeUpdate(updateQuery);
+			
+		} catch (Exception e) {
+			throw new DaoException("Call to set player status failed with:" + e.getMessage());
+		}
+		
+		return retval;
+	}
+	public int getPlayerStatus(int playerId) throws DaoException {
+		String selectQuery = "SELECT status FROM Player WHERE id=" + playerId + ";";
+
+		int status = -1;
+		
+		try { 
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			
+			if (resultSet.next()) status = resultSet.getInt(1);
+			else status = -1;
+			
+		} catch (Exception e) {
+			throw new DaoException("Call to get player status failed with:" + e.getMessage());
+		}
+		
+		return status;
 	}
 	
 }

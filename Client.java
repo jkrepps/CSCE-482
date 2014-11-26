@@ -14,7 +14,6 @@ static String password = "";
             System.exit(1);
         }
 		
-		
 		Login(); 					//first step is to log in
 		
         String hostName = args[0];
@@ -121,6 +120,7 @@ static String password = "";
 			else if(tokens[0].equals("newgame"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
 			{
 				int num = Integer.parseInt(in.readLine());
+				System.out.println(num);
 				for(int i = 0; i<num; i++)
 				{
 					System.out.println(in.readLine());

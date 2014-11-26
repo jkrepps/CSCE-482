@@ -8,23 +8,27 @@ import java.util.concurrent.TimeUnit;
 
 import com.seniorproject.dao.DaoException;
 import com.seniorproject.dao.DaoObject;
-import com.seniorproject.dao.PlayerDao;
+import com.seniorproject.dao.*;
 
 public class Game {
 
 	private int id;
 	private String weather; 
+	private String daytime; 
 	private Date startTime;
 	private Date endTime;
 	private int gameYears;
 	private int maxPlayers;
 	private List<Player> currentPlayers;
+	private List<Integer> playerStatus; 
 	private GameThread gameThread;
 	private DaoObject dao;
+	private PlayerDao playerDao;
 	
 	public Game(int maxPlayers, int days, int gameYears) {
 		this.id = -1;
 		this.currentPlayers = new ArrayList<Player>();
+		this.playerStatus = new ArrayList<Integer>();
 		this.maxPlayers = maxPlayers;
 		Calendar cal = Calendar.getInstance();
 		this.startTime = cal.getTime();
@@ -42,6 +46,7 @@ public class Game {
 		this.gameYears = gameYears;
 		this.weather = weather; // placeholder
 		this.currentPlayers = new ArrayList<Player>();
+		this.playerStatus = new ArrayList<Integer>();
 		
 	}
 	
@@ -52,26 +57,76 @@ public class Game {
 	public Date getEndTime() { return endTime; }
 	public int getGameYears() { return gameYears; }
 	public String getWeather() { return weather; }
+	public String getDaytime() { return daytime; }
 	public GameThread getGameThread() { return gameThread; }
 	
 	public void setWeather(String weather) { this.weather = weather; }
 	
 	public void startGameThread(int gameId, DaoObject dao) throws Exception {
-
+	
+		playerDao = new PlayerDao(dao.getConnection());
 		gameThread = new GameThread(gameId, dao);
 		new Thread(gameThread).start();
 	}
-	
+	public void calculatePlayerStatus(int gameId){
+	int peopleInGame = 0;
+	try
+	{
+		
+		for(int i = 0; i < currentPlayers.size(); i++)
+		{
+			System.out.println("Players in game - " + gameId +" are " + currentPlayers.get(i).getPlayerName());
+			if(playerDao.getPlayerMoney(currentPlayers.get(i).getPlayerName(), gameId) >= 0 )
+			{
+				System.out.println("currPlayers = " +currentPlayers.size());
+				System.out.println(" and playerStatus = " +playerStatus.size());
+				playerStatus.set(i,0);
+				peopleInGame++;System.out.println("hi in");
+			}
+			else if(playerDao.getPlayerMoney(currentPlayers.get(i).getPlayerName(), gameId) <= 0 )
+				playerStatus.set(i,playerStatus.get(i) + 1);
+			System.out.println("hi");
+			if(playerStatus.get(i) == 4 )
+				playerDao.setPlayerStatus(currentPlayers.get(i).getPlayerId(), -1);
+			System.out.println("hi4");
+			if(currentPlayers.size() == maxPlayers && peopleInGame == 1)
+			{
+			System.out.println("loop");
+				for(int j = 0; j < currentPlayers.size(); j++)
+				{
+					if(playerDao.getPlayerStatus(currentPlayers.get(i).getPlayerId()) == 0);
+					{
+						playerDao.setPlayerStatus(currentPlayers.get(i).getPlayerId(), 1);
+						System.out.println(currentPlayers.get(i).getPlayerName() + " WON GAME " + gameId);
+					}
+				}
+			}
+			
+		}
+	} catch(Exception e) {
+	System.out.println(e);
+	}
+	}
 	
 	
 	public boolean insertPlayer(Player p) {
+	try
+	{
 		if (currentPlayers.size() == maxPlayers)
 			return false;
 		else {
 			currentPlayers.add(p);
+			System.out.println("here");
+			if(playerDao.getPlayerStatus(p.getPlayerId()) == -1) 
+				playerStatus.add(5);
+			else
+				playerStatus.add(0);
 			return true;
 		}
-		
+	} catch(Exception e) {
+	System.out.println(e);
+	}
+	return false;
 	}
 	
 	
@@ -94,11 +149,14 @@ public class Game {
         	
         	
 			while(true)
-			{
+			{	
+				calculatePlayerStatus(gameId);
 				world.SetDaytime();
 				world.SetWeather();
-				System.out.println("Weather for game "+gameId+" is : " + world.GetWeather());
-				System.out.println("Time of day for game "+gameId+" is : " + world.GetDaytime());
+				weather = world.GetWeather();
+				daytime = world.GetDaytime();
+				System.out.println("Weather for game "+gameId+" is : " + weather);
+				System.out.println("Time of day for game "+gameId+" is : " + daytime);
 				try
 				{
 				TimeUnit.SECONDS.sleep(10);

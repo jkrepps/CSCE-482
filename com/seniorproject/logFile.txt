@@ -180,3 +180,6 @@ Lance purchased 20 units of Construction Worker
 Lance purchased 20 units of Road
 Lance purchased 5 units of Construction Worker
 Lance purchased 10 units of Road
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Lab
+test2 purchased 10 units of Peon

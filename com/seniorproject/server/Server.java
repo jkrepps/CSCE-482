@@ -47,6 +47,7 @@ private static List<Game> gameList;
 		GameDao gameDao = new GameDao(dao.getConnection());
 		int gameId = gameDao.createGame(game);
 		game.startGameThread(gameId, dao);
+		gameList.add(game);
 		return gameId;
 		
 		//new Thread(new GameThread()).start();//change to new Thread(new WeatherThread(int gameid)).start();
@@ -61,7 +62,7 @@ private static List<Game> gameList;
 		
 		for (int i = 0; i < gameList.size(); i++) 
 		{
-			gameList.get(i).startGameThread(i, dao);
+			gameList.get(i).startGameThread(i+1, dao);
 			playerList = playerDao.getPlayersForGame(gameList.get(i));
 			 
 			for (int j = 0; j < playerList.size(); j++) 
@@ -283,27 +284,45 @@ private static List<Game> gameList;
 		}
 		else if(tokens[0].equals("newgame"))   //playerlist = show all current players
 		{
-			
+			String username = p.getPlayerName();
 			String maxPlayers = tokens[1];
+			List<String> playerlist;
+			int numberItems;
 			Game newGame = new Game(Integer.parseInt(maxPlayers), 12, 30);
-			
+			int gameId;
+			int index = 0;
 			try {
-				initializeGame(newGame, dao);
+				gameId = initializeGame(newGame, dao);
+				System.out.println("gameId = "+gameId);
+				//get correct game from game ID
+				for(int i = 0; i < gameList.size(); i++)
+				{
+					if(gameList.get(i).getGameId() == gameId)
+						index = i+1;
+				}
+				Player temp = playerDao.checkPlayer(gameId, username, gameList.get(index));
+				
+				p.copyPlayer(temp);
+				playerDao.setPlayerMoney( username, p.getPlayerId(), playerDao.getPlayerMoney(username,gameId) );
+				p.setPlayerMoney( playerDao.getPlayerMoney( username, gameId));
+				System.out.println("playerId = " + p.getPlayerId());
+			
+				playerlist = playerDao.getPlayerList(gameId);
+				numberItems = playerDao.getGameSize(gameId);
+				outputLine += Integer.toString(numberItems);
+				for(int i = 0; i < numberItems; i++) 
+				{
+					outputLine += "\n" + playerlist.get(i);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			outputLine += Integer.toString(NUMPLAYERS) + "";
-			for(int i = 0; i < NUMPLAYERS; i++)
-				if(players[i] != null)
-					outputLine += "\n-" + players[i].getPlayerName();
-				else
-					outputLine += "\n -empty Slot";
 		}
 
 		else if(tokens[0].equals("connect"))   //playerlist = show all current players
 		{
 			int gameId = Integer.parseInt(tokens[1]);
-			String username = tokens[2];
+			String username = p.getPlayerName();
 			Player temp = playerDao.checkPlayer(gameId, username, gameList.get(gameId-1));
 			
 			// game is full
@@ -330,6 +349,15 @@ private static List<Game> gameList;
 			outputLine = "Connect to a game first.";
 		}
 		/// From here on out, it is not possible for a user to issue this command if they have not connected to a game
+		/// This checks to see if the current player has a game over. if so then they cant do anything
+		else if(playerDao.getPlayerStatus(p.getPlayerId()) == -1)
+		{
+			outputLine = "You have lost.";
+		}
+		else if(playerDao.getPlayerStatus(p.getPlayerId()) == 1)
+		{
+			outputLine = "You have won!";
+		}
 		else if(tokens[0].equals("playerlist"))   //playerlist = show all current players
 		{
 			int gameID = playerDao.getGameId(p.getPlayerId());
@@ -341,7 +369,7 @@ private static List<Game> gameList;
 				numberItems = playerDao.getGameSize(gameID);
 			
 				outputLine += Integer.toString(numberItems);
-			
+				
 				for(int i = 0; i < numberItems; i++) 
 				{
 					outputLine += "\n" + playerlist.get(i);
@@ -472,12 +500,11 @@ private static List<Game> gameList;
 		}
 		else if(tokens[0].equals("weather"))	 
 		{
-			outputLine = world.GetWeather();
+			outputLine = gameList.get(playerDao.getGameId(p.getPlayerId())).getWeather();
 		}
-		else if(tokens[0].equals("sweather"))	 
+		else if(tokens[0].equals("daytime"))	 
 		{
-			world.SetWeather();
-			outputLine = "changed weather";
+			outputLine = gameList.get(playerDao.getGameId(p.getPlayerId())).getDaytime();
 		}
 		else	//otherwise simply repeat the input command.
 		outputLine = "Copy: " + input;
