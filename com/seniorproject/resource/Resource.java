@@ -61,6 +61,8 @@ public class Resource {
 	public int getResouceId() { return resourceId; }
 	public int getResourceIcon() { return resourceIcon; }
 	public float getResourceIncome() { return resourceIncome; }
+	public float getResourceReq() { return resourceIncome; }
+	public float getResourceNumReq() { return resourceIncome; }
 
 	public void setResourcePrice(float resourcePrice) { this.resourcePrice = resourcePrice; }
 	public void setResourceType(ResourceType resourceType) { this.resourceType = resourceType; }

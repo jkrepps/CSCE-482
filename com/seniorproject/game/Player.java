@@ -113,7 +113,7 @@ public class Player
 			}
 			else 
 			{ 
-				System.out.println("making new entry");
+				//System.out.println("making new entry");
 				if(playerDao.addResource(worker, playerId, numworkers * numUnits) == -1){
 					System.out.println("Adding resource is broken");
 					return -2;
@@ -171,7 +171,7 @@ public class Player
 		//add to database
 		if(playerDao == null) System.out.println("dao is null in add Resource - player\n");
 	
-		System.out.println(playerId);
+		//System.out.println(playerId);
 
 		//only add if it isn't already there
 		if(playerDao.isPlayerTech(playerId, tech.getResouceId())) {

@@ -110,7 +110,6 @@ public class Game {
 			return false;
 		else {
 			currentPlayers.add(p);
-			System.out.println("here");
 			if(playerDao.getPlayerStatus(p.getPlayerId()) == -1) 
 				playerStatus.add(5);
 			else

@@ -183,3 +183,340 @@ Lance purchased 10 units of Road
 Lance purchased 1 units of Peon
 Lance purchased 1 units of Lab
 test2 purchased 10 units of Peon
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Lab
+Lances purchased 1 units of Peon
+Lances purchased 1 units of Lab
+randy purchased 1 units of Peon
+randy purchased 1 units of Lab
+Frey purchased 1 units of Peon
+Frey purchased 1 units of Basic Farm
+Frey purchased 1 units of Peon
+Frey purchased 1 units of Basic Farm
+Frey purchased 2 units of Peon
+Frey purchased 2 units of Basic Farm
+Frey purchased 1 units of Peon
+Frey purchased 1 units of Peon
+Frey purchased 1 units of Lab
+Frey purchased 1 units of Lab
+Frey purchased 1 units of Peon
+Frey purchased 1 units of Peon
+Frey purchased 1 units of Cotton Farm
+Frey purchased 1 units of Cotton Farm
+Frey purchased 1 units of Peon
+Frey purchased 1 units of Basic Farm
+Frey sold 1 units of Cotton
+Frey purchased 1 units of Engineer
+Frey purchased 1 units of Engineer
+Frey purchased 1 units of Engineer
+Frey purchased 1 units of Engine Shop
+Frey purchased 1 units of Engine Shop
+Frey purchased 1 units of Engine Shop
+Frey sold 1 units of Engine
+Frey sold 1 units of Engine
+Frey sold 1 units of Engine
+Frey sold 1 units of Cotton
+Frey sold 1 units of Engine
+Frey sold 1 units of Cotton
+Frey sold 1 units of Engine
+Frey sold 1 units of Cotton
+Frey sold 1 units of Cotton
+Frey sold 1 units of Engine
+Frey sold 1 units of Engine
+Frey sold 1 units of Engine
+Frey sold 1 units of Cotton
+Lances purchased 1 units of Peon
+Lances purchased 1 units of Basic Farm
+Lances purchased 1 units of Peon
+Lances purchased 1 units of Lab
+Lances purchased 1 units of Peon
+Lances purchased 1 units of Basic Farm
+Lances sold 1 units of Basic Farm
+Lances sold 1 units of Science
+Lances sold 1 units of Science
+Lances sold 1 units of Science
+Lances sold 1 units of Science
+Lances sold 1 units of Science
+Lances sold 1 units of Science
+Lances sold 1 units of Science
+Lances sold 1 units of Science
+Lances sold 1 units of Science
+Lances purchased 1 units of Peon
+Lances purchased 1 units of Basic Farm
+Lances purchased 1 units of Peon
+Lances purchased 1 units of Lab
+Lances sold 1 units of Lab
+Lances purchased 5 units of Construction Worker
+Lances purchased 5 units of Road
+bee purchased 1 units of Peon
+bee purchased 1 units of Plot
+bee purchased 1 units of Basic Farm
+bee purchased 1 units of Peon
+bee purchased 1 units of Science
+bee purchased 1 units of Basic Farm
+bee purchased 1 units of Peon
+bee purchased 1 units of Cotton Farm
+bee sold 1 units of Cotton
+bee sold 1 units of Cotton
+bee sold 1 units of Cotton
+bee sold 1 units of Plot
+bee sold 4 units of Cotton
+bee purchased 1 units of Peon
+bee purchased 1 units of Tailor
+bee purchased 1 units of Plot
+bee purchased 1 units of Tailor
+bee sold 7 units of Cotton
+bee sold 11 units of Cotton
+bee purchased 1 units of Peon
+bee purchased 1 units of Factory Worker
+bee purchased 1 units of Clothing Factory
+bee sold 1 units of Clothes
+bee sold 13 units of Cotton
+bee sold 1 units of Clothes
+bee sold 8 units of Cotton
+bee sold 8 units of Clothes
+bee purchased 1 units of Lab
+bee sold 12 units of Clothes
+bee sold 12 units of Cotton
+bee sold 9 units of Clothes
+bee sold 9 units of Cotton
+bee purchased 1 units of Construction Worker
+bee purchased 1 units of Plot
+bee sold 1 units of Plot
+bee sold 1 units of Peon
+bee sold 15 units of Cotton
+bee sold 15 units of Clothes
+bee purchased 1 units of Train
+bee sold 13 units of Clothes
+bee sold 13 units of Cotton
+bee purchased 1 units of Advanced Engineer
+bee purchased 1 units of Gear Factory
+bee sold 10 units of Cotton
+bee sold 10 units of Clothes
+Lances purchased 1 units of Peon
+Lances purchased 1 units of Basic Farm
+Lances purchased 1 units of Peon
+Lances purchased 1 units of Basic Farm
+Lances purchased 1 units of Peon
+Lances purchased 1 units of Lab
+Lances purchased 1 units of Factory Worker
+Lances sold 1 units of Lab
+Lances sold 1 units of Factory Worker
+Lances purchased 1 units of Peon
+Lances purchased 1 units of Cotton Farm
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Basic Farm
+Lance purchased 1 units of Basic Farm
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Bar
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Bar
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Lab
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Bar
+Lance purchased 3 units of Peon
+Lance purchased 3 units of Lab
+Lance purchased 3 units of Peon
+Lance purchased 3 units of Basic Farm
+Lance purchased 3 units of Peon
+Lance purchased 3 units of Bar
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Cotton Farm
+Lance purchased 1 units of Cotton Farm
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Tailor
+Lance purchased 1 units of Factory Worker
+Lance purchased 1 units of Clothing Factory
+Lance sold 1 units of Cotton
+Lance sold 5 units of Cotton
+Lance sold 3 units of Clothes
+Lance sold 3 units of Cotton
+Lance sold 3 units of Clothes
+Lance purchased 1 units of Engineer
+Lance purchased 1 units of Engine Shop
+Lance sold 10 units of Cotton
+Lance sold 10 units of Clothes
+Lance sold 4 units of Engine
+Lance sold 4 units of Clothes
+Lance sold 4 units of Cotton
+Lance purchased 1 units of Lab
+Lance purchased 1 units of Peon
+Lance purchased 1 units of Lab
+Lance sold 9 units of Cotton
+Lance sold 9 units of Engine
+Lance sold 9 units of Clothes
+Lance sold 4 units of Engine
+Lance sold 4 units of Cotton
+Lance sold 4 units of Clothes
+Lance purchased 1 units of Engineer
+Lance purchased 1 units of Advanced Lab
+Lance sold 5 units of Cotton
+Lance sold 5 units of Clothes
+Lance sold 5 units of Engine
+Lance sold 4 units of Cotton
+Lance sold 4 units of Engine
+Lance purchased 1 units of Construction Worker
+Lance purchased 1 units of Road
+Lance sold 1 units of Road
+Lance sold 9 units of Engine
+Lance sold 9 units of Clothes
+Lance sold 9 units of Cotton
+Lance sold 5 units of Clothes
+Lance sold 5 units of Engine
+Lance purchased 1 units of Modern Engineer
+Lance purchased 1 units of Modern Engineer
+Lance purchased 1 units of Research Center
+Lance sold 10 units of Clothes
+Lance sold 10 units of Cotton
+Lance sold 10 units of Engine
+Lance purchased 1 units of Factory Worker
+Lance purchased 1 units of Factory Worker
+Lance purchased 1 units of Telegraph Factory
+Lance sold 10 units of Cotton
+Lance sold 10 units of Clothes
+Lance sold 10 units of Engine
+Lance sold 3 units of Telegraphs
+Lance purchased 1 units of Construction Worker
+Lance purchased 1 units of Road
+Lance purchased 1 units of Construction Worker
+Lance purchased 1 units of Bridge
+Lance sold 15 units of Cotton
+Lance sold 15 units of Clothes
+Lance sold 15 units of Engine
+Lance sold 15 units of Telegraphs
+Lance sold 5 units of Clothes
+Lance sold 5 units of Engine
+Lance sold 5 units of Cotton
+Lance sold 5 units of Cotton
+Lance sold 5 units of Cotton
+Lance sold 5 units of Clothes
+Lance sold 5 units of Engine
+Lance sold 5 units of Telegraphs
+Lance sold 5 units of Clothes
+Lance purchased 1 units of Modern Engineer
+Lance purchased 1 units of Modern Engineer
+Lance purchased 1 units of Modern Engineer
+Lance purchased 1 units of Modern Engineer
+Lance purchased 2 units of Research Center
+Lance sold 5 units of Cotton
+Lance sold 5 units of Clothes
+Lance sold 5 units of Clothes
+Lance sold 5 units of Telegraphs
+Lance sold 5 units of Telegraphs
+Lance sold 5 units of Telegraphs
+Lance sold 5 units of Cotton
+Lance sold 5 units of Engine
+Lance sold 5 units of Engine
+Lance sold 5 units of Engine
+Lance purchased 2 units of Advanced Engineer
+Lance purchased 2 units of Advanced Engineer
+Lance purchased 2 units of Bulb Factory
+Lance sold 11 units of Engine
+Lance sold 11 units of Cotton
+Lance sold 11 units of Clothes
+Lance sold 11 units of Telegraphs
+Lance sold 3 units of Bulb
+Lance sold 15 units of Engine
+Lance sold 15 units of Cotton
+Lance sold 15 units of Clothes
+Lance sold 15 units of Telegraphs
+Lance sold 15 units of Bulb
+Lance sold 4 units of Cotton
+Lance sold 4 units of Clothes
+Lance sold 4 units of Telegraphs
+Lance sold 4 units of Engine
+Lance sold 4 units of Cotton
+Lance sold 4 units of Telegraphs
+Lance sold 4 units of Bulb
+Lance sold 5 units of Engine
+Lance sold 5 units of Cotton
+Lance sold 5 units of Clothes
+Lance sold 5 units of Clothes
+Lance sold 5 units of Telegraphs
+Lance sold 5 units of Cotton
+Lance sold 5 units of Bulb
+Lance sold 5 units of Engine
+Lance sold 1 units of Engine
+Lance sold 1 units of Engine
+Lance sold 1 units of Engine
+Lance sold 1 units of Clothes
+Lance sold 1 units of Clothes
+Lance sold 1 units of Clothes
+Lance sold 1 units of Clothes
+Lance sold 1 units of Clothes
+Lance sold 1 units of Clothes
+Lance sold 1 units of Clothes
+Lance sold 7 units of Telegraphs
+Lance sold 1 units of Telegraphs
+Lance sold 1 units of Telegraphs
+Lance sold 1 units of Telegraphs
+Lance sold 11 units of Bulb
+Lance sold 9 units of Cotton
+Lance sold 6 units of Engine
+Lance purchased 1 units of Modern Engineer
+Lance purchased 2 units of Modern Engineer
+Lance purchased 1 units of Car Factory
+Lance sold 12 units of Clothes
+Lance sold 5 units of Engine
+Lance sold 5 units of Engine
+Lance sold 5 units of Bulb
+Lance sold 5 units of Bulb
+Lance sold 5 units of Cotton
+Lance sold 5 units of Cotton
+Lance sold 5 units of Telegraphs
+Lance sold 5 units of Telegraphs
+Lance sold 4 units of Car
+Lance sold 4 units of Bulb
+Lance sold 4 units of Telegraphs
+Lance sold 4 units of Clothes
+Lance sold 4 units of Engine
+Lance sold 4 units of Cotton
+Lance sold 3 units of Clothes
+Lance sold 3 units of Telegraphs
+Lance sold 3 units of Bulb
+Lance sold 3 units of Cotton
+Lance sold 3 units of Car
+Lance sold 3 units of Car
+Lance sold 3 units of Engine
+Lance sold 3 units of Clothes
+Lance sold 3 units of Telegraphs
+Lance sold 3 units of Cotton
+Lance sold 3 units of Car
+Lance sold 3 units of Engine
+Lance sold 3 units of Bulb
+Lance sold 3 units of Bulb
+Lance sold 3 units of Cotton
+Lance sold 3 units of Bulb
+Lance sold 1 units of Bulb
+Lance sold 5 units of Car
+Lance sold 5 units of Engine
+Lance sold 5 units of Cotton
+Lance sold 5 units of Telegraphs
+Lance sold 5 units of Clothes
+Lance sold 5 units of Clothes
+Lance sold 4 units of Car
+Lance sold 4 units of Cotton
+Lance sold 3 units of Car
+Lance sold 3 units of Cotton
+Lance sold 3 units of Bulb
+Lance sold 3 units of Bulb
+Lance sold 3 units of Bulb
+Lance sold 3 units of Car
+Lance sold 3 units of Engine
+Lance sold 3 units of Engine
+Lance sold 3 units of Engine
+Lance sold 3 units of Engine
+Lance sold 3 units of Telegraphs
+Lance sold 3 units of Telegraphs
+Lance sold 3 units of Telegraphs
+Lance sold 3 units of Telegraphs
+Lance sold 3 units of Clothes
+Lance sold 3 units of Telegraphs
+Lance sold 3 units of Clothes
+Lance sold 3 units of Clothes
+Lance sold 3 units of Clothes
+Lance sold 3 units of Car
+Lance sold 3 units of Engine

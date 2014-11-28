@@ -306,14 +306,15 @@ private static List<Game> gameList;
 				playerDao.setPlayerMoney( username, p.getPlayerId(), playerDao.getPlayerMoney(username,gameId) );
 				p.setPlayerMoney( playerDao.getPlayerMoney( username, gameId));
 				System.out.println("playerId = " + p.getPlayerId());
-			
+				
+				/* //for testing
 				playerlist = playerDao.getPlayerList(gameId);
 				numberItems = playerDao.getGameSize(gameId);
 				outputLine += Integer.toString(numberItems);
 				for(int i = 0; i < numberItems; i++) 
 				{
 					outputLine += "\n" + playerlist.get(i);
-				}
+				}*/
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -394,7 +395,9 @@ private static List<Game> gameList;
 				list = resourceDao.getResourceList(p);
 				for(int i = 0; i < numberItems; i++) 
 				{
-					outputLine += "\n" + list.get(i).getResourceName() + "\t" + list.get(i).getResourcePrice();
+					outputLine += "\n" + list.get(i).getResourceName() + "\t" + list.get(i).getResourcePrice() + "\t" + 
+						resourceDao.getResourceIncome(list.get(i).getResourceName()) + "\t" + resourceDao.getResourceWorkerName(list.get(i).getResourceName()) + "\t" + 
+						resourceDao.getResourceWorkerNum(list.get(i).getResourceName());
 				}
 			} catch (Exception e) {
 					e.printStackTrace();
@@ -460,15 +463,18 @@ private static List<Game> gameList;
 		else if (tokens[0].equals("getResources"))
 		{
 			int numberItems = 0;
+			List<Resource> rList = new ArrayList<Resource>();
 			try {
-				numberItems = playerDao.getResources(p.getPlayerId()).size();
+				rList = playerDao.getResources(p.getPlayerId());
+				numberItems = rList.size();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			outputLine += Integer.toString(numberItems);
 			for(int i = 0; i < numberItems; i++) {
 					try {
-						outputLine += "\n" + playerDao.getResources(p.getPlayerId()).get(i).getResourceName();
+						outputLine += "\n" + rList.get(i).getResourceName() + "\t" + rList.get(i).getResourcePrice() + "\t" + rList.get(i).getResourceClass() + "\t" + 
+							playerDao.getResourceNumUnits(p.getPlayerId(), rList.get(i).getResourceName(), rList.get(i).getResourceClass()) ;
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -497,6 +503,14 @@ private static List<Game> gameList;
 		else if (tokens[0].equals("money"))
 		{
 			outputLine += p.getPlayerMoney();
+		}
+		else if (tokens[0].equals("science"))
+		{
+			outputLine += playerDao.getScience(p);
+		}
+		else if (tokens[0].equals("marketing"))
+		{
+			outputLine += playerDao.getMarketing(p);
 		}
 		else if(tokens[0].equals("weather"))	 
 		{
