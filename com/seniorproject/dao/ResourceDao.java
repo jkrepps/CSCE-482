@@ -243,4 +243,40 @@ public class ResourceDao extends DaoObject {
 		}
 		return resourcePrice;
 	}
+	public int getResourceLand(String ResourceName) throws DaoException {
+		String selectQuery = "SELECT space FROM ResourceList WHERE name = '" + ResourceName + "';";
+		int resourcePrice = 0;
+		try {
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			if(resultSet.next())
+			{
+				resourcePrice = resultSet.getInt(1);
+			}
+			else
+			{
+				return 0;
+			}
+		} catch (Exception e) {
+			throw new DaoException("Getting resource land failed with: " + e.getMessage());
+		}
+		return resourcePrice;
+	}
+	public int getResourceIncomeAmount(String ResourceName) throws DaoException {
+		String selectQuery = "SELECT income FROM ResourceList WHERE name = '" + ResourceName + "';";
+		int resourcePrice = 0;
+		try {
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			if(resultSet.next())
+			{
+				resourcePrice = resultSet.getInt(1);
+			}
+			else
+			{
+				return 0;
+			}
+		} catch (Exception e) {
+			throw new DaoException("Getting resource Income Amount failed with: " + e.getMessage());
+		}
+		return resourcePrice;
+	}
 }

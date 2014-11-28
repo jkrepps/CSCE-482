@@ -75,23 +75,26 @@ public class Game {
 		
 		for(int i = 0; i < currentPlayers.size(); i++)
 		{
-			if(playerDao.getPlayerMoney(currentPlayers.get(i).getPlayerName(), gameId) >= 0 )
+			if(playerDao.getPlayerStatus(currentPlayers.get(i).getPlayerId()) == 0) 
 			{
-				playerStatus.set(i,0);
-				peopleInGame++;
-			}
-			else if(playerDao.getPlayerMoney(currentPlayers.get(i).getPlayerName(), gameId) <= 0 )
-				playerStatus.set(i,playerStatus.get(i) + 1);
-			if(playerStatus.get(i) == 4 )
-				playerDao.setPlayerStatus(currentPlayers.get(i).getPlayerId(), -1);
-			if(currentPlayers.size() == maxPlayers && peopleInGame == 1)
-			{
-				for(int j = 0; j < currentPlayers.size(); j++)
+				if(playerDao.getPlayerMoney(currentPlayers.get(i).getPlayerName(), gameId) >= 0 )
 				{
-					if(playerDao.getPlayerStatus(currentPlayers.get(i).getPlayerId()) == 0);
+					playerStatus.set(i,0);
+					peopleInGame++;
+				}
+				else if(playerDao.getPlayerMoney(currentPlayers.get(i).getPlayerName(), gameId) <= 0 )
+					playerStatus.set(i,playerStatus.get(i) + 1);
+				if(playerStatus.get(i) == 4 )
+					playerDao.setPlayerStatus(currentPlayers.get(i).getPlayerId(), -1);
+				if(currentPlayers.size() == maxPlayers && peopleInGame == 1)
+				{
+					for(int j = 0; j < currentPlayers.size(); j++)
 					{
-						playerDao.setPlayerStatus(currentPlayers.get(i).getPlayerId(), 1);
-						System.out.println(currentPlayers.get(i).getPlayerName() + " WON GAME " + gameId);
+						if(playerDao.getPlayerStatus(currentPlayers.get(i).getPlayerId()) == 0);
+						{
+							playerDao.setPlayerStatus(currentPlayers.get(i).getPlayerId(), 1);
+							System.out.println(currentPlayers.get(i).getPlayerName() + " WON GAME " + gameId);
+						}
 					}
 				}
 			}

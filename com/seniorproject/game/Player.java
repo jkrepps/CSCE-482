@@ -30,6 +30,7 @@ public class Player
     private String log;
     private Logger logger = new Logger();
 	private int resourceID = 0;
+	private float playerIncome = 0.0f;
 
     Random rand = new Random();
 
@@ -63,11 +64,13 @@ public class Player
 	public Double getPlayerMarketing() { return playerMarketing; }
 	public String getPass() { return password; }
 	public int getPlayerId() { return playerId; }
+	public float getPlayerIncome() { return playerIncome; }
     
     public void setPlayerName(String playerName) {this.playerName = playerName; }
     public void setPlayerMoney(Float playerMoney) {this.playerMoney = playerMoney; }
 	public void setPlayerMarketing (Double playerMarketing) { this.playerMarketing = playerMarketing; }
 	public void setPlayerId(int playerId) {this.playerId = playerId; }
+	public void setPlayerIncome(float playerIncome) {this.playerIncome = playerIncome; }
 	
  
 	//need to add a playerId

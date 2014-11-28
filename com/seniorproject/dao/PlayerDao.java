@@ -351,6 +351,7 @@ public class PlayerDao extends DaoObject {
 		String selectQuery = "SELECT * FROM PlayerResource WHERE player_id=" + p.getPlayerId() + " AND resourceClass = 'INFRA';";
 		List<Resource> resourceList = new ArrayList<Resource> ();
 		Float netIncome = 0.0f;
+		Float overallNet = 0.0f;
 		Float rincome = 0.0f;
 		int units = 0;
 		try {
@@ -364,35 +365,67 @@ public class PlayerDao extends DaoObject {
 			for(int i = 0; i < resourceList.size(); i++)
 			{
 			//System.out.println(" 1 " + resourceList.get(i).getResourceName() + " " + resourceList.get(i).getResourceClass()+ " " +resourceList.get(i).getResourcePrice());
-					rincome = getIncomeOfResource(resourceList.get(i).getResourceName());
-					units = getResourceNumUnits(p.getPlayerId(), resourceList.get(i).getResourceName(),resourceList.get(i).getResourceClass());
-					//System.out.println("2");
-					netIncome = rincome * units;
-					String incomeType = getResourceIncomeType(resourceList.get(i).getResourceName());
+				rincome = getIncomeOfResource(resourceList.get(i).getResourceName());
+				units = getResourceNumUnits(p.getPlayerId(), resourceList.get(i).getResourceName(),resourceList.get(i).getResourceClass());
+				//System.out.println("2");
+				netIncome = rincome * units;
+				String incomeType = getResourceIncomeType(resourceList.get(i).getResourceName());
 				if(incomeType.equals("Money"))
 				{	//then simply increment money by netincome
 					setPlayerMoney(p.getPlayerName(), p.getPlayerId(), getPlayerMoney(p.getPlayerName(), getGameId(p.getPlayerId())) + netIncome);
+					overallNet += netIncome;
 				}
 				else
 				{ //add the resource to the players resourcelist
 					Resource newResource = getResource(incomeType);
 					if(isPlayerResource(p.getPlayerId(), newResource.getResourceName(), newResource.getResourceClass())) {
 						int numAvailableUnits = getResourceNumUnits(p.getPlayerId(), newResource.getResourceName(),newResource.getResourceClass());
-						int newNumUnits = numAvailableUnits + (int)Math.round(rincome);
+						int newNumUnits = numAvailableUnits + (int)Math.round(netIncome);
 						updateResource(newResource, p.getPlayerId(), newNumUnits);
 					}
 
 					else 
 					{ 
-						if(addResource(newResource, p.getPlayerId(), (int)Math.round(rincome)) == -1){
+						if(addResource(newResource, p.getPlayerId(), (int)Math.round(netIncome)) == -1){
 							System.out.println("Adding resource is broken");
 							return -2.0f;
 						} 
 					}
 				}
 			}
-
-			return netIncome;
+			return overallNet;
+		} catch (Exception e){
+			throw new DaoException ("Call to get Net Income failed with: " + e.getMessage());
+		}
+	}
+	public float getIncome (Player p) throws DaoException {
+		String selectQuery = "SELECT * FROM PlayerResource WHERE player_id=" + p.getPlayerId() + " AND resourceClass = 'INFRA';";
+		List<Resource> resourceList = new ArrayList<Resource> ();
+		Float netIncome = 0.0f;
+		Float overallNet = 0.0f;
+		Float rincome = 0.0f;
+		int units = 0;
+		try {
+			ResultSet resultSet = executeSelect(selectQuery);
+			//get list of resources player owns
+			while(resultSet.next())
+			{
+				resourceList.add(new Resource(resultSet.getString(3),resultSet.getString(4),resultSet.getFloat(5)));
+			}
+			//for each resource, get the income for that resource and multiply it by the number of units the person has. append to net income.
+			for(int i = 0; i < resourceList.size(); i++)
+			{
+				rincome = getIncomeOfResource(resourceList.get(i).getResourceName());
+				units = getResourceNumUnits(p.getPlayerId(), resourceList.get(i).getResourceName(),resourceList.get(i).getResourceClass());
+				netIncome = rincome * units;
+				String incomeType = getResourceIncomeType(resourceList.get(i).getResourceName());
+				if(incomeType.equals("Money"))
+				{	
+					//System.out.println("item "+resourceList.get(i).getResourceName()+" for player " + p.getPlayerName() + " = " + netIncome);
+					overallNet += netIncome;
+				}
+			}
+			return overallNet;
 		} catch (Exception e){
 			throw new DaoException ("Call to get Net Income failed with: " + e.getMessage());
 		}

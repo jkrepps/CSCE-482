@@ -397,7 +397,8 @@ private static List<Game> gameList;
 				{
 					outputLine += "\n" + list.get(i).getResourceName() + "\t" + list.get(i).getResourcePrice() + "\t" + 
 						resourceDao.getResourceIncome(list.get(i).getResourceName()) + "\t" + resourceDao.getResourceWorkerName(list.get(i).getResourceName()) + "\t" + 
-						resourceDao.getResourceWorkerNum(list.get(i).getResourceName());
+						resourceDao.getResourceWorkerNum(list.get(i).getResourceName()) + "\t" + resourceDao.getResourceLand(list.get(i).getResourceName()) + "\t" + 
+						resourceDao.getResourceIncomeAmount(list.get(i).getResourceName());
 				}
 			} catch (Exception e) {
 					e.printStackTrace();
@@ -503,6 +504,10 @@ private static List<Game> gameList;
 		else if (tokens[0].equals("money"))
 		{
 			outputLine += p.getPlayerMoney();
+		}
+		else if (tokens[0].equals("income"))
+		{
+			outputLine += playerDao.getIncome(p);
 		}
 		else if (tokens[0].equals("science"))
 		{

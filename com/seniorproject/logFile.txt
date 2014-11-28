@@ -520,3 +520,259 @@ Lance sold 3 units of Clothes
 Lance sold 3 units of Clothes
 Lance sold 3 units of Car
 Lance sold 3 units of Engine
+Username purchased 1 units of Peon
+Username purchased 1 units of Peon
+Username purchased 1 units of Peon
+Username purchased 1 units of Plot
+Username sold 1 units of Plot
+Username sold 1 units of Peon
+Username sold 1 units of Peon
+Username sold 1 units of Peon
+Username purchased 1 units of Peon
+Username purchased 1 units of Basic Farm
+Username purchased 1 units of Peon
+Username purchased 1 units of Lab
+Username purchased 1 units of Factory Worker
+Username purchased 1 units of Factory Worker
+Username purchased 1 units of Peon
+Bill purchased 1 units of Plot
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Basic Farm
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Basic Farm
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Lab
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Lab
+Bill purchased 1 units of Engineer
+Bill purchased 1 units of Engine Shop
+Bill purchased 1 units of Engineer
+Bill purchased 1 units of Engineer
+Bill purchased 1 units of Engine Shop
+Bill purchased 1 units of Engine Shop
+Bill sold 23 units of Engine
+Bill purchased 1 units of Engineer
+Bill purchased 1 units of Engine Shop
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Lab
+Bill purchased 1 units of Engineer
+Bill purchased 1 units of Advanced Lab
+Bill purchased 1 units of Engineer
+Bill purchased 1 units of Engine Shop
+Bill purchased 1 units of Engineer
+Bill purchased 1 units of Engine Shop
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Engineer
+Bill purchased 1 units of Engine Shop
+Bill purchased 1 units of Engineer
+Bill purchased 1 units of Engine Shop
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Lab
+Bill purchased 1 units of Engineer
+Bill purchased 1 units of Engine Shop
+Bill sold 27 units of Engine
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Bar
+Bill purchased 10 units of Engineer
+Bill purchased 8 units of Engine Shop
+Bill sold 14 units of Engine
+Bill purchased 10 units of Peon
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill sold 12 units of Engine
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 10 units of Peon
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill sold 1 units of Engine
+Bill sold 1 units of Engine
+Bill sold 7 units of Engine
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 10 units of Peon
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill purchased 1 units of Bar
+Bill sold 1 units of Engine
+Bill sold 11 units of Engine
+Bill sold 1 units of Engine
+Bill sold 8 units of Engine
+Bill purchased 30 units of Peon
+Bill purchased 30 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill purchased 20 units of Peon
+Bill purchased 20 units of Bar
+Bill sold 34 units of Engine
+Bill purchased 99 units of Peon
+Bill purchased 99 units of Bar
+Bill purchased 99 units of Peon
+Bill purchased 99 units of Bar
+Bill purchased 99 units of Peon
+Bill purchased 99 units of Bar
+Bill purchased 99 units of Peon
+Bill purchased 99 units of Bar
+Bill purchased 99 units of Peon
+Bill purchased 99 units of Bar
+Bill purchased 99 units of Peon
+Bill purchased 99 units of Bar
+Bill purchased 99 units of Engineer
+Bill purchased 99 units of Advanced Lab
+Bill purchased 1 units of Modern Engineer
+Bill purchased 1 units of Modern Engineer
+Bill purchased 1 units of Advanced Engineer
+Bill purchased 1 units of Advanced Engineer
+Bill purchased 1 units of Advanced Engineer
+Bill purchased 1 units of Research Center
+Bill purchased 98 units of Modern Engineer
+Bill purchased 49 units of Research Center
+Bill purchased 99 units of Peon
+Bill purchased 99 units of Bar
+Bill purchased 99 units of Peon
+Bill purchased 40 units of Bar
+Bill purchased 40 units of Bar
+Bill sold 48 units of Engine
+Bill sold 1000 units of Bar
+Bill sold 50 units of Research Center
+Username purchased 1 units of Peon
+Username purchased 1 units of Basic Farm
+Username purchased 1 units of Peon
+Username purchased 1 units of Basic Farm
+Username purchased 1 units of Factory Worker
+Username purchased 1 units of Peon
+Username purchased 1 units of Lab
+Username purchased 1 units of Peon
+Username purchased 1 units of Cotton Farm
+Username sold 1 units of Cotton
+Username sold 1 units of Cotton
+Username sold 1 units of Cotton
+Username sold 1 units of Cotton
+Username sold 1 units of Cotton
+Username purchased 1 units of Clothing Factory
+Username purchased 1 units of Tailor
+Username purchased 1 units of Engineer
+Username purchased 1 units of Advanced Lab
+Username purchased 1 units of Engineer
+Username purchased 1 units of Advanced Lab
+Username sold 5 units of Cotton
+Username sold 5 units of Clothes
+Username sold 5 units of Cotton
+Username sold 2 units of Clothes
+Username sold 2 units of Clothes
+Username sold 2 units of Cotton
+Username purchased 1 units of Engineer
+Username purchased 1 units of Engine Shop
+Username purchased 1 units of Peon
+Username purchased 1 units of Cotton Farm
+Username sold 10 units of Cotton
+Username sold 5 units of Engine
+Username sold 5 units of Clothes
+Username sold 5 units of Clothes
+Username sold 5 units of Clothes
+Username sold 5 units of Cotton
+Username purchased 2 units of Factory Worker
+Username sold 10 units of Cotton
+Username sold 10 units of Engine
+Username sold 10 units of Clothes
+Username sold 4 units of Cotton
+Username sold 4 units of Clothes
+Username sold 4 units of Engine
+Username sold 4 units of Engine
+Username purchased 1 units of Tailor
+Username purchased 4 units of Modern Engineer
+Username purchased 4 units of Advanced Engineer
+Username sold 20 units of Cotton
+Username sold 20 units of Clothes
+Username sold 20 units of Engine
+Username purchased 1 units of Bulb Factory
+Username purchased 1 units of Induction Engines Co.
+Username purchased 1 units of Diesel Engines Co.
+Username sold 1 units of Bulb
+Username sold 1 units of Bulb
+Username sold 1 units of Bulb
+Username sold 10 units of Engine
+Bill purchased 1 units of Peon
+Bill purchased 1 units of Bar
+Username purchased 1 units of Peon
+Username purchased 1 units of Bar
+Username purchased 1 units of Peon
+Username purchased 1 units of Bar
+Username purchased 1 units of Peon
+Username purchased 1 units of Bar
+Username purchased 1 units of Peon
+Username purchased 1 units of Lab
+Username purchased 1 units of Peon
+Username purchased 1 units of Lab
