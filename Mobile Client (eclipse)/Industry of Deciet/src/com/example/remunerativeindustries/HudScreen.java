@@ -6,6 +6,7 @@ package com.example.remunerativeindustries;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,13 @@ public class HudScreen extends Activity {
 	Button GameMarket;
 	Button PlayerMarket;
 	Button Tech;
+	Button Owned;
+	Button Refresh;
+	
+	TextView Logs;
+	TextView money;
+	TextView science;
+	TextView marketing;
 	
 	Network mNetwork;
 	int appheight;
@@ -28,11 +36,16 @@ public class HudScreen extends Activity {
 		super.onCreate(savedInstanceState);
 		System.out.println("made it to here.");
 		setContentView(R.layout.activity_hudscreen);
-		
+		Logs = (TextView) findViewById(R.id.editText1);
+		money = (TextView) findViewById(R.id.textView1);
+		science = (TextView) findViewById(R.id.textView2);
+		marketing = (TextView) findViewById(R.id.textView3);
 		mNetwork = Network.getInstance();
 		GameMarket = (Button) findViewById(R.id.button1);
 		PlayerMarket= (Button) findViewById(R.id.button2);
 		Tech= (Button) findViewById(R.id.button3);
+		Refresh= (Button) findViewById(R.id.button4);
+		Owned= (Button) findViewById(R.id.button5);
 		
 		/*
 		DisplayMetrics metrics = new DisplayMetrics();
@@ -72,10 +85,28 @@ public class HudScreen extends Activity {
 			@Override public void onClick(View v) 
 			{ 
 				Intent i;
-				i = new Intent(HudScreen.this, PlayerMarketScreen.class); 
+				i = new Intent(HudScreen.this, GameScreen.class); 
 				
 				System.out.println("loading...");
 		        startActivity(i);
+			} 
+		}); 
+		Owned.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override public void onClick(View v) 
+			{ 
+				Intent i;
+				i = new Intent(HudScreen.this, OwnedResources.class); 
+				
+				System.out.println("loading...");
+		        startActivity(i);
+			} 
+		}); 
+		Refresh.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override public void onClick(View v) 
+			{ 
+				PopulateLog();
 			} 
 		}); 
 	}
@@ -84,21 +115,50 @@ public class HudScreen extends Activity {
 
 	public void PopulateLog()
 	{
-		TextView headerValue = (TextView) findViewById(R.id.editText1);
+		
 		mNetwork.SendMessage("logfile");
 		String num = mNetwork.RecieveMessage();
 		String finaloutput = "";
 		
-		int number = Integer.parseInt(num);
-		for(int i = 0; i < number; i++)
+		if(!num.equals("You have lost.") && !num.equals("You have won!"))
 		{
-			finaloutput += mNetwork.RecieveMessage() + "\n";
+			int number = Integer.parseInt(num);
+			for(int i = 0; i < number; i++)
+			{
+				finaloutput += mNetwork.RecieveMessage() + "\n";
+			}
+		}
+		else
+		{
+			finaloutput += num;
 		}
 		
-	    headerValue.setText( finaloutput );
+		money.setText(Html.fromHtml(getMoney()), TextView.BufferType.SPANNABLE );
+		science.setText( Html.fromHtml(getScience()), TextView.BufferType.SPANNABLE);
+		marketing.setText( Html.fromHtml(getMarketing()), TextView.BufferType.SPANNABLE );
+		
+		
+	    Logs.setText( finaloutput );
 	}
 
-	
+	public String getMoney()
+	{
+		mNetwork.SendMessage("money");
+		String retval = mNetwork.RecieveMessage();
+		return "<font color='green'>Money</font> = "+retval+'\t';
+	}
+	public String getScience()
+	{
+		mNetwork.SendMessage("science");
+		String retval = mNetwork.RecieveMessage();
+		return "<font color='blue'>Science</font> = "+retval+'\t';
+	}
+	public String getMarketing()
+	{
+		mNetwork.SendMessage("marketing");
+		String retval = mNetwork.RecieveMessage();
+		return "<font color='red'>Marketing</font> = "+retval +'\t';
+	}
 		
 	
 	/*@Override

@@ -30,10 +30,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -58,24 +60,28 @@ public class Main_menu extends Activity {
 	@SuppressLint("NewApi")
 	public void onCreate(Bundle savedInstanceState) {
 		//
-		
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		System.out.println("0");
 		//for new android devices
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy); 
-		
+		System.out.println("1");
 		//create instance
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main_menu);
-
+		System.out.println("11");
+		setContentView(R.layout.mains);
+		System.out.println("12");
+		//this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		// components from main.xml
-		
+		System.out.println("2");
 		username = (EditText) findViewById(R.id.editText1);   //all the entry fields
 		password = (EditText) findViewById(R.id.editText2);
 		IP = (EditText) findViewById(R.id.editText3);
 		Port = (EditText) findViewById(R.id.editText4);
-		
+		System.out.println("3");
 		
 		button = (Button) findViewById(R.id.button1);      //connect button
+		System.out.println("4");
 		button.setOnClickListener(new OnClickListener() {
 
 			
@@ -84,12 +90,7 @@ public class Main_menu extends Activity {
 			//where the button is pressed. OnClick is a function triggered by the button.
 			@Override
 			public void onClick(View view) {
-				
-				/*for debugging*/
-				//System.out.println("clicked");
-				//System.out.println(message);
-				
-				//transfer all the data in the entry fields to text
+				System.out.println("5");
 				user = username.getText().toString();
 				pass = password.getText().toString();
 				serverIp = IP.getText().toString();
@@ -98,8 +99,6 @@ public class Main_menu extends Activity {
 				//send the login message to the server
 				message = "name" + "\t"+user + "\t" + pass;
 				 
-				 /*testing */
-				 //System.out.println(message);
 				 Network.getInstance().SetNetInfo(user, pass, serverIp, PortNo);
 				 
 				 
@@ -108,8 +107,7 @@ public class Main_menu extends Activity {
 				 if(!connect.equals("Incorrect log in"))
 				 {
 						Intent i;
-						i = new Intent(Main_menu.this,HudScreen.class);
-						
+						i = new Intent(Main_menu.this,GameSelectionScreen.class);
 
 						System.out.println("loading...");
 				        startActivity(i);

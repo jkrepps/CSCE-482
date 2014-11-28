@@ -1,37 +1,21 @@
 package com.example.remunerativeindustries;
 
-import android.os.Bundle;
-import android.os.Handler;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.Path;
-import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.Menu;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GameScreen extends Activity {
+public class OwnedResources extends Activity {
 
 	//up arrow
 	//private static final int NUM_ROWS = 7;
@@ -39,8 +23,8 @@ public class GameScreen extends Activity {
 
 	Button buttons[][];// = new Button[NUM_ROWS][NUM_COLS];
 	String dataStrings[];
-	Button Refresh;
-	Button buyButton;
+	Button button;
+	Button sellButton;
 	int appwidth = 0;
 	int appheight = 0;
 	int currentSelected = 0;
@@ -60,19 +44,19 @@ public class GameScreen extends Activity {
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		mNetwork = Network.getInstance();
 		System.out.println("user is " + mNetwork.getUser());
-		table = (TableLayout) findViewById(R.id.tableForBuying);
+		
 		appheight=metrics.heightPixels;
 		appwidth=metrics.widthPixels;
+		table = (TableLayout) findViewById(R.id.tableForBuying);
 		money = (TextView) findViewById(R.id.textView1);
 		science = (TextView) findViewById(R.id.textView2);
 		marketing = (TextView) findViewById(R.id.textView3);
 		units = (EditText) findViewById(R.id.editText1);
+		button = (Button) findViewById(R.id.button1);
 		data = (TextView) findViewById(R.id.infoText);
-		
-		Refresh = (Button) findViewById(R.id.button1);
-		buyButton = (Button) findViewById(R.id.button2);
-		
-		Refresh.setOnClickListener(new OnClickListener() {
+		sellButton = (Button) findViewById(R.id.button2);
+		sellButton.setText("Sell");
+		button.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
@@ -80,46 +64,57 @@ public class GameScreen extends Activity {
 				
 			}
 		});
-		buyButton.setOnClickListener(new OnClickListener() {
+		sellButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				String buyUnits = units.getText().toString();
-				String message = "buy\t" + getName(dataStrings[currentSelected]) + "\t"+buyUnits;
+				String message = "sell\t" + getName(dataStrings[currentSelected]) + "\t"+buyUnits;
 				System.out.println(message);
 				mNetwork.SendMessage(message);
 				String rval = mNetwork.RecieveMessage();
-				Toast.makeText(GameScreen.this, rval, Toast.LENGTH_SHORT).show();
+				Toast.makeText(OwnedResources.this, rval, Toast.LENGTH_SHORT).show();
 				PopulateButtons();
 				
 			}
 		});
-		
 		PopulateButtons();
 	}
 	
 
 	public void PopulateButtons()
 	{
-		
 		table.removeAllViews();
-		//currentSelected = 0;
+		currentSelected = 0;
 		money.setText(Html.fromHtml(getMoney()), TextView.BufferType.SPANNABLE );
 		science.setText( Html.fromHtml(getScience()), TextView.BufferType.SPANNABLE);
 		marketing.setText( Html.fromHtml(getMarketing()), TextView.BufferType.SPANNABLE );
-		mNetwork.SendMessage("itemlist");
+		
+		mNetwork.SendMessage("getResources");
 		String rstring = mNetwork.RecieveMessage();
-		if(rstring.equals("You have lost.") || rstring.equals("You have won!"))
+		if(rstring.equals("You have lost.") || rstring.equals("You have won!") || rstring.equals("0"))
 		{
 			return;
 		}
 		else
 		{
-			final int NUM_ROWS = Integer.parseInt(rstring);
+			System.out.println(rstring);
+			int rows = 0;
+			if(!rstring.equals("Copy: getResources"))
+			{
+				rows = Integer.parseInt(rstring);
+			}
+			else
+			{
+				rows = 1;
+				Toast.makeText(this, rstring,Toast.LENGTH_SHORT).show(); 
+			}
+			final int NUM_ROWS = rows;
 			final int NUM_COLS = 1;
 			buttons = new Button[NUM_ROWS][NUM_COLS];
+			TableLayout table = (TableLayout) findViewById(R.id.tableForBuying);
 			dataStrings = new String[NUM_ROWS];
-			
+			//rstring = mNetwork.RecieveMessage(); // get column names
 			for (int row = 0; row < NUM_ROWS; row++) 
 			{ 
 				TableRow tableRow = new TableRow(this); 
@@ -163,18 +158,21 @@ public class GameScreen extends Activity {
 		String tokens[] = tokenize(dataStrings[currentSelected]);
 		String infoText = formatInfo(tokens);
 		data.setText(infoText);
-		/*String buyUnits = units.getText().toString();
-		String message = "buy\t" + name + "\t"+buyUnits;
-		System.out.println(message);
-		mNetwork.SendMessage(message);
-		Toast.makeText(this, mNetwork.RecieveMessage(), Toast.LENGTH_SHORT).show(); */
 		Button button = buttons[row][col]; 
+		// Lock Button Sizes: lockButtonSizes(NUM_ROWS, NUM_COLS); // Does not scale image.
+		// button.setBackgroundResource(R.drawable.­action_lock_pink); // Scale image to button: Only works in JellyBean! 
+		// Image from Crystal Clear icon set, under LGPL // http://commons.wikimedia.org/wiki/Cry...
 		int newWidth = button.getWidth();
 		int newHeight = button.getHeight();
 		buttons[row][col].setPressed(true);
 		money.setText(Html.fromHtml(getMoney()), TextView.BufferType.SPANNABLE );
 		science.setText( Html.fromHtml(getScience()), TextView.BufferType.SPANNABLE);
 		marketing.setText( Html.fromHtml(getMarketing()), TextView.BufferType.SPANNABLE );
+		//Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.action_lock_pink);
+		//Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
+		//Resources resource = getResources();
+		//button.setBackground(new BitmapDrawable(resource, scaledBitmap)); // Change text on button:
+		//button.setText(); 
 	}
 
 	private void lockButtonSizes(int NUM_ROWS, int NUM_COLS) 
@@ -193,24 +191,6 @@ public class GameScreen extends Activity {
 			} 
 		} 
 	}
-	
-	private String[] tokenize(String s)
-	{
-		String delims = "\t";
-		String[] tokens = s.split(delims);
-		
-		return tokens;
-	}
-	private String formatInfo(String[] tokens)
-	{
-		String output = "name = " + tokens[0] + "\n";
-		output += "Price = " + tokens[1] + "\n";
-		output += "Income Type = " + tokens[2] + "\n";
-		output += "Requirement = " + tokens[3] + "\n";
-		output += "Number of Requirement = " + tokens[4] + "\n";
-		
-		return output;
-	}
 	private String getName(CharSequence c)
 	{
 		String t = "";
@@ -223,6 +203,23 @@ public class GameScreen extends Activity {
 		
 		
 		return t;
+	}
+	private String[] tokenize(String s)
+	{
+		String delims = "\t";
+		String[] tokens = s.split(delims);
+		
+		return tokens;
+	}
+	private String formatInfo(String[] tokens)
+	{
+		String output = "name = " + tokens[0] + "\n";
+		output += "Selling price = " + tokens[1] + "\n";
+		output += "Type of Resource = " + tokens[2] + "\n";
+		output += "Number owned = " + tokens[3] + "\n";
+
+		
+		return output;
 	}
 	public String getMoney()
 	{
