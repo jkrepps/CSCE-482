@@ -382,6 +382,7 @@ public class PlayerDao extends DaoObject {
 						int numAvailableUnits = getResourceNumUnits(p.getPlayerId(), newResource.getResourceName(),newResource.getResourceClass());
 						int newNumUnits = numAvailableUnits + (int)Math.round(netIncome);
 						updateResource(newResource, p.getPlayerId(), newNumUnits);
+						overallNet += netIncome*newResource.getResourcePrice();
 					}
 
 					else 

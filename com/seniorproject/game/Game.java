@@ -1,14 +1,20 @@
 package com.seniorproject.game;
 
-import java.util.Date;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 import com.seniorproject.dao.DaoException;
 import com.seniorproject.dao.DaoObject;
-import com.seniorproject.dao.*;
+import com.seniorproject.dao.PlayerDao;
 
 public class Game {
 
@@ -24,6 +30,7 @@ public class Game {
 	private GameThread gameThread;
 	private DaoObject dao;
 	private PlayerDao playerDao;
+	private Duration timeUnit;
 	
 	public Game(int maxPlayers, int days, int gameYears) {
 		this.id = -1;
@@ -35,6 +42,7 @@ public class Game {
 		cal.add(Calendar.DATE, days);
 		this.endTime = cal.getTime();
 		this.gameYears = gameYears;
+		setTimeUnit();
 	
 	}
 	
@@ -47,6 +55,15 @@ public class Game {
 		this.weather = weather; // placeholder
 		this.currentPlayers = new ArrayList<Player>();
 		this.playerStatus = new ArrayList<Integer>();
+		setTimeUnit();
+		
+	}
+	
+	private void setTimeUnit() {
+		DateTime oldTime = new DateTime(startTime);
+		DateTime newTime = new DateTime(endTime);
+		Duration gameTime = new Duration(startTime.getTime(), endTime.getTime());
+		timeUnit = new Duration(gameTime.getStandardSeconds()*1000/(gameYears*12));
 		
 	}
 	
@@ -65,11 +82,12 @@ public class Game {
 	public void startGameThread(int gameId, DaoObject dao) throws Exception {
 	
 		playerDao = new PlayerDao(dao.getConnection());
-		gameThread = new GameThread(gameId, dao);
+		gameThread = new GameThread(gameId, dao, this.timeUnit, gameYears*12);
 		new Thread(gameThread).start();
 	}
-	public void calculatePlayerStatus(int gameId){
+	public HashMap<Integer, Integer> calculatePlayerStatus(int gameId){
 	int peopleInGame = 0;
+	HashMap<Integer,Integer > debtStatus = new HashMap<Integer, Integer>();
 	try
 	{
 		
@@ -81,6 +99,7 @@ public class Game {
 				{
 					playerStatus.set(i,0);
 					peopleInGame++;
+					debtStatus.put(currentPlayers.get(i).getPlayerId(), 0);
 				}
 				else if(playerDao.getPlayerMoney(currentPlayers.get(i).getPlayerName(), gameId) <= 0 )
 					playerStatus.set(i,playerStatus.get(i) + 1);
@@ -100,9 +119,11 @@ public class Game {
 			}
 			
 		}
+		
 	} catch(Exception e) {
 	System.out.println(e);
 	}
+	return debtStatus;
 	}
 	
 	
@@ -130,12 +151,18 @@ public class Game {
 
 		int gameId;
 		DaoObject dao;
+		Duration timeUnit;
 		PlayerDao playerDao;
 		World world;
+		HashMap<Integer, Integer> debtStatus;
+		int numTimeUnits;
+		Player winner;
 		
-        public GameThread(int gameId, DaoObject dao) throws Exception {// accept client socket connection. // int id as an argument
+        public GameThread(int gameId, DaoObject dao, Duration timeUnit, int numTimeUnits) throws Exception {// accept client socket connection. // int id as an argument
         	this.gameId = gameId;
         	this.dao = dao;
+        	this.timeUnit = timeUnit;
+        	this.numTimeUnits = numTimeUnits;
         	playerDao = new PlayerDao(dao.getConnection());
         	world = new World();
         }
@@ -143,10 +170,10 @@ public class Game {
         @Override
         public void run() {	//start thread
         	
-        	
+        	int count = 0;
 			while(true)
 			{	
-				calculatePlayerStatus(gameId);
+				debtStatus = calculatePlayerStatus(gameId);
 				world.SetDaytime();
 				world.SetWeather();
 				weather = world.GetWeather();
@@ -155,11 +182,38 @@ public class Game {
 				System.out.println("Time of day for game "+gameId+" is : " + daytime);
 				try
 				{
-				TimeUnit.SECONDS.sleep(10);
-				for ( Player p : currentPlayers ) {
+				TimeUnit.SECONDS.sleep(this.timeUnit.getStandardSeconds());
+				float maxIncome = 0;
+				for ( Iterator<Player> iterator = currentPlayers.iterator(); iterator.hasNext(); ) {
+					Player p = iterator.next();
 					float netIncome = playerDao.updateAssets(p);
+					
+					if (netIncome > maxIncome){
+						maxIncome = netIncome;
+						winner = p;
+					}
+					
+					if (playerDao.getPlayerMoney(p.getPlayerName(), gameId) < 0.0)
+						debtStatus.put(p.getPlayerId(), debtStatus.get(p.getPlayerId()) + 1);
+					else
+						debtStatus.put(p.getPlayerId(), 0);
+					
+					for (Map.Entry<Integer, Integer> entry: debtStatus.entrySet()){
+						if (entry.getValue() > 6) {
+							//Player has lost
+							playerDao.setPlayerStatus(p.getPlayerId(), -1);
+							iterator.remove();
+							// TODO maybe a message here?
+						}
+						
+					}
 					//playerDao.updatePlayerMoney(p.getPlayerName(), netIncome);
 					// Player.refresh()
+				}
+				count++;
+				if (count == numTimeUnits - 1) {
+					playerDao.setPlayerStatus(winner.getPlayerId(), 1);
+					break;
 				}
 				} catch (InterruptedException | DaoException e) {
                     e.printStackTrace();
