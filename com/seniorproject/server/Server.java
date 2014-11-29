@@ -221,30 +221,34 @@ private static List<Game> gameList;
 		String[] tokens = input.split(delims); // parse the input command into tokens and process keywords
 		if(tokens[0].equals("name"))   			  //name = Login
 		{
-			try {
-				String returnMessage = login.UserLogin(tokens[1], tokens[2]);
-				p.setPlayerName(tokens[1]);
-				if (returnMessage == "Relog") {
-					outputLine = "Successfully relogged: " + tokens[1];
-					//p.setPlayerMoney(playerDao.getPlayerMoney(tokens[1]));
+			if (tokens.length < 3)
+				outputLine = "Please enter username and password";
+			else {			
+				try {
+					String returnMessage = login.UserLogin(tokens[1], tokens[2]);
+					p.setPlayerName(tokens[1]);
+					if (returnMessage == "Relog") {
+						outputLine = "Successfully relogged: " + tokens[1];
+						//p.setPlayerMoney(playerDao.getPlayerMoney(tokens[1]));
+					}
+					else if (returnMessage == "NewUser"){
+						outputLine = "Welcome new user: " + tokens[1];
+						p.setPlayerId(playerid);
+						try {
+							// TODO Add a reasonable user name and game id
+							playerDao.createPlayer(new Player(0,p.getPlayerName(), 1000f, 0.6, dao.getConnection()), p.getPlayerName(), 0);
+						} catch (Exception e) {
+							System.err.println(e.getMessage());
+						}			
+			
+						playerid ++;
+					}
+					else
+						outputLine = "Incorrect log in";
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				else if (returnMessage == "NewUser"){
-					outputLine = "Welcome new user: " + tokens[1];
-					p.setPlayerId(playerid);
-					try {
-						// TODO Add a reasonable user name and game id
-						playerDao.createPlayer(new Player(0,p.getPlayerName(), 1000f, 0.6, dao.getConnection()), p.getPlayerName(), 0);
-					} catch (Exception e) {
-						System.err.println(e.getMessage());
-					}			
-		
-					playerid ++;
-				}
-				else
-					outputLine = "Incorrect log in";
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 			// outputLine = Login(tokens[1],tokens[2],p);
 		}
