@@ -5,10 +5,12 @@ package com.example.remunerativeindustries;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ public class HudScreen extends Activity {
 	TextView money;
 	TextView science;
 	TextView marketing;
+	TextView income;
 	
 	Network mNetwork;
 	int appheight;
@@ -34,12 +37,15 @@ public class HudScreen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		System.out.println("made it to here.");
 		setContentView(R.layout.activity_hudscreen);
 		Logs = (TextView) findViewById(R.id.editText1);
 		money = (TextView) findViewById(R.id.textView1);
 		science = (TextView) findViewById(R.id.textView2);
 		marketing = (TextView) findViewById(R.id.textView3);
+		income = (TextView) findViewById(R.id.textView4);
 		mNetwork = Network.getInstance();
 		GameMarket = (Button) findViewById(R.id.button1);
 		PlayerMarket= (Button) findViewById(R.id.button2);
@@ -136,7 +142,7 @@ public class HudScreen extends Activity {
 		money.setText(Html.fromHtml(getMoney()), TextView.BufferType.SPANNABLE );
 		science.setText( Html.fromHtml(getScience()), TextView.BufferType.SPANNABLE);
 		marketing.setText( Html.fromHtml(getMarketing()), TextView.BufferType.SPANNABLE );
-		
+		income.setText( Html.fromHtml(getIncome()), TextView.BufferType.SPANNABLE );
 		
 	    Logs.setText( finaloutput );
 	}
@@ -159,7 +165,12 @@ public class HudScreen extends Activity {
 		String retval = mNetwork.RecieveMessage();
 		return "<font color='red'>Marketing</font> = "+retval +'\t';
 	}
-		
+	public String getIncome()
+	{
+		mNetwork.SendMessage("income");
+		String retval = mNetwork.RecieveMessage();
+		return "<font color='yellow'>Income = "+retval +"</font>";
+	}
 	
 	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

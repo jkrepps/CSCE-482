@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -40,6 +42,8 @@ public class PlayerMarketScreen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		setContentView(R.layout.activity_game_screen);//new DrawingView(this));
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);

@@ -61,6 +61,7 @@ public class Main_menu extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		//
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		System.out.println("0");
 		//for new android devices
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -71,7 +72,7 @@ public class Main_menu extends Activity {
 		System.out.println("11");
 		setContentView(R.layout.mains);
 		System.out.println("12");
-		//this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		
 		// components from main.xml
 		System.out.println("2");
 		username = (EditText) findViewById(R.id.editText1);   //all the entry fields

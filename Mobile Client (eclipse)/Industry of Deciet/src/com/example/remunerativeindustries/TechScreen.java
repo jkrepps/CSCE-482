@@ -21,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,12 +48,14 @@ public class TechScreen extends Activity {
 	TextView money;
 	TextView science;
 	TextView marketing;
+	TextView income;
 	EditText units;
 	TextView data;
 	TableLayout table;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		setContentView(R.layout.activity_tech);//new DrawingView(this));
 		DisplayMetrics metrics = new DisplayMetrics();
@@ -65,6 +68,7 @@ public class TechScreen extends Activity {
 		money = (TextView) findViewById(R.id.textView1);
 		science = (TextView) findViewById(R.id.textView2);
 		marketing = (TextView) findViewById(R.id.textView3);
+		income = (TextView) findViewById(R.id.textView4);
 		data = (TextView) findViewById(R.id.infoText);
 		
 		Refresh = (Button) findViewById(R.id.button1);
@@ -103,6 +107,7 @@ public class TechScreen extends Activity {
 		money.setText(Html.fromHtml(getMoney()), TextView.BufferType.SPANNABLE );
 		science.setText( Html.fromHtml(getScience()), TextView.BufferType.SPANNABLE);
 		marketing.setText( Html.fromHtml(getMarketing()), TextView.BufferType.SPANNABLE );
+		income.setText( Html.fromHtml(getIncome()), TextView.BufferType.SPANNABLE );
 		mNetwork.SendMessage("techlist");
 		String rstring = mNetwork.RecieveMessage();
 		if(rstring.equals("You have lost.") || rstring.equals("You have won!"))
@@ -170,6 +175,7 @@ public class TechScreen extends Activity {
 		money.setText(Html.fromHtml(getMoney()), TextView.BufferType.SPANNABLE );
 		science.setText( Html.fromHtml(getScience()), TextView.BufferType.SPANNABLE);
 		marketing.setText( Html.fromHtml(getMarketing()), TextView.BufferType.SPANNABLE );
+		income.setText( Html.fromHtml(getIncome()), TextView.BufferType.SPANNABLE );
 		//Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.action_lock_pink);
 		//Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
 		//Resources resource = getResources();
@@ -237,6 +243,12 @@ public class TechScreen extends Activity {
 		mNetwork.SendMessage("marketing");
 		String retval = mNetwork.RecieveMessage();
 		return "<font color='red'>Marketing = "+retval +"</font>";
+	}
+	public String getIncome()
+	{
+		mNetwork.SendMessage("income");
+		String retval = mNetwork.RecieveMessage();
+		return "<font color='yellow'>Income = "+retval +"</font>";
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
