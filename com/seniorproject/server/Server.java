@@ -78,6 +78,19 @@ private static List<Game> gameList;
 	}
 	
 	/**
+	 * Function that returns the index of the Game in the Server's list of Games that containst the given player P
+	 * @param p Player to be searched for
+	 * @return The Game containing the given player
+	 */
+	public static int getGameIndex(Player p) {
+		for (Game g : gameList) {
+			if (g.getCurrentPlayers().contains(p))
+				return gameList.indexOf(g); 
+		}
+		return -1;
+	}
+	
+	/**
 	 * Main functions that "starts" the server
 	 * Usage:
 	 * java Server <port number> <db url> <db username> <db password>
@@ -252,25 +265,6 @@ private static List<Game> gameList;
 			}
 			// outputLine = Login(tokens[1],tokens[2],p);
 		}
-		/*
-		else if(tokens[0].equals("gamelist"))   //playerlist = show all current players
-		{
-			String username = tokens[1];
-			List<Game> gameList = new ArrayList<Game> ();
-			
-			try {
-				gameList = gameDao.getGameList(username); 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			outputLine += Integer.toString(gameList.size());
-			for (Game g : gameList) {
-				outputLine += "\n-" + g.getGameId();
-			}
-			
-		}
-		*/
 		else if (tokens[0].equals("gamelist"))
 		{
 			List<Game> gameList = new ArrayList<Game> ();
@@ -292,7 +286,7 @@ private static List<Game> gameList;
 			String maxPlayers = tokens[1];
 			List<String> playerlist;
 			int numberItems;
-			Game newGame = new Game(Integer.parseInt(maxPlayers), 12, 30);
+			Game newGame = new Game(Integer.parseInt(maxPlayers), 12, 30, dao);
 			int gameId;
 			int index = 0;
 			try {
@@ -434,11 +428,15 @@ private static List<Game> gameList;
 		}
 		else if (tokens[0].equals("buy"))
 		{
-			int result = p.buyResource(tokens[1], Integer.parseInt(tokens[2]));
+			int gameIdx = getGameIndex(p);
+			float resourcePrice = gameList.get(gameIdx).getPrice(tokens[1]);
+			int result = p.buyResource(tokens[1], resourcePrice, Integer.parseInt(tokens[2]));
 			//1 = resource name 2 = numUnits
-			if ( result == 1)
+			if ( result == 1) {
 			//System.out.println(p.getPlayerId());
 				outputLine += "purchased "+ tokens[2] + " units of " + tokens[1];
+				gameList.get(gameIdx).adjustPrice(tokens[1], Integer.parseInt(tokens[2]), true);
+			}
 			else if (result == 0)
 				outputLine += "Not enough money";
 			else if (result == -1 )
@@ -487,6 +485,7 @@ private static List<Game> gameList;
 		}
 		else if (tokens[0].equals("sell"))
 		{
+			
 			//1 = resource name, 2 = numUnits
 			if(p.sellResource(tokens[1], Integer.parseInt(tokens[2])) == 1)
 				outputLine += "sold " + tokens[2] + " units of " + tokens[1];

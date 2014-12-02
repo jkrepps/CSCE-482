@@ -1,19 +1,45 @@
 package com.seniorproject.dao;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.sql.Connection;
 
-import com.seniorproject.resource.Resource;
 import com.seniorproject.resource.*;
-import com.seniorproject.resource.ResourceType;
 import com.seniorproject.game.Player;
 
 public class ResourceDao extends DaoObject {
 	
 	public ResourceDao(Connection connection) {
 		this.connection = connection;
+	}
+	
+	/**
+	 * DAO that gathers all resources to be stored locally so a particular game can modify market prices
+	 * <p>
+	 * This is called in the constructor of Game so that a Game instance is created with its own copy of resourcelist
+	 * @return The master list of Resources with base prices
+	 * @throws DaoException
+	 */
+	public HashMap<String, Float> getResourcePrice() throws DaoException {
+		HashMap<String, Float> retval  = new HashMap<String, Float>();
+		String selectQuery = "SELECT name,price  FROM ResourceList;";
+		
+		try {
+			ResultSet rs = executeSelect(selectQuery);
+			
+			while(rs.next()) 
+			{
+				retval.put(rs.getString(1), rs.getFloat(2));
+				
+			}
+		} catch (SQLException e) {
+			throw new DaoException("Call to get resource prices failed with: " + e.getMessage());
+		}
+		return retval;
 	}
 
 	public List<Resource> getResourceList(Player p) throws DaoException {

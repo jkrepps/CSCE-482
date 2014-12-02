@@ -75,12 +75,11 @@ public class Player
  
 	//need to add a playerId
 
-    public int buyResource(String resourceName, int numUnits) throws DaoException //for right now returns int, in future could be different
+    public int buyResource(String resourceName, Float resourcePrice, int numUnits) throws DaoException //for right now returns int, in future could be different
 	{
 		//can't go further unless in itemlist
 		if(resourceDao.isInItemList(resourceName) && resourceDao.isInPlayerItemList(resourceName,this) == false) return -1;
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
-		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
 		Resource resource = new Resource(resourceName, resourceType, resourcePrice);
 		int numAvailableUnits = playerDao.getResourceNumUnits(playerId, resourceName,resourceType);
 		int newNumUnits = numAvailableUnits + numUnits;

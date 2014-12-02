@@ -255,7 +255,7 @@ private static Logger logger = new Logger();
 		{
 			
 			String maxPlayers = tokens[1];
-			Game newGame = new Game(Integer.parseInt(maxPlayers), 12, 30);
+			Game newGame = new Game(Integer.parseInt(maxPlayers), 12, 30, dao);
 			
 			try {
 				initializeGame(newGame, dao);

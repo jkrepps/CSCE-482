@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.lang.Math;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -15,6 +16,8 @@ import org.joda.time.Duration;
 import com.seniorproject.dao.DaoException;
 import com.seniorproject.dao.DaoObject;
 import com.seniorproject.dao.PlayerDao;
+import com.seniorproject.dao.ResourceDao;
+import com.seniorproject.resource.Resource;
 
 public class Game {
 
@@ -30,9 +33,11 @@ public class Game {
 	private GameThread gameThread;
 	private DaoObject dao;
 	private PlayerDao playerDao;
+	private ResourceDao resourceDao;
 	private Duration timeUnit;
+	private HashMap<String, Float> priceList;
 	
-	public Game(int maxPlayers, int days, int gameYears) {
+	public Game(int maxPlayers, int days, int gameYears, DaoObject dao) {
 		this.id = -1;
 		this.currentPlayers = new ArrayList<Player>();
 		this.playerStatus = new ArrayList<Integer>();
@@ -43,6 +48,14 @@ public class Game {
 		this.endTime = cal.getTime();
 		this.gameYears = gameYears;
 		setTimeUnit();
+		resourceDao = new ResourceDao(dao.getConnection());
+		
+		try {
+			this.priceList = resourceDao.getResourcePrice();
+		} catch (DaoException e) {
+			e.printStackTrace();
+			priceList = null;
+		}
 	
 	}
 	
@@ -78,6 +91,36 @@ public class Game {
 	public GameThread getGameThread() { return gameThread; }
 	
 	public void setWeather(String weather) { this.weather = weather; }
+	
+	/**
+	 * returns the price of the resource within the scope of the game
+	 * @param id The id of the resource to be price checked
+	 * @return price for the given resource, identified by resourceId
+	 */
+	public Float getPrice(String resourceName) {
+		return priceList.get(resourceName);
+	}
+	
+	/**
+	 * Function to adjust price of the resource(by id), to account for supply and demand
+	 * <p>
+	 * After the purchase of a given number of units, the price will be inflated to account for the demand
+	 * <p>
+	 * After the sale of a given number of units, the price will be deflated to account for the excess supply
+	 * 
+	 * @param id The Resource id of the resource in the transaction
+	 * @param quantity Number of units of the resource in the transaction
+	 * @param buy Will be set to true if it is being bought, false if it is being sold
+	 * @return An integer flag to denote success or failure
+	 */
+	public int adjustPrice(String resourceName, int quantity, boolean buy) {
+		Float tempPrice = priceList.get(resourceName);
+		int sign = (buy) ? 1 : -1;
+		tempPrice = (float) (tempPrice + sign*((0.001 + (0.01*(Math.log(quantity))))*tempPrice));
+		priceList.put(resourceName, tempPrice);
+		return 1;
+		
+	}
 	
 	public void startGameThread(int gameId, DaoObject dao) throws Exception {
 	
@@ -193,19 +236,18 @@ public class Game {
 						winner = p;
 					}
 					
-					if (playerDao.getPlayerMoney(p.getPlayerName(), gameId) < 0.0)
-						debtStatus.put(p.getPlayerId(), debtStatus.get(p.getPlayerId()) + 1);
+					if (playerDao.getPlayerMoney(p.getPlayerName(), gameId) < 0.0) {
+						if (debtStatus.get(p.getPlayerId()) == null)
+							debtStatus.put(p.getPlayerId(), 1);
+						else
+							debtStatus.put(p.getPlayerId(), debtStatus.get(p.getPlayerId()) + 1);
+					}
 					else
 						debtStatus.put(p.getPlayerId(), 0);
 					
-					for (Map.Entry<Integer, Integer> entry: debtStatus.entrySet()){
-						if (entry.getValue() > 6) {
-							//Player has lost
-							playerDao.setPlayerStatus(p.getPlayerId(), -1);
-							iterator.remove();
-							// TODO maybe a message here?
-						}
-						
+					if (debtStatus.get(p.getPlayerId()) > 5) {
+						playerDao.setPlayerStatus(p.getPlayerId(), -1);
+						iterator.remove();
 					}
 					//playerDao.updatePlayerMoney(p.getPlayerName(), netIncome);
 					// Player.refresh()
