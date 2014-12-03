@@ -20,17 +20,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:text="@string/button_main_menu"
-            android:textColor="#FF000000"
-			android:background="#99FFFFFF" />
+        android:layout_height="match_parent"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp" >
 
         <EditText
             android:id="@+id/editText3"
@@ -39,24 +33,12 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/editText2"
             android:layout_marginTop="16dp"
-            android:textColor="#FF000000"
-            android:background="#99FFFFFF"
+            android:background="@drawable/roundededittext"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/IP" />
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="84dp"
-            android:textColor="#FF000000"
-            android:background="#99FFFFFF"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:text="@string/password" />
+            android:paddingLeft="10dp"
+            android:text="@string/IP"
+            android:textColor="#FF000000" />
 
         <EditText
             android:id="@+id/editText4"
@@ -65,11 +47,42 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/editText3"
             android:layout_marginTop="18dp"
-            android:textColor="#FF000000"
-            android:background="#99FFFFFF"
+            android:background="@drawable/roundededittext"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/Port" />
+            android:paddingLeft="10dp"
+            android:text="@string/Port"
+            android:textColor="#FF000000" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="128dp"
+            android:background="@drawable/roundededittext"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"
+            android:selectAllOnFocus="true"
+            android:text="Password"
+            android:textColor="#FF000000" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/editText4"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/roundedbutton"
+            android:text="@string/button_main_menu"
+            android:textColor="#FF000000"
+            android:shadowColor="#FFFFFF"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="20" />
 
         <EditText
             android:id="@+id/editText1"
@@ -77,15 +90,14 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/editText2"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="38dp"
-            android:textColor="#FF000000"
-            android:background="#99FFFFFF"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/roundededittext"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/username" >
-
-            <requestFocus />
-        </EditText>
+            android:paddingLeft="10dp"
+            android:selectAllOnFocus="true"
+            android:text="Username"
+            android:textColor="#FF000000" />
 
     </RelativeLayout>
 

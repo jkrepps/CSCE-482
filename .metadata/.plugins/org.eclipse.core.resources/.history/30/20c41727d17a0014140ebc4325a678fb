@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"  
+    android:background="@drawable/background_opening"
+    android:theme="@android:style/Theme.NoTitleBar"
+    >
+
+    <!-- android:background="#0099cc"
+         The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc.
+         
+    -->
+
+    <!--
+         This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows.
+    -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="@string/button_main_menu"
+            android:textColor="#FF000000"
+			android:background="#99FFFFFF" />
+
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/editText2"
+            android:layout_marginTop="16dp"
+            android:textColor="#FF000000"
+            android:background="#99FFFFFF"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/IP" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="84dp"
+            android:background="#99FFFFFF"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:text="@string/password"
+            android:textColor="#FF000000" />
+
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/editText3"
+            android:layout_marginTop="18dp"
+            android:textColor="#FF000000"
+            android:background="#99FFFFFF"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/Port" />
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/editText2"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="38dp"
+            android:background="#99FFFFFF"
+            android:ems="10"
+            android:hint="Username"
+            android:inputType="textPersonName"
+            android:textColor="#FF000000" >
+
+            <requestFocus />
+        </EditText>
+
+    </RelativeLayout>
+
+</FrameLayout>
