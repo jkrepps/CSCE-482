@@ -10,6 +10,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.ArrayList;
+import java.text.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import com.seniorproject.dao.DaoObject;
 import com.seniorproject.dao.GameDao;
@@ -76,6 +80,28 @@ private static List<Game> gameList;
 		return 1;
 		//new Thread(new GameThread()).start();//change to new Thread(new WeatherThread(int gameid)).start();
 	}
+
+	public static int readjustPrices() {
+		HashMap<String, Integer> temp = new HashMap<String,Integer>();
+		for (Game g: gameList) {
+			for (Player p: g.getCurrentPlayers()) {
+				try {
+					temp = playerDao.getResourceQuantities(p.getPlayerId());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				Iterator it = temp.entrySet().iterator();
+				while(it.hasNext()) {
+					Map.Entry pairs = (Map.Entry)it.next();
+					String name = (String) pairs.getKey();
+					int quantities = (int) pairs.getValue();
+					g.adjustPrice(name, quantities, true);
+				}
+			}
+		}
+		return 1;	
+	
+	}
 	
 	/**
 	 * Function that returns the index of the Game in the Server's list of Games that containst the given player P
@@ -83,9 +109,14 @@ private static List<Game> gameList;
 	 * @return The Game containing the given player
 	 */
 	public static int getGameIndex(Player p) {
+		boolean found = false;
 		for (Game g : gameList) {
-			if (g.getCurrentPlayers().contains(p))
-				return gameList.indexOf(g); 
+			for ( Player p1 : g.getCurrentPlayers())
+				if(p1.getPlayerId() == p.getPlayerId())
+					found = true;
+			if ( found == true)
+				return gameList.indexOf(g);				
+
 		}
 		return -1;
 	}
@@ -379,8 +410,10 @@ private static List<Game> gameList;
 		}
 		else if(tokens[0].equals("itemlist"))	 //itemlist = show a list of all items
 		{
+			DecimalFormat df = new DecimalFormat("#.##");
 			int numberItems = 0;
 			List<Resource> list;
+
 			try {
 				list = resourceDao.getResourceList(p);
 				numberItems = list.size();
@@ -393,7 +426,10 @@ private static List<Game> gameList;
 				list = resourceDao.getResourceList(p);
 				for(int i = 0; i < numberItems; i++) 
 				{
-					outputLine += "\n" + list.get(i).getResourceName() + "\t" + list.get(i).getResourcePrice() + "\t" + 
+					int gameIdx = getGameIndex(p);
+					Float temp =  gameList.get(gameIdx).getPrice(list.get(i).getResourceName());
+					double resourcePrice = temp;
+					outputLine += "\n" + list.get(i).getResourceName() + "\t" + df.format(resourcePrice)  + "\t" + 
 						resourceDao.getResourceIncome(list.get(i).getResourceName()) + "\t" + resourceDao.getResourceWorkerName(list.get(i).getResourceName()) + "\t" + 
 						resourceDao.getResourceWorkerNum(list.get(i).getResourceName()) + "\t" + resourceDao.getResourceLand(list.get(i).getResourceName()) + "\t" + 
 						resourceDao.getResourceIncomeAmount(list.get(i).getResourceName());
@@ -428,8 +464,11 @@ private static List<Game> gameList;
 		}
 		else if (tokens[0].equals("buy"))
 		{
+
 			int gameIdx = getGameIndex(p);
+			System.out.println("gidx: " + gameIdx);
 			float resourcePrice = gameList.get(gameIdx).getPrice(tokens[1]);
+			System.out.println("Price " + resourcePrice);
 			int result = p.buyResource(tokens[1], resourcePrice, Integer.parseInt(tokens[2]));
 			//1 = resource name 2 = numUnits
 			if ( result == 1) {
@@ -465,6 +504,7 @@ private static List<Game> gameList;
 		}
 		else if (tokens[0].equals("getResources"))
 		{
+			DecimalFormat df = new DecimalFormat("#.##");
 			int numberItems = 0;
 			List<Resource> rList = new ArrayList<Resource>();
 			try {
@@ -476,7 +516,11 @@ private static List<Game> gameList;
 			outputLine += Integer.toString(numberItems);
 			for(int i = 0; i < numberItems; i++) {
 					try {
-						outputLine += "\n" + rList.get(i).getResourceName() + "\t" + rList.get(i).getResourcePrice() + "\t" + rList.get(i).getResourceClass() + "\t" + 
+						int gameIdx = getGameIndex(p);
+						Float temp =  gameList.get(gameIdx).getPrice(rList.get(i).getResourceName());
+						double resourcePrice = temp;
+						resourcePrice = resourcePrice*0.85;
+						outputLine += "\n" + rList.get(i).getResourceName() + "\t" + df.format(resourcePrice) + "\t" + rList.get(i).getResourceClass() + "\t" + 
 							playerDao.getResourceNumUnits(p.getPlayerId(), rList.get(i).getResourceName(), rList.get(i).getResourceClass()) ;
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -485,13 +529,17 @@ private static List<Game> gameList;
 		}
 		else if (tokens[0].equals("sell"))
 		{
-			
+			int gameIdx = getGameIndex(p);
+			System.out.println("gidx: " + gameIdx);
+			float resourcePrice = gameList.get(gameIdx).getPrice(tokens[1]);
 			//1 = resource name, 2 = numUnits
-			if(p.sellResource(tokens[1], Integer.parseInt(tokens[2])) == 1)
+			if(p.sellResource(tokens[1], resourcePrice, Integer.parseInt(tokens[2])) == 1) {
 				outputLine += "sold " + tokens[2] + " units of " + tokens[1];
-			else if (p.sellResource(tokens[1], Integer.parseInt(tokens[2])) == 0)
+				gameList.get(gameIdx).adjustPrice(tokens[1], Integer.parseInt(tokens[2]), false);
+			}
+			else if (p.sellResource(tokens[1], resourcePrice, Integer.parseInt(tokens[2])) == 0)
 				outputLine += "Not enough items in player inventory";
-			else if (p.sellResource(tokens[1], Integer.parseInt(tokens[2])) == -1)
+			else if (p.sellResource(tokens[1], resourcePrice, Integer.parseInt(tokens[2])) == -1)
 				outputLine += "Item doesn't exist";
 			else
 				outputLine += "UNKNOWN ERROR";

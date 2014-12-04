@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.lang.Boolean;
 
 import com.seniorproject.resource.*;
@@ -247,6 +249,24 @@ public class PlayerDao extends DaoObject {
 			throw new DaoException("Call to remove Resource failed with: " + e.getMessage());
 		}
 	}
+	
+	public HashMap<String, Integer> getResourceQuantities(int playerId) throws DaoException {
+		HashMap<String, Integer> retval  = new HashMap<String, Integer>();
+		String selectQuery = "SELECT * FROM PlayerResource WHERE player_id=" + playerId +";";
+		
+		try {
+			ResultSet resultSet = executeSelect(selectQuery);
+			
+			while(resultSet.next()) {
+				retval.put(resultSet.getString(3), resultSet.getInt(7));
+			}
+		}catch (Exception e) {
+			throw new DaoException("Call to get Resource Quantities failed with: " + e.getMessage());
+		}
+		
+		return retval;
+	}
+
 	
 	public List<Resource> getResources(int playerId) throws DaoException {
 		

@@ -13,6 +13,8 @@ import java.lang.Math;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
+import java.sql.Connection;
+
 import com.seniorproject.dao.DaoException;
 import com.seniorproject.dao.DaoObject;
 import com.seniorproject.dao.PlayerDao;
@@ -59,7 +61,7 @@ public class Game {
 	
 	}
 	
-	public Game(int id, int maxPlayers, Date startTime, Date endTime, int gameYears, String weather) {
+	public Game(int id, int maxPlayers, Date startTime, Date endTime, int gameYears, String weather, Connection connection) {
 		this.id = id;
 		this.maxPlayers = maxPlayers;
 		this.startTime = startTime;
@@ -69,6 +71,15 @@ public class Game {
 		this.currentPlayers = new ArrayList<Player>();
 		this.playerStatus = new ArrayList<Integer>();
 		setTimeUnit();
+
+		resourceDao = new ResourceDao(connection);
+		
+		try {
+			this.priceList = resourceDao.getResourcePrice();
+		} catch (DaoException e) {
+			e.printStackTrace();
+			priceList = null;
+		}
 		
 	}
 	
@@ -121,6 +132,7 @@ public class Game {
 		return 1;
 		
 	}
+
 	
 	public void startGameThread(int gameId, DaoObject dao) throws Exception {
 	

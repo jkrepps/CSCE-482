@@ -26,7 +26,7 @@ public class GameDao extends DaoObject{
 			ResultSet resultSet = this.executeSelect(selectQuery);
 			
 			while(resultSet.next()) {
-				Game temp = new Game(resultSet.getInt(1), resultSet.getInt(3), resultSet.getTimestamp("start_time"), resultSet.getTimestamp("end_time"), resultSet.getInt(6), resultSet.getString(7));
+				Game temp = new Game(resultSet.getInt(1), resultSet.getInt(3), resultSet.getTimestamp("start_time"), resultSet.getTimestamp("end_time"), resultSet.getInt(6), resultSet.getString(7), this.getConnection());
 				returnList.add(temp);
 			}
 		} catch (Exception e) {
@@ -45,7 +45,7 @@ public class GameDao extends DaoObject{
 			ResultSet resultSet = this.executeSelect(selectQuery);
 			
 			while(resultSet.next()) {
-				Game temp = new Game(resultSet.getInt(1), resultSet.getInt(3), resultSet.getTimestamp("start_time"), resultSet.getTimestamp("end_time"), resultSet.getInt(6), resultSet.getString(7));
+				Game temp = new Game(resultSet.getInt(1), resultSet.getInt(3), resultSet.getTimestamp("start_time"), resultSet.getTimestamp("end_time"), resultSet.getInt(6), resultSet.getString(7), this.getConnection());
 				returnList.add(temp);
 			}
 		} catch (Exception e) {
@@ -63,7 +63,7 @@ public class GameDao extends DaoObject{
 			ResultSet resultSet = this.executeSelect(selectQuery);
 			
 			while(resultSet.next()) {
-				Game temp = new Game(resultSet.getInt(1), resultSet.getInt(3), resultSet.getTimestamp("start_time"), resultSet.getTimestamp("end_time"), resultSet.getInt(6), resultSet.getString(7));
+				Game temp = new Game(resultSet.getInt(1), resultSet.getInt(3), resultSet.getTimestamp("start_time"), resultSet.getTimestamp("end_time"), resultSet.getInt(6), resultSet.getString(7), this.getConnection());
 				returnList.add(temp);
 			}
 		} catch (Exception e) {

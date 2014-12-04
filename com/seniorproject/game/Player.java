@@ -77,6 +77,7 @@ public class Player
 
     public int buyResource(String resourceName, Float resourcePrice, int numUnits) throws DaoException //for right now returns int, in future could be different
 	{
+		System.out.println("In buyResource");
 		//can't go further unless in itemlist
 		if(resourceDao.isInItemList(resourceName) && resourceDao.isInPlayerItemList(resourceName,this) == false) return -1;
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
@@ -214,14 +215,14 @@ public class Player
 	//are we doing this?
 	//need to add a playerId table
 
-	public int sellResource(String resourceName, int numUnits) throws DaoException
+	public int sellResource(String resourceName, Float resourcePrice, int numUnits) throws DaoException
 	{
-
+		resourcePrice = resourcePrice*0.85f;
 		//can only sell if it exists in itemlist
 		if(resourceDao.isInItemList(resourceName) == false) return -1;
 
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
-		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
+
 		int numAvailableUnits = playerDao.getResourceNumUnits(playerId, resourceName, resourceDao.getResourceType(resourceName).toString());
 		int newNumUnits = numAvailableUnits - numUnits;
 
