@@ -77,7 +77,6 @@ public class Player
 
     public int buyResource(String resourceName, Float resourcePrice, int numUnits) throws DaoException //for right now returns int, in future could be different
 	{
-		System.out.println("In buyResource");
 		//can't go further unless in itemlist
 		if(resourceDao.isInItemList(resourceName) && resourceDao.isInPlayerItemList(resourceName,this) == false) return -1;
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
@@ -144,11 +143,13 @@ public class Player
 		}catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-
+		System.out.print("Got to the try catch for writing to log");
 		//publish to activity log
 		try {
+			System.out.println("Before writing to log after purchase");
 			log = playerName + " purchased " + numUnits + " units of " + resource.getResourceName();
-			logger.writeToLog(log);
+			logger.writeToLog(playerDao.getGameId(playerId), log);
+			System.out.println("After writing to log after purchase");
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		}
@@ -215,14 +216,14 @@ public class Player
 	//are we doing this?
 	//need to add a playerId table
 
-	public int sellResource(String resourceName, Float resourcePrice, int numUnits) throws DaoException
+	public int sellResource(String resourceName, int numUnits) throws DaoException
 	{
-		resourcePrice = resourcePrice*0.85f;
+
 		//can only sell if it exists in itemlist
 		if(resourceDao.isInItemList(resourceName) == false) return -1;
 
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
-
+		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
 		int numAvailableUnits = playerDao.getResourceNumUnits(playerId, resourceName, resourceDao.getResourceType(resourceName).toString());
 		int newNumUnits = numAvailableUnits - numUnits;
 
@@ -251,7 +252,7 @@ public class Player
 				//should we specify whether purchasing secondhand?
 				try {
 					log = playerName + " sold " + numUnits + " units of " + resource.getResourceName();
-					logger.writeToLog(log);
+					logger.writeToLog(playerDao.getGameId(playerId), log);
 				} catch (Exception e1) {
 					System.err.println(e1.getMessage());
 				} 
@@ -282,7 +283,7 @@ public class Player
 				//should we specify whether purchasing secondhand?
 				try {
 					log = playerName + " sold " + numUnits + " units of " + resource.getResourceName();
-					logger.writeToLog(log);
+					logger.writeToLog(playerDao.getGameId(playerId), log);
 				} catch (Exception e1) {
 					System.err.println(e1.getMessage());
 				} 

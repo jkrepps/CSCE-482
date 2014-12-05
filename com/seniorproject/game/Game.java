@@ -3,6 +3,9 @@ package com.seniorproject.game;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -51,7 +54,15 @@ public class Game {
 		this.gameYears = gameYears;
 		setTimeUnit();
 		resourceDao = new ResourceDao(dao.getConnection());
-		
+		File logFile =  new File("com/seniorproject/" + Integer.toString(id) + ".txt");
+		try{
+			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile.getAbsoluteFile(), true));
+   			bw.write("");
+   			bw.close();
+   		} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+		} 
+
 		try {
 			this.priceList = resourceDao.getResourcePrice();
 		} catch (DaoException e) {
@@ -62,6 +73,7 @@ public class Game {
 	}
 	
 	public Game(int id, int maxPlayers, Date startTime, Date endTime, int gameYears, String weather, Connection connection) {
+		System.out.println("This is the long one: " + id);
 		this.id = id;
 		this.maxPlayers = maxPlayers;
 		this.startTime = startTime;
@@ -71,6 +83,14 @@ public class Game {
 		this.currentPlayers = new ArrayList<Player>();
 		this.playerStatus = new ArrayList<Integer>();
 		setTimeUnit();
+		File logFile =  new File("com/seniorproject/" + Integer.toString(id) + ".txt");
+		try{
+			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile.getAbsoluteFile(), true));
+	   		bw.write("");
+	   		bw.close();
+	   	} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+		} 
 
 		resourceDao = new ResourceDao(connection);
 		

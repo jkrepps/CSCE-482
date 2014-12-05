@@ -8,45 +8,62 @@ import java.io.*;
 
 
 public class Logger {
-  private File logFile = new File("com/seniorproject/logFile.txt");
+  //private File logFile = new File("com/seniorproject/logFile.txt");
 
-  public void writeToLog(String string) {
+  public void writeToLog(int gameId, String string) {
 		try {
-   		BufferedWriter bw = new BufferedWriter(new FileWriter(logFile.getAbsoluteFile(), true));
-   		bw.newLine();
-   		bw.write(string);
-   		bw.close();
+      File logFile =  new File("com/seniorproject/" + Integer.toString(gameId) + ".txt");
+      if(logFile.exists() && !logFile.isDirectory())
+      {
+   		 BufferedWriter bw = new BufferedWriter(new FileWriter(logFile.getAbsoluteFile(), true));
+   		 bw.newLine();
+   		 bw.write(string);
+   		 bw.close();
+      }
 		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
   }
 
-  public int getNumberLines(){
+  public int getNumberLines(int gameId){
     try {
-    	LineNumberReader lnr = new LineNumberReader(new FileReader(logFile));
-			lnr.skip(Long.MAX_VALUE);
-			int temp = lnr.getLineNumber() + 1;
-			lnr.close();
-			return temp;	
+      File logFile = new File("com/seniorproject/" + Integer.toString(gameId) + ".txt");
+      System.out.println("HI from get number lines");
+      if(logFile.exists() && !logFile.isDirectory())
+      {
+    	 LineNumberReader lnr = new LineNumberReader(new FileReader(logFile));
+			 lnr.skip(Long.MAX_VALUE);
+			 int temp = lnr.getLineNumber() + 1;
+			 lnr.close();
+       System.out.println("Temp = " + temp);
+       //if(temp == 0) return 1;
+       return temp;	
+      }
 		} catch (Exception e){
 			System.err.println(e.getMessage());
 		}
-		return 0;
+		return 1;
   }
 
-  public String readFromLog() {
+  public String readFromLog(int gameId) {
     String log = "";
     try {
-    	BufferedReader br = new BufferedReader(new FileReader(logFile));
- 			String line = null;
- 			while ((line = br.readLine()) != null) 
- 			{
-   			log += line + "\n";
- 			}
- 			return log;
+      File logFile = new File("com/seniorproject/" + Integer.toString(gameId) + ".txt");
+      System.out.println("HI from read from log");
+      if(logFile.exists() && !logFile.isDirectory())
+      {
+    	 BufferedReader br = new BufferedReader(new FileReader(logFile));
+ 			  String line = null;
+ 			  while ((line = br.readLine()) != null) 
+ 			  {
+          System.out.println("HI FROM inside the log: " + line);
+   		   	log += line + "\n";
+ 			  }
+ 			  return log;
+      }
  		} catch (Exception e) {
  			System.err.println(e.getMessage());
  		}
- 		return null;
+ 		return " ";
   }
 }
