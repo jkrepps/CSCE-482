@@ -164,14 +164,17 @@ public class Player
 	{
 		//can't go further unless in itemlist
 		if(resourceDao.isInTechList(techName) && resourceDao.isInPlayerTechList(techName,this) == false) return -1;
-
-
+		String resourceName = "Science";
+		String resourceType = resourceDao.getResourceType(resourceName).toString();
+		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
+		Resource resource = new Resource(resourceName, resourceType, resourcePrice);
+	
 		Tech tech = resourceDao.getTech(techName);
 		int playerScience = playerDao.getScience(this);
-		
+		int resultingScience = playerScience - (int)(tech.getTechPrice());
 		//only purchase if can afford it
-		if(playerScience - (tech.getTechPrice()) < 0) return 0; // if you dont have enough money then dont do anything else
-	
+		if(resultingScience < 0) return 0; // if you dont have enough money then dont do anything else
+		
 		//add to database
 		if(playerDao == null) System.out.println("dao is null in add Resource - player\n");
 	
@@ -189,27 +192,36 @@ public class Player
 				return -2;
 			} 
 		}
-		/*
-		//update money (only happens if transaction is successful)
-		playerMoney = playerMoney - (resourcePrice * numUnits);
-			
-		try{
-			playerDao.setPlayerMoney(playerName,playerId,playerMoney);
-		}catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
+		if (resultingScience > 0)
+		{
+			playerDao.updateResource(resource, playerId, resultingScience);
 
-		//publish to activity log
-		try {
-			log = playerName + " purchased " + numUnits + " units of " + resource.getResourceName();
-			logger.writeToLog(log);
-		} catch (Exception e1) {
-			System.err.println(e1.getMessage());
+			//publish to activity log
+			//not logging name of player purchasing because it will say they purchased it
+			//should we specify whether purchasing secondhand?
+			try {
+				log = playerName + " bought " + techName;
+				logger.writeToLog(playerDao.getGameId(playerId), log);
+			} catch (Exception e1) {
+				System.err.println(e1.getMessage());
+			} 
+			return 1;
 		}
+		if (resultingScience == 0)
+			{
+				playerDao.removeResource(resource, playerId);
 
-		//automatically generate
-		resourceID ++;
-		*/
+				//publish to activity log
+				//not logging name of player purchasing because it will say they purchased it
+				//should we specify whether purchasing secondhand?
+				try {
+					log = playerName + " bought " + techName;
+					logger.writeToLog(playerDao.getGameId(playerId), log);
+				} catch (Exception e1) {
+					System.err.println(e1.getMessage());
+				} 
+				return 1;
+			}
 		return 1;
 	}
 
