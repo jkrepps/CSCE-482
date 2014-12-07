@@ -24,8 +24,10 @@ public class HudScreen extends Activity {
 	Button Tech;
 	Button Owned;
 	Button Refresh;
+	Button Send;
 	
 	TextView Logs;
+	TextView ChatLogs;
 	TextView money;
 	TextView science;
 	TextView marketing;
@@ -42,6 +44,7 @@ public class HudScreen extends Activity {
 		System.out.println("made it to here.");
 		setContentView(R.layout.activity_hudscreen);
 		Logs = (TextView) findViewById(R.id.editText1);
+		ChatLogs = (TextView) findViewById(R.id.editText2);
 		money = (TextView) findViewById(R.id.textView1);
 		science = (TextView) findViewById(R.id.textView2);
 		marketing = (TextView) findViewById(R.id.textView3);
@@ -52,6 +55,7 @@ public class HudScreen extends Activity {
 		Tech= (Button) findViewById(R.id.button3);
 		Refresh= (Button) findViewById(R.id.button4);
 		Owned= (Button) findViewById(R.id.button5);
+		Send = (Button) findViewById(R.id.button6);
 		
 		/*
 		DisplayMetrics metrics = new DisplayMetrics();
@@ -114,7 +118,12 @@ public class HudScreen extends Activity {
 			{ 
 				PopulateLog();
 			} 
-		}); 
+		});
+		Send.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v){
+				
+			}
+		});
 	}
 
 	
@@ -147,6 +156,9 @@ public class HudScreen extends Activity {
 	    Logs.setText( finaloutput );
 	}
 
+	public void populateChatLogs() {
+		
+	}
 	public String getMoney()
 	{
 		mNetwork.SendMessage("money");

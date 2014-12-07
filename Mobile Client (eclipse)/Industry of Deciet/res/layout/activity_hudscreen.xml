@@ -179,6 +179,17 @@
             android:layout_toLeftOf="@+id/textView2"
             android:src="@drawable/science" />
 
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/scrollView2"
+            android:layout_toLeftOf="@+id/scrollView2"
+            android:background="@drawable/roundedbutton"
+            android:text="Send"
+            android:textColor="#FFFFFF" />
+
     </RelativeLayout>
 
 </LinearLayout>
