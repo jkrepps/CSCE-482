@@ -558,7 +558,11 @@ private static List<Game> gameList;
 		}
 		else if (tokens[0].equals("money"))
 		{
+			System.out.println("Asking for player money");
 			outputLine += p.getPlayerMoney();
+			System.out.println(outputLine);
+			System.out.println("Science:" + playerDao.getScience(p));
+
 		}
 		else if (tokens[0].equals("income"))
 		{

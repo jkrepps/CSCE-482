@@ -37,7 +37,7 @@ public class Logger {
 			 lnr.close();
        System.out.println("Temp = " + temp);
        //if(temp == 0) return 1;
-       return temp;	
+       return temp + 1;	
       }
 		} catch (Exception e){
 			System.err.println(e.getMessage());
