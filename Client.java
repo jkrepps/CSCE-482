@@ -112,6 +112,7 @@ static String password = "";
 			else if(tokens[0].equals("logfile"))			// read in multiple lines for the items -(server sends a number relating to the number of items[lines to get ready to read])
 			{
 				int num = Integer.parseInt(in.readLine());
+				System.out.println("Num: " + num);
 				for(int i = 0; i<num; i++)
 				{
 					System.out.println(in.readLine());
