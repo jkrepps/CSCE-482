@@ -584,6 +584,10 @@ private static List<Game> gameList;
 		{
 			outputLine = gameList.get(playerDao.getGameId(p.getPlayerId())).getDaytime();
 		}
+		else if(tokens[0].equals("gameid"))
+		{
+			outputLine = playerDao.getGameId(p.getPlayerId());
+		}
 		else	//otherwise simply repeat the input command.
 		outputLine = "Copy: " + input;
 		return outputLine;
