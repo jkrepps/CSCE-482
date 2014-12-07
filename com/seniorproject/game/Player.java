@@ -228,14 +228,13 @@ public class Player
 	//are we doing this?
 	//need to add a playerId table
 
-	public int sellResource(String resourceName, int numUnits) throws DaoException
+	public int sellResource(String resourceName, Float resourcePrice, int numUnits) throws DaoException
 	{
 
 		//can only sell if it exists in itemlist
 		if(resourceDao.isInItemList(resourceName) == false) return -1;
 
 		String resourceType = resourceDao.getResourceType(resourceName).toString();
-		Float resourcePrice = resourceDao.getResourcePrice(resourceName);
 		int numAvailableUnits = playerDao.getResourceNumUnits(playerId, resourceName, resourceDao.getResourceType(resourceName).toString());
 		int newNumUnits = numAvailableUnits - numUnits;
 

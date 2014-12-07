@@ -128,8 +128,11 @@ public class Game {
 	 * @param id The id of the resource to be price checked
 	 * @return price for the given resource, identified by resourceId
 	 */
-	public Float getPrice(String resourceName) {
-		return priceList.get(resourceName);
+	public Float getPrice(String resourceName, boolean buy) {
+		Float retval = priceList.get(resourceName);
+		if (buy == false)
+			retval *= 0.85f;
+		return retval;
 	}
 	
 	/**
