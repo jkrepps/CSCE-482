@@ -547,6 +547,12 @@ private static List<Game> gameList;
 			
 		}
 
+		else if (tokens[0].equals("chat"))
+		{
+			String chatstring = tokens[1];
+			p.writeToChatLog(chatstring);
+		}
+
 		else if (tokens[0].equals("logfile"))
 		{
 
@@ -555,6 +561,14 @@ private static List<Game> gameList;
 			System.out.println("Number of lines: " + outputLine);
 			outputLine += logger.readFromLog(playerDao.getGameId(p.getPlayerId()));
 			System.out.println("Log: \"" + outputLine + "\"");
+		}
+		else if(tokens[0].equals("chatfile"))
+		{
+			outputLine += logger.getNumberLinesChat(playerDao.getGameId(p.getPlayerId()));
+			outputLine += "\n";
+			System.out.println("Number of lines in chat: " + outputLine);
+			outputLine += logger.readFromChatLog(playerDao.getGameId(p.getPlayerId()));
+			System.out.println("Chat Log: \"" + outputLine + "\"");
 		}
 		else if (tokens[0].equals("money"))
 		{
@@ -586,7 +600,7 @@ private static List<Game> gameList;
 		}
 		else if(tokens[0].equals("gameid"))
 		{
-			outputLine = playerDao.getGameId(p.getPlayerId());
+			outputLine += playerDao.getGameId(p.getPlayerId());
 		}
 		else	//otherwise simply repeat the input command.
 		outputLine = "Copy: " + input;

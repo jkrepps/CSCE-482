@@ -55,8 +55,17 @@ public class Game {
 		setTimeUnit();
 		resourceDao = new ResourceDao(dao.getConnection());
 		File logFile =  new File("com/seniorproject/" + Integer.toString(id) + ".txt");
+		File logFile2 = new File("com/seniorproject/chat" + Integer.toString(id) + ".txt");
+		
 		try{
 			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile.getAbsoluteFile(), true));
+   			bw.write("");
+   			bw.close();
+   		} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+		} 
+		try{
+			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile2.getAbsoluteFile(), true));
    			bw.write("");
    			bw.close();
    		} catch (Exception e1) {
@@ -84,11 +93,19 @@ public class Game {
 		this.playerStatus = new ArrayList<Integer>();
 		setTimeUnit();
 		File logFile =  new File("com/seniorproject/" + Integer.toString(id) + ".txt");
+		File logFile2 = new File("com/seniorproject/chat" + Integer.toString(id) + ".txt");
 		try{
 			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile.getAbsoluteFile(), true));
 	   		bw.write("");
 	   		bw.close();
 	   	} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+		} 
+		try{
+			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile2.getAbsoluteFile(), true));
+   			bw.write("");
+   			bw.close();
+   		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
 

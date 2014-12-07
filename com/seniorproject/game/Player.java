@@ -72,7 +72,16 @@ public class Player
 	public void setPlayerId(int playerId) {this.playerId = playerId; }
 	public void setPlayerIncome(float playerIncome) {this.playerIncome = playerIncome; }
 	
- 
+ 	//player write to chat log
+ 	public void writeToChatLog(String chat){
+ 		try{
+ 			logger.writeToChatLog(playerDao.getGameId(playerId), chat);
+ 		} catch (Exception e1) {
+			System.err.println(e1.getMessage());
+		}
+ 	}
+
+
 	//need to add a playerId
 
     public int buyResource(String resourceName, Float resourcePrice, int numUnits) throws DaoException //for right now returns int, in future could be different
