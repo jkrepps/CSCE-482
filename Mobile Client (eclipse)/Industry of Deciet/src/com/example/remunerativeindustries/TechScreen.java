@@ -230,13 +230,13 @@ public class TechScreen extends Activity {
 	{
 		mNetwork.SendMessage("money");
 		String retval = mNetwork.RecieveMessage();
-		return "<font color='green'>Money = "+retval+"</font>";
+		return "<font color='green'>:   "+retval+"</font>";
 	}
 	public String getScience()
 	{
 		mNetwork.SendMessage("science");
 		String retval = mNetwork.RecieveMessage();
-		return "<font color='blue'>Science = "+retval+"</font>";
+		return "<font color='blue'>:   "+retval+"</font>";
 	}
 	public String getMarketing()
 	{
