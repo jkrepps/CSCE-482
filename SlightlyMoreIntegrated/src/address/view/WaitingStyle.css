@@ -1,9 +1,0 @@
-.background {
-	-fx-background-image: url("./images/GameBackground.jpg");
-	-fx-background-size: stretch;
-}
-
-.buttons {
-	-fx-background-color: blue;
-	-fx-background-radius: 30;
-}

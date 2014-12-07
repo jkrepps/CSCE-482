@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" stylesheets="@OpeningStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.OpeningController">
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" stylesheets="@OpeningStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.OpeningController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="background-opening">
          <top>
@@ -41,28 +41,12 @@
                         <Font name="Matura MT Script Capitals" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="joinGame" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Join Others Games" textFill="#ebe8e8">
+                  <Button fx:id="joinGame" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Join Games" textFill="#ebe8e8">
                      <font>
                         <Font name="Matura MT Script Capitals" size="12.0" />
                      </font>
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="31.35" offsetX="10.0" offsetY="5.0" radius="16.2925" width="35.82" />
-                     </effect>
-                  </Button>
-                  <Button fx:id="joinYourGame" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Join Your Games" textFill="#e8e2e2">
-                     <font>
-                        <Font name="Matura MT Script Capitals" size="12.0" />
-                     </font>
-                     <effect>
-                        <DropShadow blurType="GAUSSIAN" height="44.72" radius="19.6375" spread="0.24" width="35.83" />
-                     </effect>
-                  </Button>
-                  <Button fx:id="howToPlay" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="How To Play" textFill="#f5f0f0">
-                     <font>
-                        <Font name="Matura MT Script Capitals" size="12.0" />
-                     </font>
-                     <effect>
-                        <DropShadow height="26.87" offsetX="10.0" offsetY="5.0" radius="15.184999999999999" width="35.87" />
                      </effect>
                   </Button>
                </children>

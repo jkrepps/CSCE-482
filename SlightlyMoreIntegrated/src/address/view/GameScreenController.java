@@ -49,7 +49,7 @@ public class GameScreenController implements ControlledScreen {
 	@FXML
 	private Text weather;
 	@FXML
-	private Text playersRemaining;
+	private Text science;
 	@FXML
 	private Text marketingVal;
 	@FXML
@@ -165,45 +165,25 @@ public class GameScreenController implements ControlledScreen {
 	public void updateHUD() {
 		Network.getInstance().SendMessage("money");
 		String moneyS = Network.getInstance().RecieveMessage();
-		money.setText(moneyS + 'g');
+		if(!(moneyS.equals("You have lost.")) && !(moneyS.equals("You have won."))) {
+			money.setText(":   " + moneyS + 'g');
+		}
 		Network.getInstance().SendMessage("weather");
 		String weatherS = Network.getInstance().RecieveMessage();
-		weather.setText(weatherS);
-	}
-	
-/*	// Dynamically acquires the buttons for the inventions available to the player
-	public void buttonCreationInvent() {
-		Network.getInstance().SendMessage("itemlist");							// send message to get the itemlist
-		String rstring = Network.getInstance().RecieveMessage();				// receive the message returned by the server
-		final int ROWS = Integer.parseInt(rstring);						// number of items or buttons created
-		quantity.setVisible(true);
-		for(int i=0; i<ROWS; ++i) {												// Acquire the buttons and create them
-			if(i != 0) {
-				Button b = new Button(Network.getInstance().RecieveMessage());
-				b.setId("buttons");
-				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					public void handle(MouseEvent t) {
-						String quant = quantity.getText();
-						String name = getName(b.getText());
-						Network.getInstance().SendMessage("buy\t" + name + "\t" + quant);
-						Network.getInstance().RecieveMessage();
-						updateHUD();
-						Network.getInstance().SendMessage("logfile");
-						String log = Network.getInstance().RecieveMessage();
-						final int LOG_ROWS =  Integer.parseInt(log);
-						for (int i=0; i<LOG_ROWS; ++i ) {
-							activityLog.appendText(Network.getInstance().RecieveMessage() + "\n");
-						}
-					}
-				
-				});
-				inventionsList.getChildren().add(b);
-			}
-			else {
-				Network.getInstance().RecieveMessage();
-			}
+		if(!weatherS.equals("You have lost.") && !weatherS.equals("You have won.")) {
+			weather.setText("Weather: " + weatherS);
 		}
-	}*/
+		Network.getInstance().SendMessage("science");
+		String scienceS = Network.getInstance().RecieveMessage();
+		if(!scienceS.equals("You have lost.") && !scienceS.equals("You have won.")) {
+			science.setText(":   " + scienceS);
+		}
+		/*Network.getInstance().SendMessage("income");
+		String incomeS = Network.getInstance().RecieveMessage();
+		if(!incomeS.equals("You have lost.") && !incomeS.equals("You have won.")) {
+			incomePer.setText("Income: " + incomeS);
+		}*/
+	}
 	
 	// Dynamically acquires the buttons for the technology able to the researched
 	public void buttonCreationTech() {

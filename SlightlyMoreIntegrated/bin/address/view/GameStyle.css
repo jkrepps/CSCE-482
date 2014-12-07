@@ -23,7 +23,12 @@
 }
 
 .goldPane {
-	-fx-background-image: url("./Images/Gold.jpg");
+	-fx-background-image: url("./Images/moneybags.png");
+	-fx-background-size: stretch;
+}
+
+.sciencePane {
+	-fx-background-image: url("./Images/science.png");
 	-fx-background-size: stretch;
 }
 

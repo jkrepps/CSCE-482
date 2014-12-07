@@ -8,10 +8,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -32,6 +32,8 @@ public class HudScreen extends Activity {
 	TextView science;
 	TextView marketing;
 	TextView income;
+	
+	EditText chatWindow;
 	
 	Network mNetwork;
 	int appheight;
@@ -56,7 +58,7 @@ public class HudScreen extends Activity {
 		Refresh= (Button) findViewById(R.id.button4);
 		Owned= (Button) findViewById(R.id.button5);
 		Send = (Button) findViewById(R.id.button6);
-		
+		chatWindow = (EditText) findViewById(R.id.editText3);
 		/*
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -121,7 +123,15 @@ public class HudScreen extends Activity {
 		});
 		Send.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v){
-				
+				String message = chatWindow.getText().toString();
+				if(!message.isEmpty()) {
+					mNetwork.SendMessage("chat\t" + message);
+					mNetwork.RecieveMessage();
+					populateChatLogs();
+				}
+				else {
+					populateChatLogs();
+				}
 			}
 		});
 	}
@@ -157,8 +167,21 @@ public class HudScreen extends Activity {
 	}
 
 	public void populateChatLogs() {
-		
+		mNetwork.SendMessage("chatfile");
+		String nums = mNetwork.RecieveMessage();
+		String finalOutput = "";
+		if(!nums.equals("You have lost.") && !nums.equals("You have won!")) {
+			int number = Integer.parseInt(nums);
+			for(int i=0; i<number; ++i) {
+				finalOutput += mNetwork.RecieveMessage() + "\n";
+			}
+		}
+		else {
+			finalOutput += nums;
+		}
+		ChatLogs.setText(finalOutput);
 	}
+	
 	public String getMoney()
 	{
 		mNetwork.SendMessage("money");
