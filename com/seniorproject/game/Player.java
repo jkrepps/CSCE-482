@@ -75,7 +75,8 @@ public class Player
  	//player write to chat log
  	public void writeToChatLog(String chat){
  		try{
- 			logger.writeToChatLog(playerDao.getGameId(playerId), chat);
+ 			String newchat = playerName + ": " + chat;
+ 			logger.writeToChatLog(playerDao.getGameId(playerId), newchat);
  		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		}

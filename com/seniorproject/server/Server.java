@@ -499,9 +499,9 @@ private static List<Game> gameList;
 			if (result == 1)
 				outputLine += "purchased " + tokens[1];
 			else if (result == 0)
-				outputLine += "Not enough money";
+				outputLine += "Not enough science";
 			else if (result == -1 )
-				outputLine += "Item doesn't exist";
+				outputLine += "Tech doesn't exist";
 			else if (result == -2 )
 				outputLine += "Error with update of database entry";
 			else 
