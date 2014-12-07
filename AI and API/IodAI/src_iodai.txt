@@ -1,0 +1,7 @@
+"C:\\Users\\Lance\\Documents\\JCreator LE\\MyProjects\\IodAI\\src\\Games.java"
+"C:\\Users\\Lance\\Documents\\JCreator LE\\MyProjects\\IodAI\\src\\Inventory.java"
+"C:\\Users\\Lance\\Documents\\JCreator LE\\MyProjects\\IodAI\\src\\IodAI.java"
+"C:\\Users\\Lance\\Documents\\JCreator LE\\MyProjects\\IodAI\\src\\IoDAPI.java"
+"C:\\Users\\Lance\\Documents\\JCreator LE\\MyProjects\\IodAI\\src\\LOG.java"
+"C:\\Users\\Lance\\Documents\\JCreator LE\\MyProjects\\IodAI\\src\\Market.java"
+"C:\\Users\\Lance\\Documents\\JCreator LE\\MyProjects\\IodAI\\src\\Techs.java"

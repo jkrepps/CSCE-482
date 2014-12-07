@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<workspace>
+	<settings>
+		<label>IodAI</label>
+		<id>95</id>
+		<version>0</version>
+	</settings>
+	<users>
+		<user>
+			<path>IodAI.jcu</path>
+		</user>
+	</users>
+	<projects>
+		<project>
+			<path>IodAI.jcp</path>
+		</project>
+	</projects>
+</workspace>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+	<settings>
+		<label>IodAI</label>
+		<root_path>\</root_path>
+		<output_path>classes\</output_path>
+		<source_path>src\</source_path>
+		<jdkprofile_ref>JDK version 1.7.0_17</jdkprofile_ref>
+		<compiler_ref/>
+		<ant_ref/>
+	</settings>
+	<ant_events/>
+	<run_items/>
+	<runtimes>
+		<runtime>
+			<label>&lt;Default&gt;</label>
+			<application_ref/>
+			<applet_ref/>
+			<debugger_ref/>
+			<param/>
+			<run>IodAI</run>
+			<verify>true</verify>
+		</runtime>
+	</runtimes>
+	<libraries/>
+	<files>
+		<include>
+			<folderitem>
+				<path>src</path>
+			</folderitem>
+			<fileitem>
+				<path>src\Games.java</path>
+				<folder>src</folder>
+			</fileitem>
+			<fileitem>
+				<path>src\Inventory.java</path>
+				<folder>src</folder>
+			</fileitem>
+			<fileitem>
+				<path>src\IodAI.java</path>
+				<folder>src</folder>
+			</fileitem>
+			<fileitem>
+				<path>src\IoDAPI.java</path>
+				<folder>src</folder>
+			</fileitem>
+			<fileitem>
+				<path>src\LOG.java</path>
+				<folder>src</folder>
+			</fileitem>
+			<fileitem>
+				<path>src\Market.java</path>
+				<folder>src</folder>
+			</fileitem>
+			<fileitem>
+				<path>src\Techs.java</path>
+				<folder>src</folder>
+			</fileitem>
+		</include>
+	</files>
+	<tasks>
+		<todotaskitem>
+			<description>TODO code application logic here</description>
+			<filepath>src\AIClient.java</filepath>
+			<line>88</line>
+			<timestamp>1417476588</timestamp>
+		</todotaskitem>
+		<todotaskitem>
+			<description>TODO code application logic here</description>
+			<filepath>src\IodAI.java</filepath>
+			<line>101</line>
+			<timestamp>1417481573</timestamp>
+		</todotaskitem>
+	</tasks>
+</project>
