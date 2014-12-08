@@ -1,59 +1,101 @@
 package com.seniorproject.dao;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.seniorproject.resource.MarketResource;
 import com.seniorproject.resource.Resource;
 
 public class MarketDao extends DaoObject {
 	
-	public int sellResource(Resource resource, String seller, int quantity) throws DaoException {
-		String resourceName = resource.getResourceName();
-		String resourceClass = resource.getResourceClass();
-		Float resourcePrice = resource.getResourcePrice();
+	public MarketDao(Connection connection) {
+		this.connection = connection;
+	}
+	
+	public MarketResource createListing(Resource resource, int quantity, String playername, int sellerId, int gameId) throws DaoException {
+		String insertQuery = "INSERT INTO Market VALUES(0," + resource.getResouceId() +", '" + resource.getResourceName() + "', '"
+				+ resource.getResourceClass() + "'," +  resource.getResourcePrice() +", '" + playername +"', " + quantity + "," + sellerId + "," + gameId + ";";
 
-		String insertQuery = "INSERT INTO Market(resource_name, resource_type, seller, quantity, price_per_unit) VALUES('" + resourceName + "', '" + resourceClass + "', '"
-				+ seller + "', " + Integer.toString(quantity) + ", " + resourcePrice + ");";
+		String selectQuery = "SELECT max(id) from Market;";
+		MarketResource retval = new MarketResource();
 		
 		try {
-			return this.executeUpdate(insertQuery);
-		} catch (Exception e) {
-			throw new DaoException("Adding Resource to Market has failed with: " + e.getMessage());
-		}
-		
- 	}
-	
-	// List of all resources on the market
-	public List<Resource> getMarketResources() throws DaoException {
-		String selectQuery = "SELECT * FROM Market;";
-		List<Resource> returnList = new ArrayList<Resource>();
-		
-		try {
-			ResultSet resultSet = this.executeSelect(selectQuery);
+			this.executeUpdate(insertQuery);
+			ResultSet rs = this.executeSelect(selectQuery);
 			
-			while(resultSet.next()) {
-				Resource temp = new Resource(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getFloat(6));
-				returnList.add(temp);
-			}
-		} catch (Exception e) {
-			throw new DaoException("Call to get Market Resources failed with: " + e.getMessage());
+			if(rs.next())
+				retval = new MarketResource(resource, rs.getInt(1), quantity, playername, sellerId, gameId);
+			
+		}	catch (Exception e) {
+			throw new DaoException("Creating market listing has failed with: " + e.getMessage());
 		}
 		
-		return returnList;
+		return retval;
+		
+		
 	}
 	
-	
-	// Buying resource (subtracting values from market) by resource_id as returned by getMarketResources()
-	public int buyResource(String buyer, int resourceId, int buyingQuantity) throws DaoException {
+	public List<MarketResource> getAllMarketResources(int gameId) throws DaoException {
+		String selectQuery = "SELECT * FROM Market where game_id=" + gameId + ";";
+		List<MarketResource> retval = new ArrayList<MarketResource>();
 		
-		String updateQuery = "UPDATE Market SET quantity = quantity-"+Integer.toString(buyingQuantity)
-				+ " WHERE resource_id = " + Integer.toString(resourceId) + ";"; 
+		try{
+			ResultSet rs = this.executeSelect(selectQuery);
+			
+			while(rs.next()) {
+				retval.add(new MarketResource(new Resource(rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5)), rs.getInt(1), rs.getInt(8), rs.getString(6), rs.getInt(7), rs.getInt(9)));
+				
+			}
+			
+		} catch (SQLException e) {
+			throw new DaoException("Call to get all items on the market failed with: " + e.getMessage());
+		}
+		
+		return retval;
+	}
+	
+	public MarketResource getResource(int id) throws DaoException {
+		String selectQuery = "SELECT * from Market where id=" + id +";";
+		MarketResource retval = new MarketResource();
 		
 		try {
-			return this.executeUpdate(updateQuery);
-		} catch (Exception e) {
-			throw new DaoException("Buying Resources has failed with: " + e.getMessage());
-		} 
+			ResultSet rs = this.executeSelect(selectQuery);
+			if(rs.next())
+				return new MarketResource(new Resource(rs.getInt(2), rs.getString(3), rs.getString(4), rs.getFloat(5)), rs.getInt(1), rs.getInt(8), rs.getString(6), rs.getInt(7), rs.getInt(9));
+		} catch(SQLException e) {
+			throw new DaoException("Call to get item quantities on the market failed with: " + e.getMessage());
+		}
+		
+		return retval;
 	}
+	
+	public int updateQuantity (int id, int quantity) throws DaoException {
+		String updateQuery = "UPDATE Market SET quantity=" + quantity +" WHERE id=" + id +";";
+		int retval = -1;
+		
+		try {
+			retval = this.executeUpdate(updateQuery);
+		} catch (Exception e) {
+			throw new DaoException("Updating quantites on Market has failed with: " + e.getMessage());
+		}
+		return retval;
+	}
+	
+	
+	public int removeListing (int id) throws DaoException {
+		String deleteQuery = "DELETE FROM Market WHERE id=" + id +";";
+		int retval = -1;
+		
+		try {
+			retval = this.executeUpdate(deleteQuery);
+		} catch (Exception e) {
+			throw new DaoException("Updating quantites on Market has failed with: " + e.getMessage());
+		}
+		return retval;
+		
+	}
+	
 }

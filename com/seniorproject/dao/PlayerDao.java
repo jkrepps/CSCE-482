@@ -113,8 +113,8 @@ public class PlayerDao extends DaoObject {
 	}*/
 	// Money	
 	
-	public int updatePlayerMoney(String playername, float money) throws DaoException {
-		String updateQuery = "UPDATE Player SET money=money+" + money + " WHERE name='" + playername +"';";
+	public int updatePlayerMoney(int playerId, float money) throws DaoException {
+		String updateQuery = "UPDATE Player SET money=money+" + money + " WHERE id='" + playerId +"';";
 		int retval = -1;
 		
 		try {
@@ -126,6 +126,7 @@ public class PlayerDao extends DaoObject {
 		return retval; 
 		
 	}
+	
 	
 	public int setPlayerMoney(String playername, int playerId, float money) throws DaoException {
 		String updateQuery = "UPDATE Player SET money=" + money + " WHERE name='" + playername +"' AND id=" + playerId +";";
@@ -157,6 +158,21 @@ public class PlayerDao extends DaoObject {
 	}
 	public float getPlayerMoney(String playername, int gameId) throws DaoException {
 		String selectQuery = "SELECT money FROM Player where name='" + playername +"' AND game_id=" + gameId +";";
+		float money = -1;
+		try { 
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			
+			resultSet.next();
+			money = resultSet.getFloat(1);
+			
+		} catch (Exception e) {
+			throw new DaoException("Call to get Player money failed with:" + e.getMessage());
+		}
+		return money;
+	}
+	
+	public float getPlayerMoney(int playerId) throws DaoException {
+		String selectQuery = "SELECT money FROM Player where id=" + playerId +";";
 		float money = -1;
 		try { 
 			ResultSet resultSet = this.executeSelect(selectQuery);

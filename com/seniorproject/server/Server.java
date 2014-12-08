@@ -18,6 +18,7 @@ import java.util.Map;
 import com.seniorproject.dao.DaoException;
 import com.seniorproject.dao.DaoObject;
 import com.seniorproject.dao.GameDao;
+import com.seniorproject.dao.MarketDao;
 import com.seniorproject.dao.PlayerDao;
 import com.seniorproject.dao.ResourceDao;
 import com.seniorproject.dao.TechDao;
@@ -25,6 +26,7 @@ import com.seniorproject.game.Game;
 import com.seniorproject.game.Player;
 import com.seniorproject.game.World;
 import com.seniorproject.logger.Logger;
+import com.seniorproject.resource.MarketResource;
 import com.seniorproject.resource.Resource;
 import com.seniorproject.resource.Tech;
 
@@ -39,6 +41,7 @@ static int playerid = 0;
 static Login login;
 static PlayerDao playerDao;
 static GameDao gameDao;
+static MarketDao marketDao;
 static DaoObject dao;
 
 
@@ -165,6 +168,7 @@ private static List<Game> gameList;
 		resourceDao = new ResourceDao(dao.getConnection());
 		techDao = new TechDao(dao.getConnection());
 		gameDao = new GameDao(dao.getConnection());
+		marketDao = new MarketDao(dao.getConnection());
 		
 		
 		//reInitialize all games that may have been closed
@@ -445,6 +449,19 @@ private static List<Game> gameList;
 			}
 			
 		}
+		else if (tokens[0].equals("marketlist"))
+		{
+			int gameId = playerDao.getGameId(p.getPlayerId());
+			try {
+				List<MarketResource> marketResources = marketDao.getAllMarketResources(gameId);
+				for( MarketResource r: marketResources) {
+					outputLine += "\n" + r.getId() + "\t" + r.getResource().getResourceName() + "\t" + r.getResource().getResourcePrice() + "\t" + r.getQuantity() +"\t" + r.getSellerName();
+				}
+			} catch (DaoException e) {
+				e.printStackTrace();
+			}
+			
+		}
 		else if(tokens[0].equals("techlist"))	 //itemlist = show a list of all items
 		{
 			int numberItems = 0;
@@ -491,6 +508,29 @@ private static List<Game> gameList;
 				outputLine += "Not enough skilled workers";
 			else 
 				outputLine += "UNKNOWN ERROR";
+		}
+		else if (tokens[0].equals("buymarket"))
+		{
+			int gameId = playerDao.getGameId(p.getPlayerId());
+			int resourceId = Integer.parseInt(tokens[1]);
+			Float buyerMoney = playerDao.getPlayerMoney(p.getPlayerId());
+			MarketResource toBuy = marketDao.getResource(resourceId);
+			int sellerId = toBuy.getSellerId();
+			int quantity = Integer.parseInt(tokens[2]);
+			Float cost = toBuy.getResource().getResourcePrice()*quantity;
+			if (cost > buyerMoney)
+				outputLine += "Insufficient funds";
+			else if (quantity > toBuy.getQuantity())
+				outputLine += "Invalid quantity";
+			else {
+				playerDao.updatePlayerMoney(p.getPlayerId(), -cost);
+				playerDao.updatePlayerMoney(toBuy.getSellerId(), cost);
+				playerDao.addResource(toBuy.getResource(), p.getPlayerId(), quantity);
+				if(quantity == toBuy.getQuantity())
+					marketDao.removeListing(resourceId);
+				else
+					marketDao.updateQuantity(resourceId, toBuy.getQuantity() - quantity);
+			}
 		}
 		else if (tokens[0].equals("buytech"))
 		{
@@ -546,7 +586,25 @@ private static List<Game> gameList;
 				outputLine += "UNKNOWN ERROR";
 			
 		}
-
+		//usage sellmarket <name_of_resource> <price_per_unit> <num_of_units>
+		else if (tokens[0].equals("sellmarket"))
+		{
+			int gameId = playerDao.getGameId(p.getPlayerId());
+			Resource toSell = playerDao.getResource(tokens[1]);
+			int numAvailable = playerDao.getResourceNumUnits(p.getPlayerId(), toSell.getResourceName(), toSell.getResourceClass());
+			if (Integer.parseInt(tokens[3]) > numAvailable)
+				outputLine += "Not enough items to sell in player inventory";
+			else {
+				if (numAvailable > Integer.parseInt(tokens[3]))
+					playerDao.updateResource(toSell, p.getPlayerId(), numAvailable - Integer.parseInt(tokens[3]));
+				else if (numAvailable == Integer.parseInt(tokens[3]))
+					playerDao.removeResource(toSell, p.getPlayerId());
+				toSell.setResourcePrice(Float.parseFloat(tokens[2]));
+				marketDao.createListing(toSell, Integer.parseInt(tokens[3]), p.getPlayerName(), p.getPlayerId(), gameId);
+				outputLine += "Success. Created market listing";
+			}
+		}
+		
 		else if (tokens[0].equals("chat"))
 		{
 			String chatstring = tokens[1];
