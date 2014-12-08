@@ -2,6 +2,7 @@ package com.seniorproject.resource;
 
 import com.seniorproject.resource.ResourceClassification;
 import com.seniorproject.resource.ResourceType;
+import com.seniorproject.dao.ResourceDao;
 
 import java.util.Random;
 import java.util.*;
@@ -58,7 +59,7 @@ public class Resource {
 	public ResourceType getResourceType() { return resourceType; }
 	public String getResourceClass() { return resourceClass; }
 	public String getResourceName() { return resourceName; }
-	public int getResouceId() { return resourceId; }
+	public int getResourceId() { return resourceId; }
 	public int getResourceIcon() { return resourceIcon; }
 	public float getResourceIncome() { return resourceIncome; }
 	public float getResourceReq() { return resourceIncome; }

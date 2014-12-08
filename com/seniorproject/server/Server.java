@@ -455,7 +455,7 @@ private static List<Game> gameList;
 			try {
 				List<MarketResource> marketResources = marketDao.getAllMarketResources(gameId);
 				for( MarketResource r: marketResources) {
-					outputLine += "\n" + r.getId() + "\t" + r.getResource().getResourceName() + "\t" + r.getResource().getResourcePrice() + "\t" + r.getQuantity() +"\t" + r.getSellerName();
+					outputLine += "\n" +  r.getId() + "\t" + r.getResource().getResourceName() + "\t" + r.getResource().getResourcePrice() + "\t" + r.getQuantity() +"\t" + r.getSellerName();
 				}
 			} catch (DaoException e) {
 				e.printStackTrace();
@@ -526,6 +526,8 @@ private static List<Game> gameList;
 				playerDao.updatePlayerMoney(p.getPlayerId(), -cost);
 				playerDao.updatePlayerMoney(toBuy.getSellerId(), cost);
 				playerDao.addResource(toBuy.getResource(), p.getPlayerId(), quantity);
+				String log = p.getPlayerName() + " bought " + quantity + " units of " + toBuy.getResource().getResourceName() + " from " + toBuy.getSellerName() + " on Player Market for " + cost + " each"; 
+				logger.writeToLog(gameId, log);
 				if(quantity == toBuy.getQuantity())
 					marketDao.removeListing(resourceId);
 				else
@@ -586,21 +588,30 @@ private static List<Game> gameList;
 				outputLine += "UNKNOWN ERROR";
 			
 		}
+		
 		//usage sellmarket <name_of_resource> <price_per_unit> <num_of_units>
 		else if (tokens[0].equals("sellmarket"))
 		{
+			System.out.println("In sellmarket");
 			int gameId = playerDao.getGameId(p.getPlayerId());
 			Resource toSell = playerDao.getResource(tokens[1]);
 			int numAvailable = playerDao.getResourceNumUnits(p.getPlayerId(), toSell.getResourceName(), toSell.getResourceClass());
+			
 			if (Integer.parseInt(tokens[3]) > numAvailable)
 				outputLine += "Not enough items to sell in player inventory";
 			else {
-				if (numAvailable > Integer.parseInt(tokens[3]))
-					playerDao.updateResource(toSell, p.getPlayerId(), numAvailable - Integer.parseInt(tokens[3]));
-				else if (numAvailable == Integer.parseInt(tokens[3]))
-					playerDao.removeResource(toSell, p.getPlayerId());
 				toSell.setResourcePrice(Float.parseFloat(tokens[2]));
 				marketDao.createListing(toSell, Integer.parseInt(tokens[3]), p.getPlayerName(), p.getPlayerId(), gameId);
+				String log = p.getPlayerName() + " listed " + tokens[3] + " units of " + toSell.getResourceName() + " on Player Market for " + tokens[2] + " each"; 
+				logger.writeToLog(gameId, log);
+				if (numAvailable > Integer.parseInt(tokens[3])) {
+					playerDao.updateResource(toSell, p.getPlayerId(), numAvailable - Integer.parseInt(tokens[3]));
+				}
+				else if (numAvailable == Integer.parseInt(tokens[3])) {
+					playerDao.removeResource(toSell, p.getPlayerId());
+				}
+				//toSell.setResourcePrice(Float.parseFloat(tokens[2]));
+				//marketDao.createListing(toSell, Integer.parseInt(tokens[3]), p.getPlayerName(), p.getPlayerId(), gameId);
 				outputLine += "Success. Created market listing";
 			}
 		}

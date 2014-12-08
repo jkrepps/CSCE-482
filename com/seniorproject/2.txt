@@ -5,3 +5,4 @@ Username purchased 1 units of Plot
 Username sold 1 units of Peon
 Username bought Cotton Gin
 Username sold 1 units of Science
+Jayme purchased 1 units of Plot

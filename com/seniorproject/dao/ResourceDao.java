@@ -215,6 +215,26 @@ public class ResourceDao extends DaoObject {
 		}
 		return resourceIncome;
 	}
+
+	public int getResourceId(String ResourceName) throws DaoException {
+		String selectQuery = "SELECT id FROM ResourceList WHERE name = '" + ResourceName + "';";
+		int resourceId = 0;
+		try {
+			ResultSet resultSet = this.executeSelect(selectQuery);
+			if(resultSet.next())
+			{
+				resourceId = resultSet.getInt(1);
+			}
+			else
+			{
+				return 0;
+			}
+		} catch (Exception e) {
+			throw new DaoException("Getting resource id type failed with: " + e.getMessage());
+		}
+		return resourceId;
+	}
+
 	public int getResourceWorkerNum(String ResourceName) throws DaoException {
 		String selectQuery = "SELECT num_Workers FROM ResourceList WHERE name = '" + ResourceName + "';";
 		int resourcePrice = 0;
