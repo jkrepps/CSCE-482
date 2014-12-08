@@ -549,7 +549,8 @@ public class PlayerDao extends DaoObject {
 			ResultSet resultSet = executeSelect(selectQuery);
 			
 			resultSet.next();
-			resource = (new Resource(resultSet.getString(2),resultSet.getString(3),resultSet.getFloat(4)));
+			System.out.println(resultSet.getInt(1));
+			resource = (new Resource(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getFloat(4)));
 			
 			return resource;
 		} catch (Exception e){
