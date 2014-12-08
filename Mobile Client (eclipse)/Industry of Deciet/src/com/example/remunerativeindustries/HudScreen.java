@@ -69,6 +69,7 @@ public class HudScreen extends Activity {
 		appwidth = metrics.widthPixels;
 		*/
 		PopulateLog();
+		populateChatLogs();
 		
 		GameMarket.setOnClickListener(new View.OnClickListener() 
 		{
@@ -127,6 +128,7 @@ public class HudScreen extends Activity {
 				if(!message.isEmpty()) {
 					mNetwork.SendMessage("chat\t" + message);
 					mNetwork.RecieveMessage();
+					chatWindow.setText("");
 					populateChatLogs();
 				}
 				else {

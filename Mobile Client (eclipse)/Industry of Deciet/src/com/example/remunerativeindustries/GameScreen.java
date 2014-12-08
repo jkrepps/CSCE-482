@@ -240,13 +240,13 @@ public class GameScreen extends Activity {
 	{
 		mNetwork.SendMessage("money");
 		String retval = mNetwork.RecieveMessage();
-		return "<font color='green'>:   </font>"+retval+'\t';
+		return "<font color='white'>:   </font>"+retval+'\t';
 	}
 	public String getScience()
 	{
 		mNetwork.SendMessage("science");
 		String retval = mNetwork.RecieveMessage();
-		return "<font color='blue'>:   </font>"+retval+'\t';
+		return "<font color='white'>:   </font>"+retval+'\t';
 	}
 	public String getMarketing()
 	{
