@@ -89,7 +89,7 @@ public class PlayerMarketScreen extends Activity {
 			@Override
 			public void onClick(View v) {
 				String buyUnits = units.getText().toString();
-				String message = "buy\t" + getId(dataStrings[currentSelected]) + "\t"+buyUnits;
+				String message = "buymarket\t" + getId(dataStrings[currentSelected]) + "\t"+buyUnits;
 				System.out.println(message);
 				mNetwork.SendMessage(message);
 				String rval = mNetwork.RecieveMessage();
@@ -209,18 +209,11 @@ public class PlayerMarketScreen extends Activity {
 	}
 	private String formatInfo(String[] tokens)
 	{
-		String output = "name = " + tokens[0] + "\n";
-		output += "Price = " + tokens[1] + "\n";
-		output += "Income Type = " + tokens[2] + "\n";
-		output += "Requirement = " + tokens[3] + "\n";
-		output += "Number of Requirement = " + tokens[4] + "\n";
-		output += "Land = " + tokens[5] + "\n";
-		output += "Units of Income = " + tokens[6] + "\n";
-		if(tokens[0].equals("Plot"))
-		{
-			output += "Note: Plots are needed to supply land.\n";
-		}
-		
+		String output = "id = " + tokens[0] + "\n";
+		output += "Name = " + tokens[1] + "\n";
+		output += "Price = " + tokens[2] + "\n";
+		output += "Quantity = " + tokens[3] + "\n";
+		output += "Seller Name = " + tokens[4] + "\n";		
 		return output;
 	}
 	private String getId(CharSequence c)

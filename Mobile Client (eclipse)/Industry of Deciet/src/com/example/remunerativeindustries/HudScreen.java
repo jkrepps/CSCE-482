@@ -98,7 +98,7 @@ public class HudScreen extends Activity {
 			@Override public void onClick(View v) 
 			{ 
 				Intent i;
-				i = new Intent(HudScreen.this, GameScreen.class); 
+				i = new Intent(HudScreen.this, PlayerMarketScreen.class); 
 				
 				System.out.println("loading...");
 		        startActivity(i);
@@ -125,7 +125,7 @@ public class HudScreen extends Activity {
 		Send.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v){
 				String message = chatWindow.getText().toString();
-				if(!message.isEmpty()) {
+				if(message.length() > 0) {
 					mNetwork.SendMessage("chat\t" + message);
 					mNetwork.RecieveMessage();
 					chatWindow.setText("");
@@ -176,7 +176,7 @@ public class HudScreen extends Activity {
 			int number = Integer.parseInt(nums);
 			for(int i=0; i<number; ++i) {
 				finalOutput += mNetwork.RecieveMessage() + "\n";
-			}
+				System.out.println("nums = "+number+", i = "+i+", output = " +finalOutput);			}
 		}
 		else {
 			finalOutput += nums;

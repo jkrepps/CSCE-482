@@ -26,6 +26,7 @@ public class OwnedResources extends Activity {
 	String dataStrings[];
 	Button button;
 	Button sellButton;
+	Button sellPlayerButton;
 	int appwidth = 0;
 	int appheight = 0;
 	int currentSelected = 0;
@@ -35,6 +36,7 @@ public class OwnedResources extends Activity {
 	TextView marketing;
 	TextView income;
 	EditText units;
+	EditText price;
 	TextView data;
 	TableLayout table;
 	@Override
@@ -42,7 +44,7 @@ public class OwnedResources extends Activity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		setContentView(R.layout.activity_game_screen);//new DrawingView(this));
+		setContentView(R.layout.activity_owned_items);//new DrawingView(this));
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		mNetwork = Network.getInstance();
@@ -56,10 +58,11 @@ public class OwnedResources extends Activity {
 		marketing = (TextView) findViewById(R.id.textView3);
 		income = (TextView) findViewById(R.id.textView4);
 		units = (EditText) findViewById(R.id.editText1);
+		price = (EditText) findViewById(R.id.editText12);
 		button = (Button) findViewById(R.id.button1);
 		data = (TextView) findViewById(R.id.infoText);
 		sellButton = (Button) findViewById(R.id.button2);
-		sellButton.setText("Sell");
+		sellPlayerButton = (Button) findViewById(R.id.button3);
 		button.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -74,6 +77,21 @@ public class OwnedResources extends Activity {
 			public void onClick(View v) {
 				String buyUnits = units.getText().toString();
 				String message = "sell\t" + getName(dataStrings[currentSelected]) + "\t"+buyUnits;
+				System.out.println(message);
+				mNetwork.SendMessage(message);
+				String rval = mNetwork.RecieveMessage();
+				Toast.makeText(OwnedResources.this, rval, Toast.LENGTH_SHORT).show();
+				PopulateButtons();
+				
+			}
+		});
+		sellPlayerButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				String buyUnits = units.getText().toString();
+				String sellPrice = price.getText().toString();
+				String message = "sellmarket\t" + getName(dataStrings[currentSelected]) + "\t"+ sellPrice + "\t"+buyUnits;
 				System.out.println(message);
 				mNetwork.SendMessage(message);
 				String rval = mNetwork.RecieveMessage();
@@ -98,6 +116,7 @@ public class OwnedResources extends Activity {
 		String rstring = mNetwork.RecieveMessage();
 		if(rstring.equals("You have lost.") || rstring.equals("You have won!") || rstring.equals("0"))
 		{
+			System.out.println("Test stop");
 			return;
 		}
 		else
@@ -222,7 +241,6 @@ public class OwnedResources extends Activity {
 		output += "Selling price = " + tokens[1] + "\n";
 		output += "Type of Resource = " + tokens[2] + "\n";
 		output += "Number owned = " + tokens[3] + "\n";
-
 		
 		return output;
 	}
@@ -230,13 +248,13 @@ public class OwnedResources extends Activity {
 	{
 		mNetwork.SendMessage("money");
 		String retval = mNetwork.RecieveMessage();
-		return "<font color='green'>Money</font> = "+retval+'\t';
+		return "<font color='green'>:   </font> = "+retval+'\t';
 	}
 	public String getScience()
 	{
 		mNetwork.SendMessage("science");
 		String retval = mNetwork.RecieveMessage();
-		return "<font color='blue'>Science</font> = "+retval+'\t';
+		return "<font color='blue'>:   </font> = "+retval+'\t';
 	}
 	public String getMarketing()
 	{
