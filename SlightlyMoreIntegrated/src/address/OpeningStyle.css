@@ -1,0 +1,9 @@
+.background-opening {
+	-fx-background-image: url("backgroundOpening.jpg");
+	-fx-background-size: stretch;
+}
+
+.buttons {
+	-fx-background-color: darkgreen;
+	-fx-background-radius: 30; 
+}

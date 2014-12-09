@@ -1,0 +1,12 @@
+.background {
+	-fx-background-image: url("backgroundCreate.jpg");
+	-fx-background-size: stretch;
+}
+.vbox-background {
+	-fx-background-image: url("brickTexture.jpg");
+	-fx-background-size: stretch;
+}
+
+.buttons {
+	-fx-background-radius: 30;
+}

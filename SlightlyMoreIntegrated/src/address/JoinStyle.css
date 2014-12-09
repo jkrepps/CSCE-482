@@ -1,0 +1,19 @@
+.background {
+	-fx-background-image: url("backgroundCreate.jpg");
+	-fx-background-size: stretch;
+}
+.buttons {
+	-fx-background-radius: 30;
+}
+.game_buttons {
+	-fx-background-color: black;
+	-fx-background-radius: 30;
+}
+
+.game_Scroll {
+	-fx-background-color: gray;
+}
+
+.game_Scroll .viewport {
+	-fx-background-color: gray;
+}

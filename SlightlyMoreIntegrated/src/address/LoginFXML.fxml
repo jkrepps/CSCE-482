@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="1000.0" styleClass="background" stylesheets="@LoginStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.LoginController">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="#fffdfd" strokeType="OUTSIDE" strokeWidth="0.0" text="Industry of Deceit" textAlignment="CENTER">
+               <font>
+                  <Font name="Matura MT Script Capitals" size="38.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="47.69" radius="26.31" spread="0.61" width="59.55">
+                     <input>
+                        <InnerShadow choke="0.19" color="#6091d0" height="77.34" radius="29.275" width="41.76" />
+                     </input>
+                  </DropShadow>
+               </effect>
+            </Text>
+            <TextField fx:id="username" maxHeight="-Infinity" maxWidth="500.0" minHeight="-Infinity" minWidth="-Infinity" opacity="0.68" prefHeight="50.0" prefWidth="300.0" promptText="Username....">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="password" maxHeight="-Infinity" maxWidth="500.0" minHeight="-Infinity" minWidth="-Infinity" opacity="0.68" prefHeight="50.0" prefWidth="300.0" promptText="Password....">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </TextField>
+            <Button fx:id="loginButton" maxHeight="-Infinity" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#login" onMouseEntered="#mouseOver" onMouseExited="#mouseExit" prefHeight="35.0" prefWidth="200.0" styleClass="buttons" text="Login" textAlignment="CENTER" textFill="#cd1616">
+               <font>
+                  <Font name="Matura MT Script Capitals" size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
