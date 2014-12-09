@@ -113,8 +113,6 @@ public class GameScreenController implements ControlledScreen {
 				technologies.setVisible(false);
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(false);
-				sellBox.setVisible(false);
-				price.setVisible(false);
 				buttonCreationMarket();
 				updateHUD();
 			}
@@ -122,8 +120,6 @@ public class GameScreenController implements ControlledScreen {
 		
 		technology.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				sellBox.setVisible(false);
-				price.setVisible(false);
 				technologies.setVisible(true);
 				market.setVisible(false);
 				inventoryPane.setVisible(false);
@@ -152,8 +148,6 @@ public class GameScreenController implements ControlledScreen {
 				market.setVisible(false);
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(true);
-				sellBox.setVisible(false);
-				price.setVisible(false);
 				buttonCreationPlayerMarket();
 				updateHUD();
 			}
@@ -195,7 +189,7 @@ public class GameScreenController implements ControlledScreen {
 		Network.getInstance().SendMessage("marketing");
 		String marketingS = Network.getInstance().RecieveMessage();
 		if(!incomeS.equals("You have lost.") && !incomeS.equals("You have won!")) {
-			marketingVal.setText("Marketing: " + marketingS);
+			incomePer.setText("Marketing: " + marketingS);
 		}
 	}
 	

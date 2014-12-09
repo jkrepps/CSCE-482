@@ -113,8 +113,6 @@ public class GameScreenController implements ControlledScreen {
 				technologies.setVisible(false);
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(false);
-				sellBox.setVisible(false);
-				price.setVisible(false);
 				buttonCreationMarket();
 				updateHUD();
 			}
@@ -122,8 +120,6 @@ public class GameScreenController implements ControlledScreen {
 		
 		technology.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
-				sellBox.setVisible(false);
-				price.setVisible(false);
 				technologies.setVisible(true);
 				market.setVisible(false);
 				inventoryPane.setVisible(false);
@@ -152,8 +148,6 @@ public class GameScreenController implements ControlledScreen {
 				market.setVisible(false);
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(true);
-				sellBox.setVisible(false);
-				price.setVisible(false);
 				buttonCreationPlayerMarket();
 				updateHUD();
 			}
@@ -174,28 +168,28 @@ public class GameScreenController implements ControlledScreen {
 	public void updateHUD() {
 		Network.getInstance().SendMessage("money");
 		String moneyS = Network.getInstance().RecieveMessage();
-		if(!(moneyS.equals("You have lost.")) && !(moneyS.equals("You have won!"))) {
+		if(!(moneyS.equals("You have lost.")) && !(moneyS.equals("You have won."))) {
 			money.setText(":   " + moneyS + 'g');
 		}
 		Network.getInstance().SendMessage("weather");
 		String weatherS = Network.getInstance().RecieveMessage();
-		if(!weatherS.equals("You have lost.") && !weatherS.equals("You have won!")) {
+		if(!weatherS.equals("You have lost.") && !weatherS.equals("You have won.")) {
 			weather.setText("Weather: " + weatherS);
 		}
 		Network.getInstance().SendMessage("science");
 		String scienceS = Network.getInstance().RecieveMessage();
-		if(!scienceS.equals("You have lost.") && !scienceS.equals("You have won!")) {
+		if(!scienceS.equals("You have lost.") && !scienceS.equals("You have won.")) {
 			science.setText(":   " + scienceS);
 		}
 		Network.getInstance().SendMessage("income");
 		String incomeS = Network.getInstance().RecieveMessage();
-		if(!incomeS.equals("You have lost.") && !incomeS.equals("You have won!")) {
+		if(!incomeS.equals("You have lost.") && !incomeS.equals("You have won.")) {
 			incomePer.setText("Income: " + incomeS);
 		}
 		Network.getInstance().SendMessage("marketing");
-		String marketingS = Network.getInstance().RecieveMessage();
-		if(!incomeS.equals("You have lost.") && !incomeS.equals("You have won!")) {
-			marketingVal.setText("Marketing: " + marketingS);
+		String incomeS = Network.getInstance().RecieveMessage();
+		if(!incomeS.equals("You have lost.") && !incomeS.equals("You have won.")) {
+			incomePer.setText("Marketing: " + incomeS);
 		}
 	}
 	

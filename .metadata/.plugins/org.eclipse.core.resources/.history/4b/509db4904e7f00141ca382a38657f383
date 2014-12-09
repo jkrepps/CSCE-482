@@ -195,7 +195,7 @@ public class GameScreenController implements ControlledScreen {
 		Network.getInstance().SendMessage("marketing");
 		String marketingS = Network.getInstance().RecieveMessage();
 		if(!incomeS.equals("You have lost.") && !incomeS.equals("You have won!")) {
-			marketingVal.setText("Marketing: " + marketingS);
+			MarketingVal.setText("Marketing: " + marketingS);
 		}
 	}
 	
