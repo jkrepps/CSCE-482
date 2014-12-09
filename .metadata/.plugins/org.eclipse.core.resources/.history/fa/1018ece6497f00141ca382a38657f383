@@ -286,10 +286,10 @@ public class GameScreenController implements ControlledScreen {
 					b.setId("buttons");
 					b.setOnMouseClicked(new EventHandler<MouseEvent>() {
 						public void handle(MouseEvent t) {
+							String name = getName(b.getText());
+							String quant = quantity.getText();
 							sellWorldMarket.setOnMouseClicked(new EventHandler<MouseEvent>() {
 								public void handle(MouseEvent t) {
-									String name = getName(b.getText());
-									String quant = quantity.getText();
 									if(!quant.isEmpty()) {
 										Network.getInstance().SendMessage("sell\t" + name + "\t" + quant);
 										Network.getInstance().RecieveMessage();
@@ -303,8 +303,8 @@ public class GameScreenController implements ControlledScreen {
 									}
 								}
 							});
-						}
-					});
+						});
+					}
 					inventoryList.getChildren().add(b);
 				}
 				else {
