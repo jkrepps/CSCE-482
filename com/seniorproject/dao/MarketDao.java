@@ -8,16 +8,22 @@ import java.util.List;
 
 import com.seniorproject.resource.MarketResource;
 import com.seniorproject.resource.Resource;
+import com.seniorproject.dao.ResourceDao;
 
 public class MarketDao extends DaoObject {
 	
 	public MarketDao(Connection connection) {
 		this.connection = connection;
+
 	}
 	
 	public MarketResource createListing(Resource resource, int quantity, String playername, int sellerId, int gameId) throws DaoException {
-		String insertQuery = "INSERT INTO Market VALUES(0," + resource.getResouceId() +", '" + resource.getResourceName() + "', '"
-				+ resource.getResourceClass() + "'," +  resource.getResourcePrice() +", '" + playername +"', " + quantity + "," + sellerId + "," + gameId + ";";
+		ResourceDao resourceDao = new ResourceDao(connection);
+		System.out.println("Resource id from createListing:" + resourceDao.getResourceId(resource.getResourceName()));
+		String insertQuery = "INSERT INTO Market VALUES(0," + resourceDao.getResourceId(resource.getResourceName()) +", '" + resource.getResourceName() + "', '"
+				+ resource.getResourceClass() + "'," +  resource.getResourcePrice() +", '" + playername +"', " + quantity + "," + sellerId + "," + gameId + ");";
+
+		System.out.println(insertQuery);
 
 		String selectQuery = "SELECT max(id) from Market;";
 		MarketResource retval = new MarketResource();

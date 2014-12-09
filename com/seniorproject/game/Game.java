@@ -252,6 +252,8 @@ public class Game {
 		HashMap<Integer, Integer> debtStatus;
 		int numTimeUnits;
 		Player winner;
+		float maxIncome;
+		float netIncome;
 		
         public GameThread(int gameId, DaoObject dao, Duration timeUnit, int numTimeUnits) throws Exception {// accept client socket connection. // int id as an argument
         	this.gameId = gameId;
@@ -278,10 +280,10 @@ public class Game {
 				try
 				{
 				TimeUnit.SECONDS.sleep(this.timeUnit.getStandardSeconds());
-				float maxIncome = 0;
+				maxIncome = 0;
 				for ( Iterator<Player> iterator = currentPlayers.iterator(); iterator.hasNext(); ) {
 					Player p = iterator.next();
-					float netIncome = playerDao.updateAssets(p);
+					netIncome = playerDao.updateAssets(p);
 					
 					if (netIncome > maxIncome){
 						maxIncome = netIncome;

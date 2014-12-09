@@ -3,3 +3,4 @@ nish purchased 1 units of Peon
 nish purchased 1 units of Peon
 nish sold 1 units of Peon
 Username purchased 1 units of Plot
+nish listed 1 units of Plot on Player Market for 60.0 each
