@@ -454,6 +454,8 @@ private static List<Game> gameList;
 			int gameId = playerDao.getGameId(p.getPlayerId());
 			try {
 				List<MarketResource> marketResources = marketDao.getAllMarketResources(gameId);
+				int numberItems = marketResources.size();
+				outputLine += Integer.toString(numberItems);
 				for( MarketResource r: marketResources) {
 					outputLine += "\n" +  r.getId() + "\t" + r.getResource().getResourceName() + "\t" + r.getResource().getResourcePrice() + "\t" + r.getQuantity() +"\t" + r.getSellerName();
 				}
