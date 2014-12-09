@@ -314,9 +314,10 @@ private static List<Game> gameList;
 		{
 			String username = p.getPlayerName();
 			String maxPlayers = tokens[1];
+			int numDays = Integer.parseInt(tokens[2]);
 			List<String> playerlist;
 			int numberItems;
-			Game newGame = new Game(Integer.parseInt(maxPlayers), 12, 30, dao);
+			Game newGame = new Game(Integer.parseInt(maxPlayers), numDays, 30, dao);
 			int gameId;
 			int index = 0;
 			try {
