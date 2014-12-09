@@ -18,6 +18,7 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\jlero_000\Documents\GitHub\CSCE-482\SlightlyMoreIntegrated"/>
 			<item value="C:\Users\Jeff\Documents\GitHub\CSCE-482\SlightlyMoreIntegrated"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">

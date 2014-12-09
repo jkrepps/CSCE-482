@@ -1,7 +1,6 @@
 package address.view;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Vector;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -9,9 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -19,8 +20,7 @@ public class GameScreenController implements ControlledScreen {
 	/*------------------------------------*/
 	/*			DATA MEMBERS			  */
 	/*------------------------------------*/
-	public Calendar time;
-	public SimpleDateFormat format;
+	private Vector<String> ids = new Vector();
 	private ScreensController myController;
 	@FXML
 	private VBox inventionsList;
@@ -33,7 +33,7 @@ public class GameScreenController implements ControlledScreen {
 	@FXML
 	private VBox playerMarketList;
 	@FXML
-	private VBox useOrSell;
+	private HBox sellBox;
 	@FXML
 	private TextField chat;
 	@FXML
@@ -42,6 +42,8 @@ public class GameScreenController implements ControlledScreen {
 	private TextArea activityLog;
 	@FXML
 	private TextField quantity;
+	@FXML
+	private TextField price;
 	@FXML
 	private Text money = new Text("100g");
 	@FXML
@@ -63,9 +65,9 @@ public class GameScreenController implements ControlledScreen {
 	@FXML
 	private Button playerMarket;
 	@FXML
-	private Button use;
+	private Button sellPlayerMarket;
 	@FXML
-	private Button sell;
+	private Button sellWorldMarket;
 	@FXML
 	private ScrollPane playerMarketPane;
 	@FXML
@@ -80,10 +82,7 @@ public class GameScreenController implements ControlledScreen {
 	/*------------------------------------*/
 	/*			CONSTRUCTORS			  */
 	/*------------------------------------*/
-	public GameScreenController() {
-		time = Calendar.getInstance();
-		format = new SimpleDateFormat("hh:mm:ss");
-	}
+	public GameScreenController() {}
 	
 	/*------------------------------------*/
 	/*			FXML FUNCTIONS			  */
@@ -135,10 +134,13 @@ public class GameScreenController implements ControlledScreen {
 				market.setVisible(false);
 				inventoryPane.setVisible(true);
 				playerMarketPane.setVisible(false);
+				sellBox.setVisible(true);
+				price.setVisible(true);
 				buttonCreationInv();
 				updateHUD();
 			}
 		});
+		
 		playerMarket.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent t) {
 				technologies.setVisible(false);
@@ -189,32 +191,41 @@ public class GameScreenController implements ControlledScreen {
 	public void buttonCreationTech() {
 		Network.getInstance().SendMessage("techlist");
 		String rstring = Network.getInstance().RecieveMessage();
-		final int ROWS = Integer.parseInt(rstring);
-		quantity.setVisible(true);
-		for(int i=0; i<ROWS; ++i) {
-			if (i != 0) {
-				Button b = new Button(Network.getInstance().RecieveMessage());
-				b.setId("buttons");
-				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					public void handle(MouseEvent t) {
-						String name = getName(b.getText());
-						String quant = quantity.getText();
-						Network.getInstance().SendMessage("buyt\t" + name + '\t' + quant);
-						Network.getInstance().RecieveMessage();
-						updateHUD();
-						Network.getInstance().SendMessage("logfile");
-						String log = Network.getInstance().RecieveMessage();
-						final int LOG_ROWS = Integer.parseInt(log);
-						for(int i=0; i<LOG_ROWS; ++i) {
-							activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
+		if(!(rstring.equals(("You have lost.")) && !(rstring.equals("You have won!")))) {
+			final int ROWS = Integer.parseInt(rstring);
+			quantity.setVisible(true);
+			for(int i=0; i<ROWS; ++i) {
+				if (i != 0) {
+					String title = Network.getInstance().RecieveMessage();
+					Button b = new Button(title);
+					b.setTooltip(new Tooltip(title));
+					b.setId("buttons");
+					b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+						public void handle(MouseEvent t) {
+							String name = getName(b.getText());
+							String quant = quantity.getText();
+							if(!quant.isEmpty()) {
+								Network.getInstance().SendMessage("buyt\t" + name + '\t' + quant);
+								Network.getInstance().RecieveMessage();
+								updateHUD();
+								Network.getInstance().SendMessage("logfile");
+								String log = Network.getInstance().RecieveMessage();
+								final int LOG_ROWS = Integer.parseInt(log);
+								for(int i=0; i<LOG_ROWS; ++i) {
+									activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
+								}
+							}
 						}
-					}
-				});
-				technologiesList.getChildren().add(b);
+					});
+					technologiesList.getChildren().add(b);
+				}
+				else {
+					Network.getInstance().RecieveMessage();
+				}
 			}
-			else {
-				Network.getInstance().RecieveMessage();
-			}
+		}
+		else {
+			activityLog.appendText(rstring);
 		}
 	}
 	
@@ -222,32 +233,41 @@ public class GameScreenController implements ControlledScreen {
 	public void buttonCreationMarket() {
 		Network.getInstance().SendMessage("itemlist");
 		String rstring = Network.getInstance().RecieveMessage();
-		final int ROWS = Integer.parseInt(rstring);
-		quantity.setVisible(true);
-		for(int i=0; i<ROWS; ++i) {
-			if (i != 0) {
-				Button b = new Button(Network.getInstance().RecieveMessage());
-				b.setId("buttons");
-				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					public void handle(MouseEvent t) {
-						String name = getName(b.getText());
-						String quant = quantity.getText();
-						Network.getInstance().SendMessage("buy\t" + name + "\t" + quant);
-						Network.getInstance().RecieveMessage();
-						updateHUD();
-						Network.getInstance().SendMessage("logfile");
-						String log = Network.getInstance().RecieveMessage();
-						final int LOG_ROWS = Integer.parseInt(log);
-						for(int i=0; i<LOG_ROWS; ++i) {
-							activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
+		if(!(rstring.equals("You have lost.")) && !(rstring.equals("You have won!"))) {
+			final int ROWS = Integer.parseInt(rstring);
+			quantity.setVisible(true);
+			for(int i=0; i<ROWS; ++i) {
+				if (i != 0) {
+					String title = Network.getInstance().RecieveMessage();
+					Button b = new Button(title);
+					b.setTooltip(new Tooltip(title));
+					b.setId("buttons");
+					b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+						public void handle(MouseEvent t) {
+							String name = getName(b.getText());
+							String quant = quantity.getText();
+							if(!quant.isEmpty()) {
+								Network.getInstance().SendMessage("buy\t" + name + "\t" + quant);
+								Network.getInstance().RecieveMessage();
+								updateHUD();
+								Network.getInstance().SendMessage("logfile");
+								String log = Network.getInstance().RecieveMessage();
+								final int LOG_ROWS = Integer.parseInt(log);
+								for(int i=0; i<LOG_ROWS; ++i) {
+									activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
+								}
+							}
 						}
-					}
-				});
-				marketList.getChildren().add(b);
+					});
+					marketList.getChildren().add(b);
+				}
+				else {
+					Network.getInstance().RecieveMessage();
+				}
 			}
-			else {
-				Network.getInstance().RecieveMessage();
-			}
+		}
+		else {
+			activityLog.appendText(rstring);
 		}
 	}
 	
@@ -255,19 +275,20 @@ public class GameScreenController implements ControlledScreen {
 	public void buttonCreationInv() {
 		Network.getInstance().SendMessage("getResources");
 		String rstring = Network.getInstance().RecieveMessage();
-		final int ROWS = Integer.parseInt(rstring);
-		for(int i=0; i<ROWS; ++i) {
-			if(i != 0) {
-				Button b = new Button(Network.getInstance().RecieveMessage());
-				b.setId("buttons");
-				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					public void handle(MouseEvent t) {
-						String name = getName(b.getText());
-						useOrSell.setVisible(true);
-						quantity.setVisible(true);
-						sell.setOnMouseClicked(new EventHandler<MouseEvent>() {
-							public void handle(MouseEvent t) {
-								String quant = quantity.getText();
+		if(!(rstring.equals("You have lost.")) && !(rstring.equals("You have won!"))) {
+			final int ROWS = Integer.parseInt(rstring);
+			quantity.setVisible(true);
+			for(int i=0; i<ROWS; ++i) {
+				if(i != 0) {
+					String title = Network.getInstance().RecieveMessage();
+					Button b = new Button(title);
+					b.setTooltip(new Tooltip(title));
+					b.setId("buttons");
+					b.setOnMouseClicked(new EventHandler<MouseEvent>() {
+						public void handle(MouseEvent t) {
+							String name = getName(b.getText());
+							String quant = quantity.getText();
+							if(!quant.isEmpty()) {
 								Network.getInstance().SendMessage("sell\t" + name + "\t" + quant);
 								Network.getInstance().RecieveMessage();
 								updateHUD();
@@ -278,46 +299,42 @@ public class GameScreenController implements ControlledScreen {
 									activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
 								}
 							}
-						});
-					}
-				});
-				inventoryList.getChildren().add(b);
+						}
+					});
+					inventoryList.getChildren().add(b);
+				}
+				else {
+					Network.getInstance().RecieveMessage();
+				}
 			}
-			else {
-				Network.getInstance().RecieveMessage();
-			}
+		}
+		else {
+			activityLog.appendText(rstring);
 		}
 	}
 	
 	// Dynamically acquires the buttons for the player market items
 	public void buttonCreationPlayerMarket() {
-		Network.getInstance().SendMessage("playermarketlist");
-		String rstring = Network.getInstance().RecieveMessage();
-		final int ROWS = Integer.parseInt(rstring);
-		for(int i=0; i<ROWS; ++i) {
-			if(i != 0) {
-				Button b = new Button(Network.getInstance().RecieveMessage());
+		Network.getInstance().SendMessage("marketlist");
+		String num = Network.getInstance().RecieveMessage();
+		if(!(num.equals("You have lost.")) && !(num.equals("You have won."))) {
+			final int ROWS = Integer.parseInt(num);
+			for(int i=0; i<ROWS; ++i) {
+				String obj = Network.getInstance().RecieveMessage();
+				String obj2 = parseMarketItem(obj);
+				Button b = new Button(obj2);
+				b.setTooltip(new Tooltip(obj2));
 				b.setId("buttons");
 				b.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					public void handle(MouseEvent t) {
-						String name = getName(b.getText());
-						Network.getInstance().SendMessage("buy\t" + name + "\tMarket\t1");
-						Network.getInstance().RecieveMessage();
-						Network.getInstance().SendMessage("money");
-						updateHUD();
-						Network.getInstance().SendMessage("logfile");
-						String log = Network.getInstance().RecieveMessage();
-						final int LOG_ROWS = Integer.parseInt(log);
-						for(int i=0; i<LOG_ROWS; ++i) {
-							activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
-						}
+					public void handle(MouseEvent arg0) {
+							
 					}
 				});
 				playerMarketList.getChildren().add(b);
 			}
-			else {
-				Network.getInstance().RecieveMessage();
-			}
+		}
+		else {
+			activityLog.appendText(num + '\n');
 		}
 	}
 	
@@ -330,5 +347,19 @@ public class GameScreenController implements ControlledScreen {
 			t += c.charAt(i);
 		}
 		return t;
+	}
+	
+	private String parseMarketItem(String obj) {
+		String objId = "";
+		String objName = "";
+		for(int i = 0; i<obj.length(); ++i) {
+			if(obj.charAt(i) == '\t') {
+				objName = obj.substring(i+1);
+				break;
+			}
+			objId += obj.charAt(i);
+		}
+		ids.add(objId);
+		return objName;
 	}
 }

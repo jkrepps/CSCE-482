@@ -20,8 +20,6 @@ public class MainApplication extends Application {
 	public static final String JOIN_SCREEN_FXML = "JoinFXML.fxml";
 	public static final String GAME_SCREEN = "game";
 	public static final String GAME_SCREEN_FXML = "GameFXML.fxml";
-	public static final String WAITING_SCREEN = "waiting";
-	public static final String WAITING_SCREEN_FXML = "WaitingFXML.fxml";
 	
 	/*----------------------------------*/
 	/*		HELPER FUNCTIONS			*/
@@ -34,7 +32,6 @@ public class MainApplication extends Application {
 		mainContainer.loadScreen(MainApplication.CREATE_SCREEN, MainApplication.CREATE_SCREEN_FXML);
 		mainContainer.loadScreen(MainApplication.JOIN_SCREEN, MainApplication.JOIN_SCREEN_FXML);
 		mainContainer.loadScreen(MainApplication.GAME_SCREEN, MainApplication.GAME_SCREEN_FXML);
-		mainContainer.loadScreen(MainApplication.WAITING_SCREEN, MainApplication.WAITING_SCREEN_FXML);
 
 		mainContainer.setScreen(MainApplication.LOGIN_SCREEN);
 		

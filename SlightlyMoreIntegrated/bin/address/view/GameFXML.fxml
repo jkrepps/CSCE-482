@@ -55,39 +55,34 @@
    <left>
       <VBox alignment="CENTER" minHeight="-Infinity" prefHeight="300.0" prefWidth="150.0" spacing="20.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <ScrollPane fx:id="market" prefHeight="200.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
+            <ScrollPane fx:id="market" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
                <content>
                   <VBox fx:id="marketList" prefHeight="200.0" prefWidth="100.0" spacing="5.0" />
                </content>
             </ScrollPane>
-            <ScrollPane fx:id="technologies" prefHeight="200.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
+            <ScrollPane fx:id="technologies" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
                <content>
                   <VBox fx:id="technologiesList" prefHeight="200.0" prefWidth="100.0" spacing="5.0" />
                </content>
             </ScrollPane>
-            <ScrollPane fx:id="inventoryPane" prefHeight="200.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
+            <ScrollPane fx:id="inventoryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
                <content>
                   <VBox fx:id="inventoryList" prefHeight="200.0" prefWidth="100.0" spacing="5.0" />
                </content>
             </ScrollPane>
-            <ScrollPane fx:id="playerMarketPane" prefHeight="200.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
+            <ScrollPane fx:id="playerMarketPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="200.0" styleClass="scrollPanes" visible="false">
                <content>
                   <VBox fx:id="playerMarketList" prefHeight="200.0" prefWidth="100.0" spacing="5.0" />
                </content>
             </ScrollPane>
-            <VBox fx:id="useOrSell" prefHeight="200.0" prefWidth="100.0" spacing="20.0" styleClass="scrollPanes" visible="false">
-               <children>
-                  <Button fx:id="use" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="175.0" styleClass="buttons" text="Use">
-                     <font>
-                        <Font size="15.0" />
-                     </font></Button>
-                  <Button fx:id="sell" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="175.0" styleClass="buttons" text="Sell">
-                     <font>
-                        <Font name="Algerian" size="15.0" />
-                     </font></Button>
-               </children>
-            </VBox>
             <TextField fx:id="quantity" opacity="0.74" promptText="Quantity" visible="false" />
+            <HBox fx:id="sellBox" prefHeight="100.0" prefWidth="200.0" visible="false">
+               <children>
+                  <Button fx:id="sellWorldMarket" mnemonicParsing="false" styleClass="buttons" text="Sell World Market" />
+                  <Button fx:id="sellPlayerMarket" mnemonicParsing="false" styleClass="buttons" text="Sell Player Market" />
+               </children>
+            </HBox>
+            <TextField fx:id="price" opacity="0.74" promptText="Price" visible="false" />
          </children>
       </VBox>
    </left>

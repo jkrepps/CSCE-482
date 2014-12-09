@@ -69,7 +69,7 @@ public class CreateController implements ControlledScreen {
 				String nameG = name.getText();
 				String pNums = playersNum.getText();
 				String len = length.getText();
-				Network.getInstance().SendMessage("newgame\t" + pNums);
+				Network.getInstance().SendMessage("newgame\t" + pNums + '\t' + len);
 				Network.getInstance().RecieveMessage();
 				myController.setScreen(MainApplication.GAME_SCREEN);
 			}

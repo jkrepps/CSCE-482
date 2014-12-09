@@ -55,16 +55,6 @@
                   <TextField fx:id="length" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="45.0">
-               <children>
-                  <Text fill="#f5f2f2" strokeType="OUTSIDE" strokeWidth="0.0" text="Replace Players with AI">
-                     <font>
-                        <Font name="Matura MT Script Capitals" size="15.0" />
-                     </font>
-                  </Text>
-                  <CheckBox mnemonicParsing="false" text="CheckBox" />
-               </children>
-            </HBox>
             <Text fill="#f5eeee" strokeType="OUTSIDE" strokeWidth="0.0" text="* Denotes Required Field">
                <font>
                   <Font name="Matura MT Script Capitals" size="16.0" />
