@@ -281,6 +281,7 @@ public class GameScreenController implements ControlledScreen {
 			final int ROWS = Integer.parseInt(rstring);
 			quantity.setVisible(true);
 			for(int i=0; i<ROWS; ++i) {
+				if(i != 0) {
 					String title = Network.getInstance().RecieveMessage();
 					Button b = new Button(title);
 					b.setTooltip(new Tooltip(title));
@@ -306,27 +307,31 @@ public class GameScreenController implements ControlledScreen {
 							});
 							sellPlayerMarket.setOnMouseClicked(new EventHandler<MouseEvent>() {
 								public void handle(MouseEvent t) {
-								String name = getName(b.getText());
-								String quant = quantity.getText();
-								String price2 = price.getText();
-								if(!(quant.isEmpty()) && !(price2.isEmpty())) {
-									Float p = Float.parseFloat(price2);
-									int q = Integer.parseInt(quant);
-									Network.getInstance().SendMessage("sellmarket\t" + name + '\t' + p + '\t' + q);
-									Network.getInstance().RecieveMessage();
-									updateHUD();
-									Network.getInstance().SendMessage("logfile");
-									String log = Network.getInstance().RecieveMessage();
-									final int LOG_ROWS = Integer.parseInt(log);
-									for(int i=0; i<LOG_ROWS; ++i) {
-										activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
+									String name = getName(b.getText());
+									String quant = quantity.getText();
+									String price2 = price.getText();
+									if(!(quant.isEmpty()) && !(price2.isEmpty())) {
+										Float p = Float.parseFloat(price2);
+										int q = Integer.parseInt(quant);
+										Network.getInstance().SendMessage("sellmarket\t" + name + '\t' + p + '\t' + q);
+										Network.getInstance().RecieveMessage();
+										updateHUD();
+										Network.getInstance().SendMessage("logfile");
+										String log = Network.getInstance().RecieveMessage();
+										final int LOG_ROWS = Integer.parseInt(log);
+										for(int i=0; i<LOG_ROWS; ++i) {
+											activityLog.appendText(Network.getInstance().RecieveMessage() + '\n');
+										}
 									}
 								}
-							}
-						});
-					}
-				});
-				inventoryList.getChildren().add(b);
+							});
+						}
+					});
+					inventoryList.getChildren().add(b);
+				}
+				else {
+					Network.getInstance().RecieveMessage();
+				}
 			}
 		}
 		else {
