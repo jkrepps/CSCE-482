@@ -30,6 +30,7 @@ public class GameSelectionScreen extends Activity {
 	Button button;
 	EditText numPlayers;
 	EditText gameName;
+	EditText length;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +49,13 @@ public class GameSelectionScreen extends Activity {
 		numPlayers = (EditText) findViewById(R.id.editText1);
 		gameName = (EditText) findViewById(R.id.editText2);
 		button = (Button) findViewById(R.id.button1);
+		length = (EditText) findViewById(R.id.editText3);
 		
 		button.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
-				mNetwork.SendMessage("newgame\t" + numPlayers.getText().toString());
+				mNetwork.SendMessage("newgame\t" + numPlayers.getText().toString() + '\t' + length.getText().toString());
 				System.out.println("recieved newgame response " + mNetwork.RecieveMessage());
 				Intent i;
 				i = new Intent(GameSelectionScreen.this,HudScreen.class);

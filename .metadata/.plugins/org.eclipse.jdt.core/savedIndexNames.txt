@@ -1,21 +1,5 @@
-INDEX VERSION 1.127+C:\Users\jlero_000\Documents\GitHub\CSCE-482\.metadata\.plugins\org.eclipse.jdt.core
-3037716519.index
-1347516589.index
-1817696115.index
-2661476628.index
-3719499929.index
-960000407.index
-1515710804.index
-1562461535.index
-3967294249.index
-2631954510.index
-1236203175.index
-3873813506.index
+INDEX VERSION 1.126+C:\Users\jlero_000\Documents\GitHub\CSCE-482\.metadata\.plugins\org.eclipse.jdt.core
 1903204275.index
-1416280701.index
-3811405991.index
-2374898692.index
-3140856758.index
-2403725952.index
 2718116349.index
-1741476609.index
+1562461535.index
+2631954510.index
