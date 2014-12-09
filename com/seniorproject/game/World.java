@@ -16,7 +16,7 @@ public class World
 	
 	private enum daytimes{
 	
-	MORNING, MIDDAY, AFTERNOON, EVENING, NIGHT, MINDNIGHT, EARLYMORNING;
+	MORNING, MIDDAY, AFTERNOON, EVENING, NIGHT, MIDNIGHT, EARLYMORNING;
 	
 		public daytimes next()
 	    {
