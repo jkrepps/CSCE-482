@@ -536,7 +536,8 @@ private static List<Game> gameList;
 				else
 					marketDao.updateQuantity(resourceId, toBuy.getQuantity() - quantity);
 			}
-		}
+			outputLine += "Purchased " + toBuy.getResource().getResourceName() + " from " + toBuy.getSellerName();
+		} 
 		else if (tokens[0].equals("buytech"))
 		{
 			//1 = resource name 2 = numUnits

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Text fill="#f8f6f6" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Game" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Matura MT Script Capitals" size="42.0" />
+         </font>
+         <effect>
+            <DropShadow color="#ebaaaa" height="12.1" radius="10.74" spread="0.62" width="32.86">
+               <input>
+                  <InnerShadow choke="0.36" color="#2406e4" height="15.06" radius="7.032500000000001" width="15.07" />
+               </input>
+            </DropShadow>
+         </effect>
+      </Text>
+   </top>
+   <center>
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Text fill="#eee3e3" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Game*">
+                     <font>
+                        <Font name="Matura MT Script Capitals" size="15.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="name" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <Text fill="#f2eded" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Players*">
+                     <font>
+                        <Font name="Matura MT Script Capitals" size="15.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="playersNum" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <Text fill="#f2efef" strokeType="OUTSIDE" strokeWidth="0.0" text="Length of Game*">
+                     <font>
+                        <Font name="Matura MT Script Capitals" size="15.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="length" />
+               </children>
+            </HBox>
+            <Text fill="#f5eeee" strokeType="OUTSIDE" strokeWidth="0.0" text="* Denotes Required Field">
+               <font>
+                  <Font name="Matura MT Script Capitals" size="16.0" />
+               </font>
+            </Text>
+            <Button fx:id="submit" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" onMousePressed="#handle" styleClass="buttons" text="Submit">
+               <effect>
+                  <DropShadow color="#f2eeee" height="15.07" radius="31.497500000000002" spread="0.36" width="112.92" />
+               </effect>
+            </Button>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <Button fx:id="back" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#handle" onMouseEntered="#handle" onMouseExited="#handle" styleClass="buttons" text="Back" BorderPane.alignment="TOP_CENTER">
+         <effect>
+            <DropShadow blurType="GAUSSIAN" color="#f8f3f3" radius="35.945" spread="0.14" width="124.78" />
+         </effect>
+      </Button>
+   </bottom>
+</BorderPane>
+

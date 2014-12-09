@@ -1,7 +1,7 @@
 package address;
 import java.io.IOException;
 
-import address.view.ScreensController;
+import address.ScreensController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.Group;
