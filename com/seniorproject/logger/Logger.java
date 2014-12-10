@@ -107,6 +107,7 @@ public class Logger {
 
     public String readFromChatLog(int gameId) {
       String log = "";
+	  System.out.println("Hello from before I try in reading from the chat log");
       try {
         File logFile = new File("com/seniorproject/chat" + Integer.toString(gameId) + ".txt");
        // System.out.println("HI from read from log");
@@ -114,9 +115,10 @@ public class Logger {
         {
          BufferedReader br = new BufferedReader(new FileReader(logFile));
           String line = null;
+		  System.out.println("Before the null check");
           while ((line = br.readLine()) != null) 
           {
-            //System.out.println("HI FROM inside the log: " + line);
+            System.out.println("HI FROM inside the chat log: " + line);
             log += line + "\n";
           }
           return log;

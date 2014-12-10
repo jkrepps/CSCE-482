@@ -101,6 +101,26 @@ public class GameDao extends DaoObject{
 		
 		return retval;
 	}
+	public int getPotentialId() throws DaoException {
+		
+		String selectQuery = "SELECT max(id) FROM Game;";
+		
+		int retval = -1;
+		try {
+		
+		
+			ResultSet rs = this.executeSelect(selectQuery);
+			
+			if(rs.next())
+				retval = rs.getInt(1) + 1;
+			
+			
+		} catch (SQLException e) {
+			throw new DaoException("Creating Game failed with: " + e.getMessage());
+		}
+		
+		return retval;
+	}
 	
 	public boolean checkGame(int gameId) throws DaoException {
 		String selectQuery = "SELECT current_players, max_players FROM Game WHERE id=" + gameId + ";";

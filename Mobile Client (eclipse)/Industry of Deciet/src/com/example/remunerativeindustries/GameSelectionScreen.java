@@ -29,7 +29,7 @@ public class GameSelectionScreen extends Activity {
 	Network mNetwork;
 	Button button;
 	EditText numPlayers;
-	EditText gameName;
+	EditText gamelength;
 	EditText length;
 	
 	@Override
@@ -47,7 +47,7 @@ public class GameSelectionScreen extends Activity {
 		appwidth=metrics.widthPixels;
 		
 		numPlayers = (EditText) findViewById(R.id.editText1);
-		gameName = (EditText) findViewById(R.id.editText2);
+		gamelength = (EditText) findViewById(R.id.editText2);
 		button = (Button) findViewById(R.id.button1);
 		length = (EditText) findViewById(R.id.editText3);
 		
@@ -55,7 +55,7 @@ public class GameSelectionScreen extends Activity {
 
 			@Override
 			public void onClick(View view) {
-				mNetwork.SendMessage("newgame\t" + numPlayers.getText().toString() + '\t' + length.getText().toString());
+				mNetwork.SendMessage("newgame\t" + numPlayers.getText().toString() + '\t' + gamelength.getText().toString());
 				System.out.println("recieved newgame response " + mNetwork.RecieveMessage());
 				Intent i;
 				i = new Intent(GameSelectionScreen.this,HudScreen.class);
@@ -115,7 +115,7 @@ public class GameSelectionScreen extends Activity {
 	{ 
 		//Toast.makeText(this, "Button clicked: " + col + "," + currentSelected, Toast.LENGTH_SHORT).show(); 
 		String game = getId(buttons[row][col].getText());
-		mNetwork.SendMessage("connect\t" + game + "");
+		mNetwork.SendMessage("connect\t" + game );
 		String message = mNetwork.RecieveMessage();
 		Button button = buttons[row][col];
 		int newWidth = button.getWidth();

@@ -46,8 +46,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int button6=0x7f050018;
         public static final int editText1=0x7f050005;
         public static final int editText12=0x7f05001a;
-        public static final int editText2=0x7f050011;
-        public static final int editText3=0x7f050012;
+        public static final int editText2=0x7f050012;
+        public static final int editText3=0x7f050015;
         public static final int editText4=0x7f050019;
         public static final int imageView1=0x7f05000d;
         public static final int imageView2=0x7f05000f;
@@ -56,10 +56,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int my_button_1=0x7f050001;
         public static final int my_edit_text_1=0x7f050000;
         public static final int my_time_picker_1=0x7f050002;
-        public static final int scrollView1=0x7f050014;
-        public static final int scrollView2=0x7f050015;
+        public static final int scrollView1=0x7f050010;
+        public static final int scrollView2=0x7f050014;
         public static final int tableForBuying=0x7f050004;
-        public static final int tableForConnections=0x7f050010;
+        public static final int tableForConnections=0x7f050011;
         public static final int tableForTech=0x7f05001c;
         public static final int textView=0x7f05001e;
         public static final int textView1=0x7f050006;

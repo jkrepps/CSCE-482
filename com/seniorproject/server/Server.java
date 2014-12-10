@@ -317,8 +317,8 @@ private static List<Game> gameList;
 			int numDays = Integer.parseInt(tokens[2]);
 			List<String> playerlist;
 			int numberItems;
-			Game newGame = new Game(Integer.parseInt(maxPlayers), numDays, 30, dao);
-			int gameId;
+			int gameId = gameDao.getPotentialId();
+			Game newGame = new Game(gameId, Integer.parseInt(maxPlayers), numDays, 30, dao);
 			int index = 0;
 			try {
 				gameId = initializeGame(newGame, dao);
@@ -529,7 +529,7 @@ private static List<Game> gameList;
 				playerDao.updatePlayerMoney(p.getPlayerId(), -cost);
 				playerDao.updatePlayerMoney(toBuy.getSellerId(), cost);
 				playerDao.addResource(toBuy.getResource(), p.getPlayerId(), quantity);
-				String log = p.getPlayerName() + " bought " + quantity + " units of " + toBuy.getResource().getResourceName() + " from " + toBuy.getSellerName() + " on Player Market for " + cost + " each"; 
+				String log = p.getPlayerName() + " bought " + quantity + " units of " + toBuy.getResource().getResourceName() + " from " + toBuy.getSellerName() + " on Player Market for " + cost; 
 				logger.writeToLog(gameId, log);
 				if(quantity == toBuy.getQuantity())
 					marketDao.removeListing(resourceId);
@@ -596,10 +596,12 @@ private static List<Game> gameList;
 		//usage sellmarket <name_of_resource> <price_per_unit> <num_of_units>
 		else if (tokens[0].equals("sellmarket"))
 		{
+			System.out.println("sellmarket input was: " + tokens[0] + " " +tokens[1] + " " +tokens[2] + " " +tokens[3]);
 			System.out.println("In sellmarket");
 			int gameId = playerDao.getGameId(p.getPlayerId());
 			Resource toSell = playerDao.getResource(tokens[1]);
 			int numAvailable = playerDao.getResourceNumUnits(p.getPlayerId(), toSell.getResourceName(), toSell.getResourceClass());
+			System.out.println("num available from user = " +numAvailable);
 			
 			if (Integer.parseInt(tokens[3]) > numAvailable)
 				outputLine += "Not enough items to sell in player inventory";

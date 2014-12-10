@@ -42,7 +42,7 @@ public class Game {
 	private Duration timeUnit;
 	private HashMap<String, Float> priceList;
 	
-	public Game(int maxPlayers, int days, int gameYears, DaoObject dao) {
+	public Game(int id, int maxPlayers, int days, int gameYears, DaoObject dao) {
 		this.id = -1;
 		this.currentPlayers = new ArrayList<Player>();
 		this.playerStatus = new ArrayList<Integer>();
@@ -59,14 +59,14 @@ public class Game {
 		
 		try{
 			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile.getAbsoluteFile(), true));
-   			bw.write("");
+   			bw.write(" ");
    			bw.close();
    		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
 		try{
 			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile2.getAbsoluteFile(), true));
-   			bw.write("");
+   			bw.write(" ");
    			bw.close();
    		} catch (Exception e1) {
 			System.err.println(e1.getMessage());
@@ -96,14 +96,14 @@ public class Game {
 		File logFile2 = new File("com/seniorproject/chat" + Integer.toString(id) + ".txt");
 		try{
 			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile.getAbsoluteFile(), true));
-	   		bw.write("");
+	   		bw.write(" ");
 	   		bw.close();
 	   	} catch (Exception e1) {
 			System.err.println(e1.getMessage());
 		} 
 		try{
 			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile2.getAbsoluteFile(), true));
-   			bw.write("");
+   			bw.write(" ");
    			bw.close();
    		} catch (Exception e1) {
 			System.err.println(e1.getMessage());

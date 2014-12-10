@@ -21,7 +21,7 @@ public class MarketDao extends DaoObject {
 		ResourceDao resourceDao = new ResourceDao(connection);
 		System.out.println("Resource id from createListing:" + resourceDao.getResourceId(resource.getResourceName()));
 		String insertQuery = "INSERT INTO Market VALUES(0," + resourceDao.getResourceId(resource.getResourceName()) +", '" + resource.getResourceName() + "', '"
-				+ resource.getResourceClass() + "'," +  resource.getResourcePrice() +", '" + playername +"', " + quantity + "," + sellerId + "," + gameId + ");";
+				+ resource.getResourceClass() + "'," +  resource.getResourcePrice() +", '" + playername +"', " + sellerId + ","+ quantity  + "," + gameId + ");";
 
 		System.out.println(insertQuery);
 

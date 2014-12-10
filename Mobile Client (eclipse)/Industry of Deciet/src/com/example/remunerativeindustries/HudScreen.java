@@ -59,6 +59,7 @@ public class HudScreen extends Activity {
 		Owned= (Button) findViewById(R.id.button5);
 		Send = (Button) findViewById(R.id.button6);
 		chatWindow = (EditText) findViewById(R.id.editText3);
+		System.out.println("made it to here2.");
 		/*
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -68,8 +69,11 @@ public class HudScreen extends Activity {
 		appheight = metrics.heightPixels;
 		appwidth = metrics.widthPixels;
 		*/
+		System.out.println("made it to here3.");
 		PopulateLog();
+		System.out.println("made it to here4.");
 		populateChatLogs();
+		System.out.println("made it to here5.");
 		
 		GameMarket.setOnClickListener(new View.OnClickListener() 
 		{
@@ -136,6 +140,7 @@ public class HudScreen extends Activity {
 				}
 			}
 		});
+		System.out.println("made it to here6.");
 	}
 
 	
@@ -166,6 +171,7 @@ public class HudScreen extends Activity {
 		income.setText( Html.fromHtml(getIncome()), TextView.BufferType.SPANNABLE );
 		
 	    Logs.setText( finaloutput );
+	    populateChatLogs();
 	}
 
 	public void populateChatLogs() {
