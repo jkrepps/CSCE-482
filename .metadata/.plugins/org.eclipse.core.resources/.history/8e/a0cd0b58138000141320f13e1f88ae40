@@ -94,9 +94,9 @@ public class GameScreenController implements ControlledScreen {
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
 					String message = chat.getText();
+					chat.setText("");
 					Network.getInstance().SendMessage("chat\t" + message);
 					String rstring = Network.getInstance().RecieveMessage();
-					chat.setText("");
 					System.out.println(rstring);
 					populateChatLog();
 					updateHUD();
@@ -410,11 +410,12 @@ private int getId(String obj) {
 	private void populateChatLog() {
 		Network.getInstance().SendMessage("chatfile");
 		String rstring = Network.getInstance().RecieveMessage();
-		String message = "";
+		System.out.println(rstring);
 		final int CHAT_ROWS = Integer.parseInt(rstring);
 		for(int i=0; i<CHAT_ROWS; ++i) {
-			message = Network.getInstance().RecieveMessage() + '\n';
+			String message = Network.getInstance().RecieveMessage() + '\n';
+			System.out.println(message);
+			chatWindow.appendText(message);
 		}
-		chatWindow.setText(message);
 	}
 }

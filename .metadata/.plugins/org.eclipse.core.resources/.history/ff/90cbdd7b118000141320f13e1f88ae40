@@ -94,10 +94,9 @@ public class GameScreenController implements ControlledScreen {
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
 					String message = chat.getText();
-					Network.getInstance().SendMessage("chat\t" + message);
-					String rstring = Network.getInstance().RecieveMessage();
 					chat.setText("");
-					System.out.println(rstring);
+					Network.getInstance().SendMessage("chat\t" + message);
+					Network.getInstance().RecieveMessage();
 					populateChatLog();
 					updateHUD();
 				}
@@ -112,7 +111,6 @@ public class GameScreenController implements ControlledScreen {
 				playerMarketPane.setVisible(false);
 				sellBox.setVisible(false);
 				price.setVisible(false);
-				populateChatLog();
 				buttonCreationMarket();
 				updateHUD();
 			}
@@ -126,7 +124,6 @@ public class GameScreenController implements ControlledScreen {
 				market.setVisible(false);
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(false);
-				populateChatLog();
 				buttonCreationTech();
 				updateHUD();
 			}
@@ -140,7 +137,6 @@ public class GameScreenController implements ControlledScreen {
 				playerMarketPane.setVisible(false);
 				sellBox.setVisible(true);
 				price.setVisible(true);
-				populateChatLog();
 				buttonCreationInv();
 				updateHUD();
 			}
@@ -154,7 +150,6 @@ public class GameScreenController implements ControlledScreen {
 				playerMarketPane.setVisible(true);
 				sellBox.setVisible(false);
 				price.setVisible(false);
-				populateChatLog();
 				buttonCreationPlayerMarket();
 				updateHUD();
 			}
@@ -409,12 +404,9 @@ private int getId(String obj) {
 
 	private void populateChatLog() {
 		Network.getInstance().SendMessage("chatfile");
-		String rstring = Network.getInstance().RecieveMessage();
-		String message = "";
-		final int CHAT_ROWS = Integer.parseInt(rstring);
+		final int CHAT_ROWS = Integer.parseInt(Network.getInstance().RecieveMessage());
 		for(int i=0; i<CHAT_ROWS; ++i) {
-			message = Network.getInstance().RecieveMessage() + '\n';
+			chatWindow.appendText(Network.getInstance().RecieveMessage() + '\n');
 		}
-		chatWindow.setText(message);
 	}
 }

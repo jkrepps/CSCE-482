@@ -94,11 +94,14 @@ public class GameScreenController implements ControlledScreen {
 			public void handle(KeyEvent k) {
 				if (k.getCode().equals(KeyCode.ENTER)) {
 					String message = chat.getText();
-					Network.getInstance().SendMessage("chat\t" + message);
-					String rstring = Network.getInstance().RecieveMessage();
 					chat.setText("");
-					System.out.println(rstring);
-					populateChatLog();
+					Network.getInstance().SendMessage("chat\t" + message);
+					Network.getInstance().RecieveMessage();
+					Network.getInstance().SendMessage("chatfile");
+					final int CHAT_ROWS = Integer.parseInt(Network.getInstance().RecieveMessage());
+					for(int i=0; i<CHAT_ROWS; ++i) {
+						chatWindow.appendText(Network.getInstance().RecieveMessage() + '\n');
+					}
 					updateHUD();
 				}
 			}
@@ -112,7 +115,6 @@ public class GameScreenController implements ControlledScreen {
 				playerMarketPane.setVisible(false);
 				sellBox.setVisible(false);
 				price.setVisible(false);
-				populateChatLog();
 				buttonCreationMarket();
 				updateHUD();
 			}
@@ -126,7 +128,6 @@ public class GameScreenController implements ControlledScreen {
 				market.setVisible(false);
 				inventoryPane.setVisible(false);
 				playerMarketPane.setVisible(false);
-				populateChatLog();
 				buttonCreationTech();
 				updateHUD();
 			}
@@ -140,7 +141,6 @@ public class GameScreenController implements ControlledScreen {
 				playerMarketPane.setVisible(false);
 				sellBox.setVisible(true);
 				price.setVisible(true);
-				populateChatLog();
 				buttonCreationInv();
 				updateHUD();
 			}
@@ -154,7 +154,6 @@ public class GameScreenController implements ControlledScreen {
 				playerMarketPane.setVisible(true);
 				sellBox.setVisible(false);
 				price.setVisible(false);
-				populateChatLog();
 				buttonCreationPlayerMarket();
 				updateHUD();
 			}
@@ -383,7 +382,7 @@ private String getName(CharSequence c) {
 		return t;
 	}
 	
-private String parseMarketItem(String obj) {
+	private String parseMarketItem(String obj) {
 		String objId = "";
 		String objName = "";
 		for(int i = 0; i<obj.length(); ++i) {
@@ -396,8 +395,7 @@ private String parseMarketItem(String obj) {
 		ids.add(objId);
 		return objName;
 	}
-	
-private int getId(String obj) {
+	private int getId(String obj) {
 		String id = "";
 		for(int i=0; i<obj.length(); ++i) {
 			if(obj.charAt(i) == '\t')
@@ -405,16 +403,5 @@ private int getId(String obj) {
 			id += obj.charAt(i);
 		}
 		return Integer.parseInt(id);
-	}
-
-	private void populateChatLog() {
-		Network.getInstance().SendMessage("chatfile");
-		String rstring = Network.getInstance().RecieveMessage();
-		String message = "";
-		final int CHAT_ROWS = Integer.parseInt(rstring);
-		for(int i=0; i<CHAT_ROWS; ++i) {
-			message = Network.getInstance().RecieveMessage() + '\n';
-		}
-		chatWindow.setText(message);
 	}
 }

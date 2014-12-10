@@ -411,6 +411,7 @@ private int getId(String obj) {
 		Network.getInstance().SendMessage("chatfile");
 		String rstring = Network.getInstance().RecieveMessage();
 		String message = "";
+		System.out.println(rstring);
 		final int CHAT_ROWS = Integer.parseInt(rstring);
 		for(int i=0; i<CHAT_ROWS; ++i) {
 			message = Network.getInstance().RecieveMessage() + '\n';
