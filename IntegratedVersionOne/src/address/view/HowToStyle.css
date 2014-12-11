@@ -1,9 +1,0 @@
-.background {
-	-fx-background-image: url("./images/LoginBackground.jpg");
-	-fx-background-size: stretch;
-}
-
-.buttons {
-	-fx-background-color: lightblue;
-	-fx-background-radius: 30;
-}
